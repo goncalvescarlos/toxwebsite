@@ -29,6 +29,23 @@ body {
   text-decoration: underline;
 }
 
+.subnav {
+  background-color: #111;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.subnav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.subnav a:hover {
+  text-decoration: underline;
+}
+
 /* HERO */
 .hero {
   display: flex;

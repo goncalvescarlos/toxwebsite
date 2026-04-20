@@ -43,12 +43,21 @@ body {
 .btn {
   display: inline-block;
   margin-top: 20px;
-  padding: 12px 24px;
-  background-color: #d62828; /* nice red */
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #ff6a7a, #e63946);
   color: white;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+/* hover effect */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 /* Right side image */

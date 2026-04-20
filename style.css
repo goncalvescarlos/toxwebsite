@@ -158,7 +158,7 @@ h1, h2, h3, p {
   cursor: pointer;
 }
 
-/* FOOTER (UPDATED WITH LEFT + IMAGES) */
+/* FOOTER*/
 .footer {
   background-color: #f2f2f2;
   padding: 40px;
@@ -206,7 +206,7 @@ h1, h2, h3, p {
 }
 
 .footer-images img {
-  width: 120px;
+  width: 360px;
   height: auto;
   border-radius: 8px;
 }

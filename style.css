@@ -24,32 +24,37 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 350px;
-  background: linear-gradient(to right, #004e92, #000428);
+  background: linear-gradient(to right, #0b3c6f, #001f3f);
   color: white;
-  padding: 40px;
+  padding: 60px 40px;
 }
 
-/* Left side text */
+/* Left side */
 .hero-text {
   max-width: 50%;
 }
 
-/* Button */
+.hero-text h1 {
+  margin-top: 0;
+  font-size: 36px;
+}
+
+/* BUTTON (this fixes your issue) */
 .btn {
   display: inline-block;
   margin-top: 20px;
-  padding: 12px 20px;
-  background-color: red;
+  padding: 12px 24px;
+  background-color: #d62828; /* nice red */
   color: white;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 6px;
   font-weight: bold;
 }
 
 /* Right side image */
 .hero-image img {
-  max-width: 400px;
+  width: 400px;
+  height: auto;
   border-radius: 10px;
 }
 

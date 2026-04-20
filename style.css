@@ -5,10 +5,9 @@ body {
   line-height: 1.6;
 }
 
-/* Reset unwanted highlights */
+/* Reset */
 h1, h2, h3, p {
   margin: 0;
-  background: none;
 }
 
 /* NAVBAR */
@@ -35,7 +34,7 @@ h1, h2, h3, p {
   text-decoration: underline;
 }
 
-/* SUBNAV (optional – consider removing if redundant) */
+/* SUBNAV */
 .subnav {
   background-color: #111;
   padding: 12px 0;
@@ -140,7 +139,7 @@ h1, h2, h3, p {
   margin-top: 10px;
 }
 
-/* CONTACT FORM (NEW – fixes plain look) */
+/* CONTACT FORM */
 .contact-form {
   max-width: 500px;
   margin: 0 auto;
@@ -159,15 +158,22 @@ h1, h2, h3, p {
   cursor: pointer;
 }
 
-/* FOOTER */
+/* FOOTER (UPDATED WITH LEFT + IMAGES) */
 .footer {
   background-color: #f2f2f2;
-  padding: 40px 20px;
+  padding: 40px;
 }
 
-.footer-content {
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+/* LEFT SIDE TEXT */
+.footer-text {
   max-width: 500px;
-  margin: 0 auto;
 }
 
 .footer h2 {
@@ -191,11 +197,23 @@ h1, h2, h3, p {
   margin-top: 20px;
   border: none;
   border-top: 1px solid #999;
-  width: 100%;
+}
+
+/* RIGHT SIDE IMAGES */
+.footer-images {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-images img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
 }
 
 /* RESPONSIVE */
 @media (max-width: 800px) {
+
   .hero {
     flex-direction: column;
     text-align: center;
@@ -221,5 +239,13 @@ h1, h2, h3, p {
 
   .nav-links {
     margin-top: 10px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-images {
+    justify-content: center;
   }
 }

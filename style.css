@@ -21,13 +21,36 @@ body {
 
 /* HERO */
 .hero {
-  height: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 350px;
   background: linear-gradient(to right, #004e92, #000428);
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 40px;
+}
+
+/* Left side text */
+.hero-text {
+  max-width: 50%;
+}
+
+/* Button */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Right side image */
+.hero-image img {
+  max-width: 400px;
+  border-radius: 10px;
 }
 
 /* INTRO */

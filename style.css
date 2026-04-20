@@ -5,8 +5,9 @@ body {
   line-height: 1.6;
 }
 
-/* Remove weird highlight backgrounds */
+/* Reset unwanted highlights */
 h1, h2, h3, p {
+  margin: 0;
   background: none;
 }
 
@@ -34,7 +35,7 @@ h1, h2, h3, p {
   text-decoration: underline;
 }
 
-/* SUBNAV (FIXED) */
+/* SUBNAV (optional – consider removing if redundant) */
 .subnav {
   background-color: #111;
   padding: 12px 0;
@@ -63,27 +64,27 @@ h1, h2, h3, p {
   gap: 40px;
 }
 
-/* LEFT SIDE */
+/* HERO TEXT */
 .hero-text {
   max-width: 500px;
 }
 
 .hero-text h1 {
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
   font-size: 36px;
 }
 
 .hero-text p {
-  margin: 0;
+  margin-bottom: 10px;
 }
 
-/* BUTTON (FIXED LINK COLOR ISSUE) */
+/* BUTTON */
 .btn {
   display: inline-block;
-  margin-top: 25px;
+  margin-top: 20px;
   padding: 14px 28px;
   background: linear-gradient(135deg, #ff6a7a, #e63946);
-  color: white !important; /* IMPORTANT FIX */
+  color: white;
   text-decoration: none;
   border-radius: 10px;
   font-weight: bold;
@@ -97,7 +98,7 @@ h1, h2, h3, p {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
-/* RIGHT SIDE IMAGE */
+/* HERO IMAGE */
 .hero-image {
   display: flex;
   justify-content: flex-end;
@@ -139,6 +140,25 @@ h1, h2, h3, p {
   margin-top: 10px;
 }
 
+/* CONTACT FORM (NEW – fixes plain look) */
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+}
+
+.contact-form button {
+  cursor: pointer;
+}
+
 /* FOOTER */
 .footer {
   background-color: #f2f2f2;
@@ -151,19 +171,18 @@ h1, h2, h3, p {
 }
 
 .footer h2 {
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
   font-size: 22px;
   color: #333;
 }
 
 .footer h3 {
-  margin: 20px 0 10px 0;
+  margin: 20px 0 10px;
   font-size: 18px;
   color: #333;
 }
 
 .footer p {
-  margin: 0;
   line-height: 1.6;
   color: #333;
 }

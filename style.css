@@ -1,6 +1,8 @@
+/* GENERAL */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  line-height: 1.6;
 }
 
 /* NAVBAR */
@@ -13,10 +15,18 @@ body {
   color: white;
 }
 
+.logo {
+  margin: 0;
+}
+
 .nav-links a {
   margin-left: 20px;
   color: white;
   text-decoration: none;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
 }
 
 /* HERO */
@@ -27,22 +37,27 @@ body {
   background: linear-gradient(to right, #0b3c6f, #001f3f);
   color: white;
   padding: 60px 40px;
+  gap: 40px;
 }
 
-/* Left side */
+/* LEFT SIDE */
 .hero-text {
-  max-width: 50%;
+  max-width: 500px;
 }
 
 .hero-text h1 {
-  margin-top: 0;
+  margin: 0 0 10px 0;
   font-size: 36px;
 }
 
-/* BUTTON (this fixes your issue) */
+.hero-text p {
+  margin: 0;
+}
+
+/* BUTTON */
 .btn {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 25px;
   padding: 14px 28px;
   background: linear-gradient(135deg, #ff6a7a, #e63946);
   color: white;
@@ -54,37 +69,51 @@ body {
   transition: all 0.2s ease;
 }
 
-/* hover effect */
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
-/* Right side image */
+/* RIGHT SIDE IMAGE */
+.hero-image {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .hero-image img {
   width: 400px;
+  max-width: 100%;
   height: auto;
   border-radius: 10px;
 }
 
 /* INTRO */
 .intro {
-  padding: 40px;
+  padding: 50px 20px;
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* CARDS */
 .cards {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 40px;
 }
 
 .card {
-  flex: 1;
+  flex: 1 1 300px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  background: white;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 10px;
 }
 
 /* FOOTER */
@@ -95,6 +124,7 @@ body {
 
 .footer-content {
   max-width: 500px;
+  margin: 0 auto;
 }
 
 .footer h2 {
@@ -120,4 +150,34 @@ body {
   border: none;
   border-top: 1px solid #999;
   width: 100%;
+}
+
+/* RESPONSIVE (IMPORTANT) */
+@media (max-width: 800px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-image {
+    justify-content: center;
+  }
+
+  .hero-image img {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    margin-top: 10px;
+  }
 }

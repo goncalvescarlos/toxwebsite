@@ -5,6 +5,11 @@ body {
   line-height: 1.6;
 }
 
+/* Remove weird highlight backgrounds */
+h1, h2, h3, p {
+  background: none;
+}
+
 /* NAVBAR */
 .navbar {
   display: flex;
@@ -29,9 +34,10 @@ body {
   text-decoration: underline;
 }
 
+/* SUBNAV (FIXED) */
 .subnav {
   background-color: #111;
-  padding: 15px 0;
+  padding: 12px 0;
   text-align: center;
 }
 
@@ -71,13 +77,13 @@ body {
   margin: 0;
 }
 
-/* BUTTON */
+/* BUTTON (FIXED LINK COLOR ISSUE) */
 .btn {
   display: inline-block;
   margin-top: 25px;
   padding: 14px 28px;
   background: linear-gradient(135deg, #ff6a7a, #e63946);
-  color: white;
+  color: white !important; /* IMPORTANT FIX */
   text-decoration: none;
   border-radius: 10px;
   font-weight: bold;
@@ -169,7 +175,7 @@ body {
   width: 100%;
 }
 
-/* RESPONSIVE (IMPORTANT) */
+/* RESPONSIVE */
 @media (max-width: 800px) {
   .hero {
     flex-direction: column;

@@ -94,13 +94,10 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
 
   const sampleID = document.getElementById("sampleID").value.trim();
 
-  // 🔴 REPLACE THIS WITH YOUR REAL REDCAP LINK
-  const baseURL = "https://YOUR-REDCAP-SURVEY-LINK";
+  const baseURL = "https://redcap.ucdenver.edu/surveys/?s=47N33RNMT8HWAXH7";
 
-  // Example: passing sample ID as parameter
-  const fullURL = baseURL + "?sample_id=" + encodeURIComponent(sampleID);
+  const fullURL = baseURL + "&sample_id=" + encodeURIComponent(sampleID);
 
-  // Redirect user
   window.location.href = fullURL;
 });
 </script>

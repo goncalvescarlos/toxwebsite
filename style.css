@@ -5,7 +5,7 @@ body {
   line-height: 1.6;
 }
 
-/* Reset */
+/* RESET */
 h1, h2, h3, p {
   margin: 0;
 }
@@ -90,6 +90,7 @@ h1, h2, h3, p {
   font-size: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .btn:hover {
@@ -139,6 +140,16 @@ h1, h2, h3, p {
   margin-top: 10px;
 }
 
+/* 🔍 SEARCH INPUT (REPORT PAGE FIX) */
+input {
+  padding: 12px;
+  width: 320px;
+  max-width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
 /* CONTACT FORM */
 .contact-form {
   max-width: 500px;
@@ -158,7 +169,7 @@ h1, h2, h3, p {
   cursor: pointer;
 }
 
-/* FOOTER*/
+/* FOOTER */
 .footer {
   background-color: #f2f2f2;
   padding: 40px;
@@ -167,11 +178,11 @@ h1, h2, h3, p {
 .footer-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center; /* better vertical alignment */
   gap: 40px;
 }
 
-/* LEFT SIDE TEXT */
+/* LEFT TEXT */
 .footer-text {
   max-width: 500px;
 }
@@ -193,22 +204,23 @@ h1, h2, h3, p {
   color: #333;
 }
 
+/* RIGHT IMAGES (FIXED SIZE) */
+.footer-images {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-images img {
+  height: 100px;   /* 🔥 FIX: use height, not width */
+  width: auto;
+}
+
+/* DIVIDER */
 .footer hr {
   margin-top: 20px;
   border: none;
   border-top: 1px solid #999;
-}
-
-/* RIGHT SIDE IMAGES */
-.footer-images {
-  display: flex;
-  gap: 15px;
-}
-
-.footer-images img {
-  width: 360px;
-  height: auto;
-  border-radius: 8px;
 }
 
 /* RESPONSIVE */
@@ -243,9 +255,10 @@ h1, h2, h3, p {
 
   .footer-container {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .footer-images {
-    justify-content: center;
+    margin-top: 20px;
   }
 }

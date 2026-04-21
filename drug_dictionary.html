@@ -9,7 +9,7 @@
 
 <body>
 
-<!-- NAVBAR (same as homepage) -->
+<!-- NAVBAR -->
 <header>
   <nav class="navbar">
     <h2 class="logo">iC42 Toxicology</h2>
@@ -28,9 +28,8 @@
 
 <main>
 
-<!-- HERO (same layout as homepage) -->
+<!-- HERO -->
 <section class="hero">
-
   <div class="hero-text">
     <h1>Drug Dictionary</h1>
     <p>Search substances detected in toxicology testing</p>
@@ -39,7 +38,6 @@
   <div class="hero-image">
     <img src="lab.png" alt="Lab">
   </div>
-
 </section>
 
 <!-- SEARCH -->
@@ -54,25 +52,8 @@
 <section class="content">
   <div class="container">
 
-    <!-- FEATURE CARDS -->
-    <div class="cards" id="featured">
-
-      <div class="card" onclick="filterCategory('Opioids')">
-        <h3>Opioids</h3>
-        <p>Explore high-risk substances including fentanyl</p>
-      </div>
-
-      <div class="card" onclick="filterCategory('Benzodiazepines')">
-        <h3>Benzodiazepines</h3>
-        <p>Review sedatives and anxiety medications</p>
-      </div>
-
-      <div class="card" onclick="filterCategory('Stimulants')">
-        <h3>Stimulants</h3>
-        <p>Learn about cocaine and amphetamines</p>
-      </div>
-
-    </div>
+    <!-- FEATURE CARDS (NOW DYNAMIC) -->
+    <div class="cards" id="featured"></div>
 
     <!-- RESULTS -->
     <div id="dictionary">
@@ -84,7 +65,7 @@
 
 </main>
 
-<!-- FOOTER (same as homepage) -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-container">
 
@@ -121,9 +102,51 @@ const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const featured = document.getElementById("featured");
 
+/* =========================
+   GENERATE FEATURE CARDS
+========================= */
+function getCategoryDescription(category) {
+  const descriptions = {
+    "Alcohol": "Markers of recent alcohol use",
+    "Analgesic": "Common pain-relief medications",
+    "Barbiturates": "Sedative-hypnotics affecting the CNS",
+    "Benzodiazepines": "Anxiety and sedative medications",
+    "Opioids": "High-risk substances including fentanyl",
+    "Cannabinoids": "THC and related compounds",
+    "Stimulants": "Cocaine, amphetamines, and related drugs",
+    "Antidepressants": "Medications for mood disorders",
+    "Muscle Relaxants": "Reduce muscle spasms and pain",
+    "Antihistamines": "Allergy and sedating medications",
+    "Antipsychotics": "Used for psychosis and mood disorders",
+    "Other": "Dissociatives and hallucinogens",
+    "Antidotes": "Reverse or block drug effects"
+  };
+
+  return descriptions[category] || "Explore substances";
+}
+
+function generateCards() {
+  featured.innerHTML = "";
+
+  drugs.forEach(cat => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.onclick = () => filterCategory(cat.category);
+
+    card.innerHTML = `
+      <h3>${cat.category}</h3>
+      <p>${getCategoryDescription(cat.category)}</p>
+    `;
+
+    featured.appendChild(card);
+  });
+}
+
+/* =========================
+   RENDER DICTIONARY
+========================= */
 function render(filter = "", categoryFilter = "") {
   container.innerHTML = "";
-
   let foundAny = false;
 
   drugs.forEach(category => {
@@ -173,6 +196,9 @@ function render(filter = "", categoryFilter = "") {
   }
 }
 
+/* =========================
+   INTERACTIONS
+========================= */
 function filterCategory(cat) {
   render("", cat);
 }
@@ -187,6 +213,10 @@ searchInput.addEventListener("keyup", (e) => {
   }
 });
 
+/* =========================
+   INIT
+========================= */
+generateCards();
 render();
 </script>
 

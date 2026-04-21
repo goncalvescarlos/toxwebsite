@@ -1,994 +1,141 @@
 const drugs = [
+
   {
-    "category": "Alcohol",
-    "items": [
+    category: "Alcohol",
+    items: [
       {
-        "name": "Ethyl Glucuronide (EtG)",
-        "description": "This is a substance made in the body when someone drinks alcohol. If EtG is found in urine, it means that alcohol was consumed in the last 3 to 4 days, or about 80 hours after alcohol has left the body. Because of this, EtG is a better way to show recent alcohol use than checking for alcohol itself."
+        name: "Ethyl Glucuronide (EtG)",
+        description: "Indicates alcohol use within 3–4 days."
       },
       {
-        "name": "Ethyl Sulfate (EtS)",
-        "description": "This is a substance created when the body breaks down alcohol. It's found in smaller amounts and its levels can show heavy drinking. High levels of EtS, starting at 1, 000 ng/mL and above, suggest a lot of alcohol was consumed."
+        name: "Ethyl Sulfate (EtS)",
+        description: "Breakdown product of alcohol; high levels suggest heavy drinking."
       }
     ]
   },
+
   {
-    "category": "Miscellaneous Analgesic",
-    "items": [
+    category: "Analgesic",
+    items: [
       {
-        "name": "Acetaminophen",
-        "description": "This is a common pain reliever and fever reducer available at stores. Taking too much, either 200 mg per kg of body weight or 10 grams total, can be harmful."
+        name: "Acetaminophen",
+        description: "Common pain reliever; overdose can cause liver failure."
       }
     ]
   },
+
   {
-    "category": "Barbiturates",
-    "items": [
-      {
-        "name": "Butabarbital",
-        "description": "This is a medium-lasting barbiturate used for sleep problems and sedation. Typical doses are 50 to 100 mg for sleep and 15 to 30 mg for daytime use, up to 4 times a day."
-      },
-      {
-        "name": "Butalbital",
-        "description": "Another medium-lasting barbiturate usually given in combination with aspirin or acetaminophen for headaches. The usual dose is 50 to 100 mg every 4 hours, not exceeding 300 mg in a day. It can also be used in higher doses as a sleep aid."
-      },
-      {
-        "name": "Pentobarbital",
-        "description": "This is a short-lasting barbiturate used for anesthesia and sedation. Usual doses are 150 to 200 mg injected into a muscle. For adults, 100 mg can be given through an IV initially."
-      },
-      {
-        "name": "Secobarbital",
-        "description": "Another short-lasting barbiturate used similarly to pentobarbital, with usual doses of 200 to 300 mg before surgery and 100 mg at bedtime for insomnia."
-      },
-      {
-        "name": "Phenobarbital",
-        "description": "This long-lasting barbiturate can be given orally or via injection. For kids, the usual dose is 3 to 6 mg/kg each day, adjusted to keep the right level in the blood."
-      }
+    category: "Barbiturates",
+    items: [
+      { name: "Butabarbital", description: "Sedative used for sleep." },
+      { name: "Butalbital", description: "Used for headaches." },
+      { name: "Pentobarbital", description: "Short-acting anesthetic." },
+      { name: "Secobarbital", description: "Short-acting sedative." },
+      { name: "Phenobarbital", description: "Long-acting anticonvulsant." }
     ]
   },
+
   {
-    "category": "Benzodiazepines",
-    "items": [
-      {
-        "name": "2-Hydroxyethylflurazepam",
-        "description": "This is a medicine that acts as a sedative and is created when flurazepam is broken down in the body."
-      },
-      {
-        "name": "7-Aminoclonazepam",
-        "description": "This is a byproduct of clonazepam, which can stay in urine for up to nine days after one dose, and up to four months in hair samples."
-      },
-      {
-        "name": "Clonazepam",
-        "description": "This is used for treating seizures and anxiety, with normal levels in the blood between 20 and 70 ng/mL for seizures and 4 to 80 ng/mL for anxiety."
-      },
-      {
-        "name": "7-Aminoflunitrazepam",
-        "description": "This is an active substance formed from flunitrazepam, a strong sedative."
-      },
-      {
-        "name": "Flunitrazepam",
-        "description": "This is a strong sedative that helps people sleep. The amount found in a person\u2019s body can change a lot based on how much was taken, when it was taken, and how it\u2019s measured. In urine tests, the levels can vary from a tiny amount to over 100 nanograms per milliliter (ng/mL)."
-      },
-      {
-        "name": "7-Aminonitrazepam",
-        "description": "This is a breakdown product of another drug called nitrazepam that shows up in urine."
-      },
-      {
-        "name": "Alpha-Hydroxymidazolam",
-        "description": "This is a substance that the body makes when it processes midazolam. Sometimes, it can build up in the body and cause too much sleepiness."
-      },
-      {
-        "name": "Alpha-Hydroxytriazolam",
-        "description": "This is one of the main breakdown products of triazolam and can be found in urine and blood."
-      },
-      {
-        "name": "Alprazolam",
-        "description": "This drug helps reduce anxiety and treat panic disorders, with or without fear of being in crowds. If too much is taken, it can lead to drowsiness or even serious issues like coma. Stopping it suddenly can lead to seizures. A typical dose is between 0.5 and 10 milligrams per day."
-      },
-      {
-        "name": "Diazepam",
-        "description": "This medication is used to ease anxiety, relax muscles, help with sedation during procedures, and treat withdrawal symptoms. Taking too much can cause sleepiness or even serious issues like coma. The usual dose ranges from 2.5 to 20 milligrams daily."
-      },
-      {
-        "name": "Etizolam",
-        "description": "This drug has a different structure than traditional benzodiazepines and can help with anxiety, seizures, sleep problems, and muscle relaxation. Stopping it suddenly can lead to seizures."
-      },
-      {
-        "name": "Flualprazolam",
-        "description": "This drug is similar to alprazolam but lasts longer in the body. It\u2019s a powerful \"designer benzodiazepine\" that can cause a lot of sleepiness, memory problems, and changes in behavior."
-      },
-      {
-        "name": "Flubromazolam",
-        "description": "A strong type of anxiety medicine that works on a brain receptor called GABA-A. It can make you very sleepy for a long time, even in small amounts. This can lead to serious breathing problems and memory loss, and it has been linked to dangerous overdoses."
-      },
-      {
-        "name": "Bromazolam",
-        "description": "Similar to flubromazolam, this medicine works on the same GABA-A receptor and is designed to help with anxiety. It can also cause extreme sleepiness and has been connected to several cases of overdose."
-      },
-      {
-        "name": "Adinazolam",
-        "description": "This medicine was initially created to help treat depression but wasn't approved by the FDA. It has various effects, like reducing anxiety, preventing seizures, and causing sleepiness, but it wasn\u2019t widely used."
-      },
-      {
-        "name": "Deschloroetizolam",
-        "description": "This is a new type of anxiety medicine that acts on a slightly different site in the brain than benzodiazepines. It is shorter-acting and can help with relaxation and anxiety."
-      },
-      {
-        "name": "Pyrazolam",
-        "description": "Another anxiety medicine that acts on the GABA-A receptor. It is passed out of the body unchanged and has effects such as causing sleepiness and helping with anxiety."
-      },
-      {
-        "name": "Diclazepam",
-        "description": "This long-lasting anxiety medication acts on the GABA-A receptor and can be strong. It breaks down in the body to create other active substances. It can cause sleepiness and muscle relaxation but also increases the risk of overdose, especially with opioids."
-      },
-      {
-        "name": "Phenazepam",
-        "description": "This is a very long-lasting anxiety medicine developed in the Soviet Union for treating seizures and anxiety. Small doses can cause deep sleep and difficult withdrawal symptoms."
-      },
-      {
-        "name": "Desalkylgidazepam",
-        "description": "This is a long-lasting substance formed when gidazepam breaks down in the body. It is used for anxiety and causes less sleepiness than many other anxiety medications."
-      },
-      {
-        "name": "Estazolam",
-        "description": "This medicine helps with anxiety, muscle relaxation, and sleep during withdrawal. It can cause sleepiness, and although serious problems like coma or breathing issues are rare, they can happen with high doses or when mixed with other drugs."
-      },
-      {
-        "name": "Flunitrazepam",
-        "description": "This medium-lasting anxiety medicine is similar to diazepam and is used for short-term sleep issues and in certain medical procedures. Special tests are needed to find it in urine within 72 hours of taking it."
-      },
-      {
-        "name": "Flurazepam",
-        "description": "Used for treating insomnia (difficulty sleeping), flurazepam works similarly to other anxiety medicines. If mixed with alcohol or other sedatives, it can cause serious sleepiness and breathing issues."
-      },
-      {
-        "name": "Lorazepam",
-        "description": "This medicine helps with nausea from cancer treatments and controls agitation after alcohol withdrawal. Like other anxiety meds, it can cause sleepiness and breathing problems, especially when taken in high doses or with other substances. Stopping it suddenly can lead to seizures."
-      },
-      {
-        "name": "Midazolam",
-        "description": "This medicine helps you relax before minor surgeries, dental work, or other medical procedures. If someone takes too much, it can cause serious problems like coma or difficulty breathing, but these are rare."
-      },
-      {
-        "name": "Nordiazepam",
-        "description": "This drug helps with anxiety and also has effects like easing seizures, relaxing muscles, and making you feel sleepy. It mainly treats anxiety. Nordiazepam is made when diazepam is broken down in the body."
-      },
-      {
-        "name": "Temazepam",
-        "description": "Temazepam is used for a short time to help people with insomnia, which means trouble falling or staying asleep. It works by calming the brain, making it easier to fall asleep."
-      },
-      {
-        "name": "Alpha-Hydroxyalprazolam",
-        "description": "This is a byproduct of the medication alprazolam, indicating that someone has recently taken alprazolam."
-      },
-      {
-        "name": "Oxazepam",
-        "description": "This medicine treats anxiety disorders and can also help with symptoms that come from stopping alcohol use for a short period."
-      },
-      {
-        "name": "Clonazepam",
-        "description": "This medication is used to treat certain types of seizures. Stopping it suddenly can lead to seizures due to withdrawal."
-      },
-      {
-        "name": "Norchlordiazepoxide",
-        "description": "This is a product that comes from the breakdown of the benzodiazepine chlordiazepoxide."
-      },
-      {
-        "name": "Chlordiazepoxide",
-        "description": "This drug is used to help with anxiety disorders and may also assist with alcohol withdrawal symptoms for a short time."
-      }
+    category: "Benzodiazepines",
+    items: [
+      { name: "Alprazolam", description: "Used for anxiety; overdose causes sedation." },
+      { name: "Diazepam", description: "Used for anxiety and muscle relaxation." },
+      { name: "Lorazepam", description: "Used for anxiety and withdrawal." },
+      { name: "Midazolam", description: "Used for procedural sedation." },
+      { name: "Clonazepam", description: "Used for seizures and anxiety." },
+      { name: "Flubromazolam", description: "Very potent sedative with overdose risk." },
+      { name: "Bromazolam", description: "Strong benzodiazepine with sedation risk." }
     ]
   },
+
   {
-    "category": "Anti-Convulsant",
-    "items": [
-      {
-        "name": "Topiramate",
-        "description": "This medicine is used as an anticonvulsant and to help prevent migraines. It affects certain brain receptors and can lead to changes in body chemistry, which might cause some side effects."
-      },
-      {
-        "name": "Pregabalin",
-        "description": "Pregabalin treats nerve pain, especially from diabetes, spinal cord injuries, and conditions like fibromyalgia. It might affect how certain channels in the brain work to help prevent seizures and lessen pain."
-      },
-      {
-        "name": "Gabapentin",
-        "description": "Gabapentin is approved for treating partial seizures and nerve pain. It may also be used for pain from diabetes, migraines, and other mood or movement disorders. Its exact way of working isn't fully understood, but it likely helps calm the brain, similar to how GABA works."
-      },
-      {
-        "name": "Lamotrigine",
-        "description": "This is a medication used to treat seizures and bipolar disorder. It works similarly to another drug called phenytoin. Some side effects may include nausea, vomiting, tiredness, confusion, and a rash. In rare cases, it can lead to more serious issues like heart problems, muscle breakdown, or breathing problems. It can cause severe rashes in some people."
-      }
+    category: "Opioids",
+    items: [
+      { name: "Fentanyl", description: "80–100× stronger than morphine." },
+      { name: "Carfentanil", description: "Extremely potent; microgram doses can be fatal." },
+      { name: "Morphine", description: "Pain medication; overdose causes respiratory depression." },
+      { name: "Oxycodone", description: "Commonly abused opioid." },
+      { name: "Hydrocodone", description: "Pain and cough suppressant." },
+      { name: "Methadone", description: "Used for opioid dependence and chronic pain." },
+      { name: "Tramadol", description: "Opioid-like; overdose can cause seizures." }
     ]
   },
+
   {
-    "category": "Cannabinoid Related",
-    "items": [
-      {
-        "name": "THC-COOH",
-        "description": "This is a substance your body makes after breaking down THC, the chemical in cannabis that makes people feel high. It's not active, meaning it doesn't produce the same effects as THC."
-      },
-      {
-        "name": "11-OH-THC",
-        "description": "This is a strong form of THC that your body produces when you consume cannabis. It can make the high experience even stronger, especially with edibles. Regular drug tests usually don\u2019t check for this compound."
-      },
-      {
-        "name": "ADB-BUTINACA",
-        "description": "This is a powerful synthetic cannabinoid that can cause severe side effects like agitation and seizures. Regular drug tests won\u2019t typically identify it."
-      },
-      {
-        "name": "MDMB-4en-PINACA",
-        "description": "Another synthetic cannabinoid that works quickly and can lead to serious health issues, including psychosis and heart problems."
-      },
-      {
-        "name": "Delta-8-THC",
-        "description": "This is a type of THC that is less potent than regular THC. It can cause euphoria and relaxation but might also lead to unwanted effects like anxiety and heart issues."
-      },
-      {
-        "name": "Delta-10-THC",
-        "description": "A milder, semi-synthetic version of THC, it still causes psychoactive effects but is generally less potent."
-      },
-      {
-        "name": "9-HHC",
-        "description": "This is a modified form of THC that also produces a high and can have similar effects to other cannabinoids."
-      },
-      {
-        "name": "Hexahydrocannabinol",
-        "description": "This compound can give effects similar to THC, like relaxation and euphoria, but can also cause side effects like stomach upset."
-      },
-      {
-        "name": "THCP",
-        "description": "A very potent cannabinoid that can cause psychoactive effects at much lower doses than regular THC."
-      },
-      {
-        "name": "ADB-CHMINACA",
-        "description": "A strong synthetic cannabinoid that can lead to hallucinations and serious health issues like heart problems."
-      }
+    category: "Cannabinoids",
+    items: [
+      { name: "THC-COOH", description: "Inactive metabolite of THC." },
+      { name: "11-OH-THC", description: "Active THC metabolite." },
+      { name: "Delta-8-THC", description: "Less potent THC variant." },
+      { name: "Delta-10-THC", description: "Milder THC variant." },
+      { name: "THCP", description: "Highly potent cannabinoid." }
     ]
   },
+
   {
-    "category": "NSAID",
-    "items": [
-      {
-        "name": "Ibuprofen",
-        "description": "This is a pain reliever also used to reduce inflammation and fever. It can cause stomach issues and increase bleeding. Adults should not take more than 800 mg at once and no more than 3200 mg in one day."
-      },
-      {
-        "name": "Naproxen",
-        "description": "Like ibuprofen, naproxen helps reduce pain and inflammation but can also irritate the stomach and harm kidneys. The usual dose is 250 to 500 mg taken twice a day."
-      }
+    category: "Stimulants",
+    items: [
+      { name: "Cocaine", description: "Powerful stimulant; overdose affects heart." },
+      { name: "Methamphetamine", description: "Highly addictive stimulant." },
+      { name: "Amphetamine", description: "CNS stimulant." },
+      { name: "MDMA", description: "Stimulant with hallucinogenic effects." },
+      { name: "Methylphenidate", description: "Used for ADHD." }
     ]
   },
+
   {
-    "category": "Piperazines",
-    "items": [
-      {
-        "name": "1-(3-Chlorophenyl)piperazine (mCPP)",
-        "description": "This chemical can make people feel energetic and even happy, but it can also cause bad feelings like nausea, headaches, and anxiety."
-      },
-      {
-        "name": "3-Trifluoromethylphenylpiperazine (TFMPP)",
-        "description": "TFMPP is a type of designer drug that people sometimes use to feel like they are on ecstasy. When mixed with another drug called benzylpiperazine, it can cause weird feelings, nausea, and increased heart rate."
-      },
-      {
-        "name": "Benzylpiperazine (BZP)",
-        "description": "This is another stimulant that mimics ecstasy, often taken in doses between 20 to 200 milligrams. The effects usually last around 6 to 8 hours."
-      }
+    category: "Antidepressants",
+    items: [
+      { name: "Sertraline", description: "SSRI used for depression." },
+      { name: "Fluoxetine", description: "SSRI antidepressant." },
+      { name: "Citalopram", description: "SSRI with dose limits." },
+      { name: "Venlafaxine", description: "SNRI; overdose risk." },
+      { name: "Bupropion", description: "Used for depression and smoking cessation." }
     ]
   },
+
   {
-    "category": "Opioids",
-    "items": [
-      {
-        "name": "Buprenorphine",
-        "description": "This is a medicine used to help people get off stronger opioids. It can cause side effects like tiredness, difficulty breathing, and constipation."
-      },
-      {
-        "name": "Morphine",
-        "description": "Mainly used for pain relief, morphine can be misused for its euphoric effects. Taking too much can lead to serious breathing problems."
-      },
-      {
-        "name": "Norbuprenorphine",
-        "description": "This is a substance created when the body breaks down buprenorphine. It can be found in urine for a longer time than buprenorphine itself."
-      },
-      {
-        "name": "Propoxyphene",
-        "description": "This medicine is used to help relieve mild to moderate pain. If someone takes too much, they might experience trouble breathing or have issues with their central nervous system (the brain and spinal cord)."
-      },
-      {
-        "name": "Norpropoxyphene",
-        "description": "This is the main substance that comes from breaking down propoxyphene in the body."
-      },
-      {
-        "name": "6-Monoacetylmorphine (6-MAM)",
-        "description": "This is a substance made when heroin is broken down in the body. It travels to the brain quickly and affects how we feel pleasure. However, it can only be found in urine for a short time, usually less than 12 hours."
-      },
-      {
-        "name": "Alfentanil",
-        "description": "This is an opioid used to treat pain and sometimes for coughs. Many people misuse opioids for their \"high\" feeling through different methods like injecting or smoking. Overdose can lead to breathing problems or issues with the nervous system. A urine test can detect it at a low level of 2 ng/mL, and the dose for pain ranges from 8 to 40 mcg per kilogram of body weight."
-      },
-      {
-        "name": "Codeine",
-        "description": "This medicine mainly helps with pain and sometimes coughs. It works differently depending on how much is taken. Overdosing can also lead to breathing problems or nervous system issues. The maximum safe dose in 24 hours is 360 mg."
-      },
-      {
-        "name": "NorCodeine",
-        "description": "This is a substance that forms when the body breaks down codeine."
-      },
-      {
-        "name": "Despropionylfentanyl",
-        "description": "Also called 4-ANPP, this is a substance that is used to make fentanyl, a strong pain medicine."
-      },
-      {
-        "name": "Dihydrocodeine",
-        "description": "This is used to help with coughs and pain but can be misused for a euphoric feeling. Overdosing can cause breathing problems or nervous system issues."
-      },
-      {
-        "name": "Carfentanil",
-        "description": "This is a very strong opioid that is 10, 000 times more powerful than morphine. It is mainly used to sedate large animals. Even a tiny amount can be dangerous and cause breathing issues."
-      },
-      {
-        "name": "3-Methylfentanyl",
-        "description": "This is another very strong opioid, 400 to 6000 times more potent than morphine, depending on its form. It has been linked to many overdose deaths and is appearing again in illegal drug markets."
-      },
-      {
-        "name": "p-Fluorofentanyl",
-        "description": "This opioid is stronger than fentanyl because of a special change in its structure. It is often found in illegal drugs and can cause serious overdose effects, including trouble breathing."
-      },
-      {
-        "name": "Furanylfentanyl",
-        "description": "This is a powerful drug that works on the mu-opioid receptors in the brain, similar to fentanyl. It is known for causing serious breathing problems very quickly and is often found in heroin, pills, and powders. There have been many deaths linked to its use."
-      },
-      {
-        "name": "Acetylfentanyl",
-        "description": "Like fentanyl, this drug also acts on mu-opioid receptors. It works for a shorter time and is a bit less powerful than regular fentanyl but can still cause breathing issues, slow heart rate, and low blood pressure."
-      },
-      {
-        "name": "Acrylfentanyl",
-        "description": "This drug is similar to fentanyl and is found in illegal drugs. It is a strong mu-opioid receptor agonist."
-      },
-      {
-        "name": "Tianeptine",
-        "description": "Tianeptine can also act on mu-opioid receptors, especially at high doses. While it is sold as a supplement and can help with depression, at high doses, it can cause feelings of euphoria and lead to dependence and withdrawal. Overdosing on it can cause breathing problems."
-      },
-      {
-        "name": "Tetramethyl-4-piperidinol",
-        "description": "This is a by-product of fentanyl production with weak effects and no significant action on opioid receptors. Its presence can indicate that fentanyl was made illegally. It can irritate the skin if it comes into contact."
-      },
-      {
-        "name": "Fentanyl",
-        "description": "Fentanyl is a very strong opioid, about 80 to 100 times more powerful than morphine. It works quickly but only lasts a short time. Like other opioids, it can cause breathing problems."
-      },
-      {
-        "name": "Hydrocodone",
-        "description": "This drug is used for pain relief and to suppress coughing. People sometimes abuse it for the feeling of euphoria it provides. It can be taken in different forms, and even slightly higher doses can lead to breathing difficulties."
-      },
-      {
-        "name": "Hydromorphone",
-        "description": "Used for pain relief, this drug can also be abused for its euphoric effects. Overdose may cause respiratory issues or affect the central nervous system. Hydromorphone is made when the body breaks down hydrocodone."
-      },
-      {
-        "name": "Meperidine",
-        "description": "This drug is used for treating severe pain and may cause serious side effects after repeated high doses. It can cause seizures and is also able to lead to serotonin syndrome when mixed with certain other medications. Overdosing can lead to problems with breathing and the central nervous system."
-      },
-      {
-        "name": "Nalbuphine",
-        "description": "This is a type of opioid used for pain relief in different medical situations. Similar to others, an overdose can cause issues with breathing and the nervous system."
-      },
-      {
-        "name": "Sufentanil",
-        "description": "This medication is used to help manage pain during anesthesia. Like many opioids, an overdose can lead to breathing and central nervous system problems."
-      },
-      {
-        "name": "Norfentanyl",
-        "description": "This is a by-product created when the body processes fentanyl. Its presence can prove that someone has used fentanyl recently. It can be detected in urine longer than fentanyl itself."
-      },
-      {
-        "name": "Normeperidine",
-        "description": "This is a by-product of meperidine, similar to norfentanyl."
-      },
-      {
-        "name": "Oxycodone",
-        "description": "This medication is often used for pain relief and is commonly abused for its euphoric effects. An overdose can result in breathing problems or affect the nervous system."
-      },
-      {
-        "name": "Noroxycodone",
-        "description": "This is the main by-product formed when oxycodone is processed in the liver."
-      },
-      {
-        "name": "Norhydrocodone",
-        "description": "This is a substance made when the body breaks down hydrocodone."
-      },
-      {
-        "name": "Oxymorphone",
-        "description": "This is a strong pain medicine used for treating moderate to severe pain. It\u2019s also made when the body breaks down oxycodone. If someone takes too much, they might have trouble breathing or experience problems with their nervous system."
-      },
-      {
-        "name": "Tapentadol",
-        "description": "This is used to manage severe pain that doesn't go away, especially nerve pain related to diabetes. It's given when other pain medications don\u2019t work well. Overdosing can lead to breathing problems or issues with the nervous system."
-      },
-      {
-        "name": "Tramadol",
-        "description": "This is a pain relief medicine that some people misuse for its pleasurable effects. Overdosing can also lead to breathing problems or nervous system issues."
-      },
-      {
-        "name": "O-Desmethyl Tramadol",
-        "description": "This is what the body creates when it changes tramadol."
-      },
-      {
-        "name": "Butorphanol Tartrate",
-        "description": "This medicine works on certain receptors in the brain to help relieve pain after surgery, during labor, and for anesthesia. Taking too much can cause breathing difficulties or nervous system problems."
-      },
-      {
-        "name": "Pentazocine",
-        "description": "This is a type of semi-synthetic opioid used for mild to moderate pain. Some people abuse it for its pleasurable effects. If someone overdoses, it can lead to breathing problems. It\u2019s different from other opioids because it doesn\u2019t usually cause constricted pupils and can cause withdrawal symptoms in people who use opioids."
-      },
-      {
-        "name": "Methadone",
-        "description": "This is a medication used to help manage chronic pain and to keep people from having withdrawal symptoms when they stop using opioids. It can affect the heart and cause changes in heart rhythm. Overdosing can result in breathing troubles or nervous system issues."
-      },
-      {
-        "name": "EDDP",
-        "description": "This is what the body produces when it breaks down methadone."
-      }
+    category: "Muscle Relaxants",
+    items: [
+      { name: "Baclofen", description: "Reduces muscle spasms." },
+      { name: "Cyclobenzaprine", description: "Used for muscle pain." },
+      { name: "Carisoprodol", description: "Sedative muscle relaxant." }
     ]
   },
+
   {
-    "category": "Anti-Depressant",
-    "items": [
-      {
-        "name": "Amitriptyline",
-        "description": "This is a type of antidepressant called a tricyclic antidepressant. It helps treat major depression and is also used for sleeping problems, chronic pain, and other health issues. It can sometimes cause side effects like tiredness, seizures, and heart problems. The typical dose is between 5 to 150 mg a day."
-      },
-      {
-        "name": "Citalopram",
-        "description": "This is a selective serotonin reuptake inhibitor (SSRI) used to treat major depression. It can also help with obsessive-compulsive disorder, panic disorder, and anxiety. Some side effects come from too much serotonin, which can lead to a serious condition called serotonin syndrome. The safe dose range is 10 to 60 mg a day."
-      },
-      {
-        "name": "Clomipramine",
-        "description": "Like amitriptyline, this is also a tricyclic antidepressant used for depression, sleep issues, and pain relief. Side effects include tiredness, seizures, and heart problems. The safe levels in the body are between 220 and 500 ng/mL, while levels above 900 ng/mL are considered toxic."
-      },
-      {
-        "name": "Desipramine",
-        "description": "This is another tricyclic antidepressant used to treat depression and help with sleep and pain relief. It has similar side effects to other tricyclics. The usual dose is 100 to 200 mg a day, with a maximum of 300 mg."
-      },
-      {
-        "name": "Doxepin",
-        "description": "This medication is also a tricyclic antidepressant used for depression, sleep issues, and pain relief. It has similar side effects as the other tricyclics."
-      },
-      {
-        "name": "Imipramine",
-        "description": "This antidepressant helps treat depression and can also be used for bed-wetting in children aged 6 and older. Its side effects are similar to other tricyclic antidepressants."
-      },
-      {
-        "name": "Maprotiline",
-        "description": "This medication is used to treat depression and anxiety. The typical dose ranges from 75 to 150 mg a day, with a maximum of 225 mg."
-      },
-      {
-        "name": "Nordoxepin",
-        "description": "Active metabolite of doxepin."
-      },
-      {
-        "name": "Nortriptyline",
-        "description": "Another tricyclic antidepressant, nortriptyline is used for depression and has similar side effects as others in its class. Nortriptyline is made when the body breaks down amitriptyline."
-      },
-      {
-        "name": "Sertraline",
-        "description": "This is another SSRI used for depression, panic attacks, anxiety, and obsessive-compulsive disorders. Overdose can lead to tiredness, and there may be serious serotonin-related side effects when combined with other similar medications. The maximum dose is 200 mg a day."
-      },
-      {
-        "name": "Duloxetine",
-        "description": "Duloxetine is a type of medicine called a selective serotonin and norepinephrine reuptake inhibitor (SSNRI). It is used to treat conditions like major depression, generalized anxiety disorder, diabetic nerve pain, fibromyalgia, and chronic muscle pain. People usually take between 30 to 120 mg each day."
-      },
-      {
-        "name": "Trimipramine",
-        "description": "Trimipramine is a tricyclic antidepressant used mainly for treating major depression. It can also help with insomnia and pain relief in long-lasting pain conditions. However, it can cause side effects such as drowsiness, seizures, and problems with heart rhythms."
-      },
-      {
-        "name": "Venlafaxine",
-        "description": "Venlafaxine is another SSNRI. It is mostly used for treating anxiety and depression. It can affect levels of serotonin and norepinephrine in the brain but can also lead to issues like heart problems and seizures. It is important to watch for serotonin syndrome, especially if taken with other similar medications. The symptoms of serotonin syndrome include fever, high blood pressure, tremor, and confusion. Typical doses are between 37.5 to 75 mg daily, with a maximum of 375 mg for immediate-release and 225 mg for extended-release."
-      },
-      {
-        "name": "Trazodone",
-        "description": "Trazodone is an atypical antidepressant that helps with depression, anxiety, and sleep. It is especially helpful for older adults because it can make them feel sleepy without causing dry mouth or other side effects."
-      },
-      {
-        "name": "Paroxetine",
-        "description": "Paroxetine is a selective serotonin reuptake inhibitor (SSRI). It is used for a variety of conditions, including depression, obsessive-compulsive disorder, panic attacks, and anxiety disorders. It can increase serotonin levels, which may lead to side effects or serotonin syndrome, especially when taken with other similar drugs. The symptoms of serotonin syndrome include fever, high blood pressure, tremor, and confusion."
-      },
-      {
-        "name": "Fluoxetine",
-        "description": "Fluoxetine is another SSRI used for depression, obsessive-compulsive disorder, panic attacks, and bulimia. While severe side effects are not common, they can happen if it\u2019s taken with other medications that increase serotonin levels."
-      },
-      {
-        "name": "N-Desmethyl Trimipramine",
-        "description": "active metabolite of the tricyclic antidepressant trimipramine."
-      },
-      {
-        "name": "Norfluoxetine",
-        "description": "This is a key active substance formed in the body from fluoxetine and helps produce its therapeutic effects."
-      },
-      {
-        "name": "Bupropion",
-        "description": "Bupropion is a unicyclic antidepressant that is used to treat depression and seasonal affective disorder. It can also help people quit smoking and is sometimes used with another drug to help treat depression in adults."
-      },
-      {
-        "name": "N-Desmethyl Clomipramine",
-        "description": "active metabolite of clomipramine."
-      }
+    category: "Antihistamines",
+    items: [
+      { name: "Diphenhydramine", description: "Used for allergies and sleep." },
+      { name: "Hydroxyzine", description: "Used for anxiety and itching." }
     ]
   },
+
   {
-    "category": "Amphetamines",
-    "items": [
-      {
-        "name": "Amphetamine",
-        "description": "This is a medicine that stimulates the central nervous system. It is usually prescribed in doses between 5 to 60 mg per day."
-      },
-      {
-        "name": "Methamphetamine",
-        "description": "This is often abused because it can make people feel very energetic and euphoric. It is made in secret labs. It can cause rapid heartbeat, high blood pressure, and feelings of restlessness. It increases the levels of a brain chemical called"
-      },
-      {
-        "name": "MDMA (Methylenedioxymethamphetamine)",
-        "description": "This is a man-made drug that has effects like both methamphetamine and hallucinogens (like mescaline). People usually call it Ecstasy or Molly. MDMA causes the brain to release chemicals such as serotonin and norepinephrine, creating a high that lasts about 3 to 6 hours, although this can vary from person to person."
-      },
-      {
-        "name": "Modafinil",
-        "description": "This is a drug used to help people stay awake during the day, especially those who have narcolepsy (a condition that causes extreme sleepiness), sleep apnea, or people who work night shifts. It also stimulates the central nervous system."
-      }
+    category: "Antipsychotics",
+    items: [
+      { name: "Aripiprazole", description: "Used for schizophrenia and bipolar disorder." },
+      { name: "Quetiapine", description: "Used for mood disorders." },
+      { name: "Olanzapine", description: "Used for psychosis and agitation." }
     ]
   },
+
   {
-    "category": "Muscle Relaxants",
-    "items": [
-      {
-        "name": "Baclofen",
-        "description": "This medicine helps reduce muscle spasms by working on nerves in the spinal cord. The maximum dose allowed is 80 mg per day."
-      },
-      {
-        "name": "Cyclobenzaprine",
-        "description": "This helps relieve pain from muscle conditions. It has effects that can make you feel drowsy and can affect other chemicals in the brain if taken too much. The usual dose is 5 to 10 mg taken three times a day for immediate release tablets, and 15 mg once a day for extended-release capsules."
-      },
-      {
-        "name": "N-Desmethyl Cyclobenzaprine",
-        "description": "This is a major substance that is created when the body processes cyclobenzaprine."
-      },
-      {
-        "name": "Carisoprodol",
-        "description": "This is used for pain and muscle spasms. It can make people feel sleepy or relaxed if too much is taken. The usual dose is 250 to 350 mg taken three times a day and at bedtime."
-      },
-      {
-        "name": "Meprobamate",
-        "description": "This drug was originally made to help relax muscles but can also help with anxiety. It can make you feel calm but has potential for abuse. Very high doses can cause serious problems, like making it hard to breathe or lead to death due to respiratory failure. The usual dose is 1200 to 1600 mg a day, divided into three or four doses, with a maximum of 2400 mg per day."
-      }
+    category: "Other",
+    items: [
+      { name: "Ketamine", description: "Anesthetic with dissociative effects." },
+      { name: "PCP", description: "Hallucinogen causing dissociation." },
+      { name: "LSD", description: "Strong hallucinogen." },
+      { name: "Psilocin", description: "Active compound in psychedelic mushrooms." }
     ]
   },
+
   {
-    "category": "Stimulants",
-    "items": [
-      {
-        "name": "Benzoylecgonine",
-        "description": "Benzoylecgonine is made when the body breaks down cocaine. When someone uses cocaine, about 25% to 40% of it turns into benzoylecgonine in the body. This substance is more stable than cocaine and stays in the body longer. In urine tests, benzoylecgonine can be found 1 to 4 days after using cocaine, but for people who use it often, it can last up to 5 to 14 days. In blood tests, it can be detected for 1 to 2 days."
-      },
-      {
-        "name": "Cocaine",
-        "description": "This drug is sometimes used by doctors in nose and throat procedures to help constrict blood vessels. However, most people know it for its use as a drug that gives a high feeling. Taking too much cocaine can be dangerous, but some people have survived even with very high levels in their blood. The amount that could be harmful is not well defined and can vary a lot. Common doses for recreational use are around 1 to 2 mg per kg when snorted, 0.5 to 1 mg when smoked, and 0.25 to 1 mg when injected, with a lot of differences between users."
-      },
-      {
-        "name": "Dipentylone",
-        "description": "This is a new kind of drug that affects the brain by changing the levels of certain chemicals like dopamine, norepinephrine, and serotonin. It is known as a \"synthetic cathinone\" or \"bath salt\" that can make people feel good and connected to others, but it can also cause serious problems like agitation, high body temperature, and heart issues. Some people have died from using it."
-      },
-      {
-        "name": "4-Chloromethcathinone",
-        "description": "This drug works like dipentylone and affects chemicals in the brain. It's known as a designer drug and can cause effects similar to speed. It can lead to fast heart rates, high blood pressure, and dangerous agitation. It is linked to serious health problems and fatalities."
-      },
-      {
-        "name": "Pentylone",
-        "description": "Pentylone affects the dopamine system in the brain. It can create a sense of joy and heightened feelings but can also cause problems like fast heart rates, high blood pressure, and higher body temperature. It is sometimes found mixed into ecstasy pills."
-      },
-      {
-        "name": "Eutylone",
-        "description": "This drug is also a new synthetic cathinone. It mainly affects dopamine and offers stimulant effects with some mood-lifting characteristics. However, it can lead to serious problems like confusion, organ failure, and even overdose deaths."
-      },
-      {
-        "name": "N-Isopropyl Butylone",
-        "description": "This is another synthetic cathinone that works by affecting brain chemicals. It can cause similar feelings to other drugs but with some changes in how it's processed in the body. It can lead to fast heart rates and high temperatures and is becoming more common as something added to MDMA."
-      },
-      {
-        "name": "Alpha-PiHpP/alpha-PHpP",
-        "description": "This is a strong drug that blocks the reabsorption of dopamine and norepinephrine, which are important chemicals in the brain. It doesn\u2019t cause a big release of these chemicals when taken at regular amounts. It can be very powerful and might lead to serious issues like extreme agitation, heart problems, overheating, and serious confusion if used too much."
-      },
-      {
-        "name": "Methylone",
-        "description": "This drug helps release certain brain chemicals, especially serotonin, which can create feelings of happiness, and it also stops the reabsorption of these chemicals. It is similar to MDMA, which is known for its ability to enhance feelings of connection with others. However, it can cause problems like low sodium levels in the blood, overheating, and possibly a dangerous condition called serotonin syndrome. Sometimes it's sold as MDMA, even though it's not the same."
-      },
-      {
-        "name": "MDPHP/MDPiHP",
-        "description": "This drug is also a strong blocker of dopamine and norepinephrine reabsorption and doesn\u2019t release them significantly. It acts quickly and can lead to hallucinations, agitation, self-harm, heart problems, overheating, and muscle damage if used excessively"
-      },
-      {
-        "name": "Mephedrone",
-        "description": "This is a strong synthetic drug that became popular in the late 2000s. It is similar to cocaine and MDMA, leading to its quick use in parties and recreational settings. However, it can stress the heart a lot, leading to chest pain, high blood pressure, and irregular heartbeats."
-      },
-      {
-        "name": "Methylenedioxypyrovalerone",
-        "description": "This drug is known for being a main ingredient in products wrongly labeled as \u201cbath salts.\u201d It greatly affects the brain and can be dangerous due to its strong stimulant effects. It stops the reabsorption of norepinephrine and dopamine, leading to higher levels of these chemicals, which provides powerful stimulant effects."
-      },
-      {
-        "name": "Methylphenidate",
-        "description": "This medication is used to help treat attention deficit disorders in children aged 6 and older. It helps with problems like being easily distracted and having trouble paying attention. It's a mild stimulant that mostly affects the brain with fewer effects on the heart compared to stronger stimulants. It blocks the reabsorption of dopamine and norepinephrine to help improve focus."
-      },
-      {
-        "name": "Phentermine",
-        "description": "This medication stimulates the brain and nervous system, raising heart rate and blood pressure while reducing appetite. Taking too much or using it for a long time can cause serious health issues like rapid heartbeat, high blood pressure, and agitation. In extreme cases, it may lead to confusion or nervousness."
-      },
-      {
-        "name": "Pseudoephedrine",
-        "description": "This is often found in cold and cough medicines to relieve stuffiness. However, some people misuse it for its stimulating effects. Taking too much can cause serious side effects from over-stimulation of the nervous system, with risks increasing significantly after taking more than what is suggested"
-      },
-      {
-        "name": "Ritalinic acid",
-        "description": "This is a byproduct of methylphenidate, a drug used to treat ADHD. It is created in the body when methylphenidate is broken down and does not have active effects. Doctors can measure it in the blood to check how someone is using methylphenidate."
-      }
+    category: "Antidotes",
+    items: [
+      { name: "Naloxone", description: "Reverses opioid overdose." },
+      { name: "Naltrexone", description: "Opioid blocker used in addiction treatment." }
     ]
-  },
-  {
-    "category": "Phenothiazines",
-    "items": [
-      {
-        "name": "Chlorpromazine",
-        "description": "This medicine belongs to a group called phenothiazines, which are used to treat various issues like anxiety, behavioral problems, nausea, and schizophrenia (a severe mental disorder). Some patients may feel very happy (euphoria) after getting this medication through an IV. However, there can be side effects, including sedation (feeling very sleepy) from its anticholinergic properties, low blood pressure due to alpha blocking effects, and possible heart issues (like prolonged QRS and dysrhythmias). In some cases, it may lead to seizures."
-      },
-      {
-        "name": "Promazine",
-        "description": "This is another first-generation antipsychotic drug that helps manage schizophrenia and agitation (restlessness) in older adults. Long-term use may cause movement-related problems, such as a strong need to move (akathisia) and other neuromuscular symptoms."
-      }
-    ]
-  },
-  {
-    "category": "Adulterant, alpha-2 agonist",
-    "items": [
-      {
-        "name": "Xylazine",
-        "description": "This drug is used mainly in animals and works on certain receptors in the brain and body. It can reduce the release of norepinephrine and cause a calming effect on the central nervous system and heart. However, it has been found as a dangerous additive (\"tranq\") in illegal opioid drugs. Side effects can include sedation (sleepiness), low blood pressure, slow heart rate (bradycardia), and serious skin problems like ulcers or wounds."
-      },
-      {
-        "name": "Medetomidine",
-        "description": "This is a strong and selective drug that also targets specific adrenergic receptors in the brain and body. It is more focused on these receptors than xylazine and is used in animals. Recently, it has appeared as a serious additive in illegal drugs. It can cause side effects such as slow heart rate, low blood pressure, and sedation. Withdrawal symptoms can be serious and may include high blood pressure and fast heart rate."
-      },
-      {
-        "name": "Guanfacine",
-        "description": "This medication is used to treat high blood pressure and can be taken alone or with other blood pressure medicines. There is also an extended-release version that helps treat Attention Deficit Hyperactivity Disorder (ADHD) in children and teens, either by itself or alongside other stimulant medications. If someone takes too much, they might experience effects similar to the medicine\u2019s purpose, such as extreme sleepiness, low blood pressure, and slow heart rate."
-      }
-    ]
-  },
-  {
-    "category": "Alkaloid",
-    "items": [
-      {
-        "name": "Cotinine",
-        "description": "This is a chemical made in the body when someone uses nicotine. It stays in the body longer than nicotine and is used to check if someone has been using tobacco. Cotinine can be found in urine for 3-4 days. People who smoke regularly usually have very high levels of cotinine, over 50 ng/mL in urine, and 15-20 ng/mL in blood and saliva."
-      }
-    ]
-  },
-  {
-    "category": "Anti-histamine",
-    "items": [
-      {
-        "name": "Diphenhydramine",
-        "description": "This is a medication that helps with allergies, motion sickness, and can also help people sleep. Some people misuse it as a drug. If someone takes too much, it can cause confusion, seizures, and heart problems."
-      },
-      {
-        "name": "Hydroxyzine",
-        "description": "This is a prescription medicine that doctors use for treating anxiety, itching, and nausea. It can help people relax before and after surgery. Like diphenhydramine, taking too much can cause confusion and symptoms like a dry mouth and trouble using the bathroom."
-      }
-    ]
-  },
-  {
-    "category": "Other",
-    "items": [
-      {
-        "name": "Ketamine",
-        "description": "This medicine is mainly used to help patients during surgery by making them sleepy and pain-free. It can also be used to help people with migraines, depression, and chronic pain. Some people use it for fun, which is risky. At high doses, it can make someone very sleepy or even put them in a coma."
-      },
-      {
-        "name": "Norketamine",
-        "description": "This is the main breakdown product of ketamine when it is processed by the body."
-      },
-      {
-        "name": "Phencyclidine (PCP)",
-        "description": "This is a drug that can cause hallucinations and change how someone perceives reality. It acts as a depressant on the body, which can lead to agitation, confusion, and other issues."
-      },
-      {
-        "name": "Dextromethorphan",
-        "description": "This is a common cough medicine. At high doses, it can affect the brain and breathing, causing drowsiness. It can also change how the brain handles certain chemicals, which might lead to movement problems. The common dose is 20 mg every 4 hours or 30 mg every 6 to 8 hours, with a maximum of 120 mg per day."
-      },
-      {
-        "name": "Psilocin",
-        "description": "This is the active form of the drug psilocybin, which is found in certain mushrooms."
-      },
-      {
-        "name": "LSD",
-        "description": "This is a very strong drug that can lead to hallucinations and has a high chance of being misused. It is being studied for helping with some mental health issues."
-      },
-      {
-        "name": "2-oxo-3-OH-LSD",
-        "description": "This is a chemical that is produced when LSD is broken down in the body. It helps confirm if someone has taken LSD."
-      },
-      {
-        "name": "Milnacipran",
-        "description": "This is a medicine used for fibromyalgia, a condition that causes pain and fatigue. It has some effects on brain chemicals. The usual dose is 50 mg taken twice a day, but it can be increased based on how the patient feels, up to 200 mg a day."
-      },
-      {
-        "name": "Norephedrine",
-        "description": "This is a medication that used to help with stuffy noses and weight loss. However, it was taken off the shelves in the U.S. and Canada because it is linked to serious health risks."
-      }
-    ]
-  },
-  {
-    "category": "Non-benzodiazepine sedative-hypnotic",
-    "items": [
-      {
-        "name": "Zaleplon",
-        "description": "Zaleplon is a medicine that helps people sleep. It is used to treat insomnia, which means having trouble sleeping. This medicine works by calming the central nervous system (CNS). If someone takes other sedatives (medicines that also make you sleepy) at the same time, it can make you even more sleepy. The usual dose is between 5 to 20 mg."
-      },
-      {
-        "name": "Zolpidem",
-        "description": "Zolpidem is another sleep medicine used to treat insomnia. Like Zaleplon, it calms the central nervous system. Taking this with other sedatives can increase the sleepy effects. The typical dose is between 5 to 12.5 mg."
-      },
-      {
-        "name": "Zopiclone",
-        "description": "Zopiclone is also a sleep medicine used to help with insomnia. Its effects are similar to Zaleplon and Zolpidem. It can cause sleepiness, but serious problems are rare if someone takes it alone. The usual dose is between 5 to 7.5 mg."
-      }
-    ]
-  },
-  {
-    "category": "Antipsychotic Medicines",
-    "items": [
-      {
-        "name": "Aripiprazole",
-        "description": "Aripiprazole is a medicine used to help people with certain mental health conditions like schizophrenia and bipolar disorder. It helps calm people down and is also used for mood regulation. In children, it can help with aggression and disorders like Tourette syndrome. If someone takes too much, it can make them very sleepy, and they might also feel fast heartbeats, tremors, feel irritable, or have nausea."
-      },
-      {
-        "name": "Quetiapine",
-        "description": "Quetiapine is used to treat schizophrenia and bipolar disorders too. Overdosing on this medicine can lead to sleepiness and other effects like a fast heart rate. Serious problems like dangerous heart rhythms, can occur but are very rare."
-      },
-      {
-        "name": "Olanzapine",
-        "description": "Olanzapine is another medication for treating schizophrenia and can help calm people who are very agitated. It is also used for bipolar disorder. If someone takes too much, it can have effects similar to other antipsychotics and may lead to low blood pressure."
-      }
-    ]
-  },
-  {
-    "category": "Nitazenes",
-    "items": [
-      {
-        "name": "N-Pyrrolidino Etonitazene",
-        "description": "This is a strong type of synthetic opioid that works on the mu-opioid receptor (MOR) in the brain. It is much more powerful than morphine\u2014about 1000 times stronger. Because of its strength, it can quickly cause serious breathing problems. If someone has an overdose, they might need a lot of naloxone (a medicine that can reverse opioid overdoses) to help them."
-      },
-      {
-        "name": "Etodesnitazene",
-        "description": "Similar to N-Pyrrolidino Etonitazene, this is also a strong synthetic opioid that connects to the MOR in the brain. It's different from fentanyl and other classic opioids. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Isotonitazene",
-        "description": "This is one of the most powerful synthetic opioids, about 500 times stronger than morphine. It can lead to dangerous breathing issues and has been linked to many overdose deaths. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "N-Piperidinyl Etonitazene",
-        "description": "This is another strong opioid that works on MOR, similar to N-Pyrrolidino Etonitazene. It can also cause severe breathing problems and lead to death."
-      },
-      {
-        "name": "Butonitazene",
-        "description": "This synthetic opioid is also very strong and can be found in illegal drugs. It quickly crosses into the brain, which can make it more dangerous. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Metonitazene",
-        "description": "Another powerful synthetic opioid that can cause serious breathing problems. It can quickly affect the central nervous system because of a particular chemical structure it has. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Protonitazene",
-        "description": "This is a strong synthetic opioid linked to breathing issues and death as well. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "N-Pyrrolidino Protonitazene",
-        "description": "A modified version of protonitazene that is also very strong and can cause breathing problems, even in very small amounts. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "N-Pyrrolidino Isotonitazene",
-        "description": "This is a modified version of isotonitazene, another strong synthetic opioid that can lead to serious breathing issues. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "N-Pyrrolidino Metonitazene",
-        "description": "Similar to metonitazene, this modified version can cause respiratory problems and has been responsible for some fatal overdoses. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "N-Desethyl Isotonitazene",
-        "description": "This is a close relative of isotonitazene, still very powerful and can also cause dangerous breathing problems."
-      }
-    ]
-  },
-  {
-    "category": "Brorphine Analogs",
-    "items": [
-      {
-        "name": "Brorphine",
-        "description": "A strong type of opioid that works on the mu-opioid receptor (MOR). It has a structure similar to a chemical called 4-cyano-4-phenylpiperidine and includes a bromophenyl group. It is much more powerful than morphine, that is, 10 to 30 times stronger. Even small doses can quickly slow down breathing, and it has been linked to fatal overdoses. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Spirochlorphine",
-        "description": "This is also a strong opioid that works on the mu-opioid receptor (MOR). It is similar to brorphine but has a special spiro ring added. Like brorphine, it has a strong effect and can cause serious breathing problems and even death if taken in very small amounts."
-      },
-      {
-        "name": "Chlorphine",
-        "description": "Another type of opioid that acts on the mu-opioid receptor (MOR). It is a simpler version of brorphine with a chlorine atom added. This \"designed opioid\" has been found in illegal drug supplies and can also slow down breathing. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Fluorphine",
-        "description": "This is a powerful opioid that works on the mu-opioid receptor (MOR). It has a fluorine atom added to its structure, making it similar to brorphine. It can cause serious respiratory issues and is linked to overdoses. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Iodorphine",
-        "description": "This opioid works on the mu-opioid receptor (MOR) and has an iodine atom in its structure. The iodine makes it heavier and helps it enter the brain more easily. It\u2019s a potent form of brorphine and isn\u2019t detected by standard drug tests. It has been found in cases of overdose. Naloxone can be used to reverse its effects."
-      },
-      {
-        "name": "Orphine",
-        "description": "This is another full mu-opioid receptor (MOR) agonist. It is a modified version of brorphine. It is moderately strong and can also cause serious breathing problems, leading to overdoses. Naloxone can be used to reverse its effects."
-      }
-    ]
-  },
-  {
-    "category": "Adulterants",
-    "items": [
-      {
-        "name": "Lidocaine",
-        "description": "This is a medicine called a local anesthetic, which is used to relieve pain. It can be applied directly to the skin or given through injections. Sometimes it can cause problems by affecting the nervous system and the heart. It can also lead to a condition called methemoglobinemia, where the blood can't carry oxygen properly, leading to symptoms like bluish skin and difficulty breathing."
-      },
-      {
-        "name": "Benzocaine",
-        "description": "This is another local anesthetic that works by blocking nerve signals to reduce pain. It\u2019s often used as a topical cream. Like lidocaine, it can cause methemoglobinemia, where the blood can't carry oxygen properly, leading to symptoms like bluish skin and difficulty breathing."
-      },
-      {
-        "name": "Bupivacaine",
-        "description": "This is a long-acting local anesthetic that works like lidocaine but can be more harmful to the heart. It can cause serious heart problems like arrhythmias or seizures, making it harder to treat when there are issues."
-      },
-      {
-        "name": "Clonidine",
-        "description": "This drug is used to lower blood pressure and can also help with attention deficit hyperactivity disorder. It works by affecting receptors in the brain. It can cause a slow heart rate and lowered blood pressure. If someone stops taking it suddenly, they might experience increased heart rate, anxiety, sweating, and hallucinations."
-      },
-      {
-        "name": "Dimethyl sulfone",
-        "description": "This is a natural compound found in some foods. It doesn\u2019t have major effects on the body at normal levels. It\u2019s used as a supplement and sometimes as an ingredient in illegal drugs. It can cause skin problems and stomach issues. Rarely, it can lead to liver problems or affect the heart and lungs."
-      },
-      {
-        "name": "Etomidate",
-        "description": "This is a medicine used for quick anesthesia during surgeries. It helps induce sleep by acting on the brain's receptors. It can lead to reduced hormone production and can depress the nervous system, causing sedation and sometimes breathing issues. It may also trigger muscle movements or seizures."
-      },
-      {
-        "name": "Levamisole",
-        "description": "This drug is used as a treatment for worm infections and can also modify the immune system. It\u2019s often found mixed with cocaine and can lead to serious blood issues like low white blood cell counts, along with skin problems. It may make cocaine last longer."
-      },
-      {
-        "name": "Metamizole",
-        "description": "This is a pain reliever used in some countries but banned in the U.S. because it can cause severe blood problems. It\u2019s sometimes found as an ingredient in illegal drugs."
-      },
-      {
-        "name": "Phenacetin",
-        "description": "This medicine is converted into acetaminophen in the body. It was used for pain relief and to reduce fever but was taken off the market because it can cause severe kidney problems and urinary tract cancer. It can also lead to methemoglobinemia and has been found in cocaine."
-      },
-      {
-        "name": "Procaine",
-        "description": "Procaine is a medication that blocks sodium channels in nerves. It\u2019s used as a local anesthetic to numb areas of the body but works for only a short time. It's sometimes found as an added substance in drugs. Procaine can lead to heart problems and seizures if taken in high doses."
-      },
-      {
-        "name": "Quinine",
-        "description": "Quinine is another medication that also blocks sodium channels and affects potassium channels in the heart. It helps fight certain infections by preventing harmful substances from building up in parasites, which can kill them. Quinine is bitter and has been used to hide poor-quality heroin. It can cause a range of side effects, including muscle relaxation, heart rhythm issues, nausea, blurry vision, low blood pressure, and in very large doses, it can lead to serious problems like seizures or even death."
-      },
-      {
-        "name": "Tadalafil",
-        "description": "Tadalafil is a drug that helps with erectile dysfunction by increasing blood flow in specific areas of the body. It's sometimes found in supplements that claim to enhance sexual performance. If taken with nitrates (another type of medicine), it can dangerously lower blood pressure. Overdoses can lead to painful erections and heart issues, and occasionally it can cause vision problems like blurry or unusual color vision."
-      },
-      {
-        "name": "Tetracaine",
-        "description": "Tetracaine is a type of local anesthetic that numbs specific areas by blocking nerve signals. It is sometimes mixed with cocaine. When used locally, it can irritate the skin and eyes. When taken in larger amounts, it can cause dizziness, confusion, and even seizures. It can also be harmful to the heart."
-      },
-      {
-        "name": "BTMPS",
-        "description": "BTMPS is a chemical used in plastics to help them last longer by preventing damage from light. Studies on animals show it might block certain channels in nerves and heart cells, but we don\u2019t know much about how it affects people. It can cause skin irritation and might lead to low blood pressure and muscle weakness, but more research is needed to understand its effects fully."
-      }
-    ]
-  },
-  {
-    "category": "Antidote",
-    "items": [
-      {
-        "name": "Naltrexone",
-        "description": "This medication works as an opioid blocker. It can reduce or reverse the effects of opioid drugs (like pain medications). Naltrexone is used to help with serious problems like life-threatening breathing issues caused by opioids, to treat alcohol addiction, and to relieve constipation caused by opioids. After someone has gone through detox, naltrexone can also help with long-term opioid dependence. However, taking high doses can cause side effects like shaking, low blood pressure, rapid heartbeat, dizziness, trouble sleeping, tiredness, and restlessness. For people who are dependent on opioids, high doses can trigger withdrawal symptoms."
-      },
-      {
-        "name": "Naloxone",
-        "description": "This is another medication used to reverse the effects of opioids, especially during overdose situations where someone's breathing is dangerously slow or stopped. Naloxone can also be used with other drugs to help prevent misuse. However, if someone who is dependent on opioids takes naloxone, it might cause sudden severe withdrawal symptoms."
-      },
-      {
-        "name": "Kappa-opioid receptor agonist",
-        "description": ""
-      },
-      {
-        "name": "Mitragynine",
-        "description": "Kratom is a natural product that can have both energizing and sedative effects. When used, kratom can make you feel more awake, increase your heart rate, and give you extra energy. At the same time, it can also help you relax, make you feel confused, and relieve pain, similar to how some opioids and sedatives work."
-      },
-      {
-        "name": "Drug, Class, Dose Anchor, Units, Notes",
-        "description": "Ranking"
-      }
-    ]
-  },
-  {
-    "category": "Phenazepam, Benzodiazepine, 7, mg, Long-acting",
-    "items": []
-  },
-  {
-    "category": "Clonazepam, Benzodiazepine, 15, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Etizolam, Benzodiazepine-like, 15, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Diclazepam, Benzodiazepine, 15, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Pyrazolam, Benzodiazepine, 15, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "PCP, Dissociative, 20, mg, Agitation/psychosis",
-    "items": []
-  },
-  {
-    "category": "Lorazepam, Benzodiazepine, 30, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Diazepam, Benzodiazepine, 75, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Amphetamine, Stimulant, 150, mg, Cardiotoxicity",
-    "items": []
-  },
-  {
-    "category": "Methamphetamine, Stimulant, 150, mg, Cardiotoxicity",
-    "items": []
-  },
-  {
-    "category": "MDMA, Stimulant, 200, mg, Hyperthermia",
-    "items": []
-  },
-  {
-    "category": "Diphenhydramine, Antihistamine, 300, mg, Delirium/seizures",
-    "items": []
-  },
-  {
-    "category": "Hydroxyzine, Antihistamine, 300, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Tramadol, Opioid-like, 500, mg, Seizures",
-    "items": []
-  },
-  {
-    "category": "Butalbital, Barbiturate, 1500, mg, Sedation",
-    "items": []
-  },
-  {
-    "category": "Venlafaxine, SNRI, 2000, mg, Seizures/cardiac",
-    "items": []
-  },
-  {
-    "category": "Butabarbital, Barbiturate, 2500, mg, Sedation",
-    "items": []
   }
+
 ];

@@ -11,7 +11,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: 15px 60px;
   background-color: #111;
   color: white;
 }
@@ -35,41 +35,51 @@ body {
   text-decoration: underline;
 }
 
-/* ===== HERO ===== */
+/* ===== HERO (FIXED) ===== */
 .hero {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background: linear-gradient(to right, #0b3c6f, #001f3f);
   color: white;
-  padding: 60px 40px;
+  padding: 80px 60px;
 }
 
+/* LEFT SIDE */
 .hero-text {
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .hero-text h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 42px;
+  margin-bottom: 15px;
 }
 
 .hero-text p {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 .btn {
+  display: inline-block;
   padding: 12px 24px;
   background: linear-gradient(135deg, #ff6a7a, #e63946);
   color: white;
-  border: none;
+  text-decoration: none;
   border-radius: 8px;
-  cursor: pointer;
   font-weight: bold;
 }
 
-.btn:hover {
-  opacity: 0.9;
+/* RIGHT SIDE IMAGE */
+.hero-image {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-image img {
+  width: 500px;
+  max-width: 100%;
+  border-radius: 12px;
 }
 
 /* ===== SEARCH BAR ===== */
@@ -93,7 +103,18 @@ body {
   padding: 20px;
 }
 
-/* ===== CARDS (HOMEPAGE + FEATURED) ===== */
+/* ===== CONTENT CONTAINER ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.content {
+  padding: 40px 0;
+}
+
+/* ===== CARDS ===== */
 .cards {
   display: flex;
   justify-content: center;
@@ -117,52 +138,27 @@ body {
   transform: translateY(-5px);
 }
 
-.card h3 {
-  margin-bottom: 10px;
-}
-
-/* ===== DICTIONARY LAYOUT ===== */
-.dictionary-wrapper {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
+/* ===== DICTIONARY ===== */
 .dictionary-section {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .dictionary-section h2 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 24px;
 }
 
-/* ===== DRUG ITEMS ===== */
 .drug {
   margin-bottom: 10px;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 12px;
   background: white;
 }
 
 summary {
   font-weight: bold;
   cursor: pointer;
-}
-
-/* ===== CONTACT FORM ===== */
-.contact-form {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
 }
 
 /* ===== FOOTER ===== */
@@ -173,7 +169,6 @@ summary {
 
 .footer-content {
   max-width: 600px;
-  margin: 0 auto;
 }
 
 .footer h2 {
@@ -184,21 +179,23 @@ summary {
   color: #333;
 }
 
+.footer hr {
+  margin-top: 20px;
+  border: none;
+  border-top: 1px solid #999;
+}
+
 /* ===== RESPONSIVE ===== */
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 
   .hero {
     flex-direction: column;
     text-align: center;
   }
 
-  .search-bar {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .search-bar input {
-    width: 100%;
+  .hero-image {
+    margin-top: 20px;
+    justify-content: center;
   }
 
   .navbar {
@@ -213,5 +210,14 @@ summary {
   .cards {
     flex-direction: column;
     align-items: center;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-bar input {
+    width: 100%;
   }
 }

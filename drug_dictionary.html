@@ -9,25 +9,39 @@
 
 <body>
 
+<!-- NAVBAR (same as homepage) -->
 <header>
   <nav class="navbar">
     <h2 class="logo">iC42 Toxicology</h2>
+
     <div class="nav-links">
       <a href="index.html">Home</a>
+      <a href="reports.html">Reports</a>
+      <a href="about.html">About</a>
       <a href="drug_dictionary.html">Drug Dictionary</a>
+      <a href="publications.html">Publications</a>
+      <a href="contacts.html">Contact</a>
     </div>
   </nav>
 </header>
 
 <main>
 
+<!-- HERO (same layout as homepage) -->
 <section class="hero">
+
   <div class="hero-text">
     <h1>Drug Dictionary</h1>
     <p>Search substances detected in toxicology testing</p>
   </div>
+
+  <div class="hero-image">
+    <img src="lab.png" alt="Lab">
+  </div>
+
 </section>
 
+<!-- SEARCH -->
 <section class="intro">
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search drugs...">
@@ -35,40 +49,71 @@
   </div>
 </section>
 
-<!-- FEATURED CARDS -->
-<section class="cards" id="featured">
+<!-- MAIN CONTENT -->
+<section class="content">
+  <div class="container">
 
-  <div class="card" onclick="filterCategory('Opioids')">
-    <h3>Opioids</h3>
-    <p>Explore high-risk substances including fentanyl.</p>
+    <!-- FEATURE CARDS -->
+    <div class="cards" id="featured">
+
+      <div class="card" onclick="filterCategory('Opioids')">
+        <h3>Opioids</h3>
+        <p>Explore high-risk substances including fentanyl</p>
+      </div>
+
+      <div class="card" onclick="filterCategory('Benzodiazepines')">
+        <h3>Benzodiazepines</h3>
+        <p>Review sedatives and anxiety medications</p>
+      </div>
+
+      <div class="card" onclick="filterCategory('Stimulants')">
+        <h3>Stimulants</h3>
+        <p>Learn about cocaine and amphetamines</p>
+      </div>
+
+    </div>
+
+    <!-- RESULTS -->
+    <div id="dictionary">
+      <p style="text-align:center;">Loading dictionary...</p>
+    </div>
+
   </div>
-
-  <div class="card" onclick="filterCategory('Benzodiazepines')">
-    <h3>Benzodiazepines</h3>
-    <p>Review sedatives and anxiety medications.</p>
-  </div>
-
-  <div class="card" onclick="filterCategory('Stimulants')">
-    <h3>Stimulants</h3>
-    <p>Learn about cocaine and amphetamines.</p>
-  </div>
-
 </section>
-
-<div class="dictionary-wrapper">
-  <div id="dictionary"></div>
-</div>
 
 </main>
 
+<!-- FOOTER (same as homepage) -->
 <footer class="footer">
-  <div class="footer-content">
-    <h2>iC42 Toxicology Laboratory</h2>
+  <div class="footer-container">
+
+    <div class="footer-text">
+      <h2>iC42 Toxicology Laboratory</h2>
+
+      <h3>CU Anschutz</h3>
+
+      <p>
+        iC42 Toxicology Lab<br>
+        12705 East Montview Boulevard<br>
+        Bioscience II, Suite 200<br>
+        Aurora, CO 80045
+      </p>
+    </div>
+
+    <div class="footer-images">
+      <img src="cap-accredited-logo-700x302.png" alt="CAP Accredited">
+      <img src="clia-certified-700x302.png" alt="CLIA Certified">
+    </div>
+
   </div>
+
+  <hr class="footer-line">
 </footer>
 
+<!-- DATA -->
 <script src="drugs.js"></script>
 
+<!-- LOGIC -->
 <script>
 const container = document.getElementById("dictionary");
 const searchInput = document.getElementById("searchInput");

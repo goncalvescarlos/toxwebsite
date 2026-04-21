@@ -1,13 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Dictionary - iC42 Toxicology</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <h2 class="logo">iC42 Toxicology</h2>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="drug_dictionary.html">Drug Dictionary</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Drug Dictionary</h1>
+    <p>Search substances detected in toxicology testing</p>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search drugs...">
+    <button id="searchBtn" class="btn">Search</button>
+  </div>
+</section>
+
+<!-- FEATURED CARDS -->
+<section class="cards" id="featured">
+
+  <div class="card" onclick="filterCategory('Opioids')">
+    <h3>Opioids</h3>
+    <p>Explore high-risk substances including fentanyl.</p>
+  </div>
+
+  <div class="card" onclick="filterCategory('Benzodiazepines')">
+    <h3>Benzodiazepines</h3>
+    <p>Review sedatives and anxiety medications.</p>
+  </div>
+
+  <div class="card" onclick="filterCategory('Stimulants')">
+    <h3>Stimulants</h3>
+    <p>Learn about cocaine and amphetamines.</p>
+  </div>
+
+</section>
+
+<div class="dictionary-wrapper">
+  <div id="dictionary"></div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <h2>iC42 Toxicology Laboratory</h2>
+  </div>
+</footer>
+
+<script src="drugs.js"></script>
+
 <script>
 const container = document.getElementById("dictionary");
 const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const featured = document.getElementById("featured");
 
-function render(filter = "") {
+function render(filter = "", categoryFilter = "") {
   container.innerHTML = "";
 
   let foundAny = false;
 
   drugs.forEach(category => {
+
+    if (categoryFilter && category.category !== categoryFilter) return;
+
     let section = document.createElement("section");
     section.className = "dictionary-section";
 
@@ -44,17 +120,29 @@ function render(filter = "") {
     }
   });
 
-  // 🔥 Show message if nothing found
-  if (!foundAny) {
+  featured.style.display = (filter || categoryFilter) ? "none" : "flex";
+
+  if (!foundAny && (filter || categoryFilter)) {
     container.innerHTML = "<p style='text-align:center;'>No results found</p>";
   }
 }
 
-// Live search
-searchInput.addEventListener("keyup", () => {
+function filterCategory(cat) {
+  render("", cat);
+}
+
+searchBtn.addEventListener("click", () => {
   render(searchInput.value.trim());
 });
 
-// Initial load
+searchInput.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    render(searchInput.value.trim());
+  }
+});
+
 render();
 </script>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ body {
   color: #222;
 }
 
-/* RESET */
+/* Reset headings */
 h1, h2, h3 {
   margin: 0;
 }
@@ -27,6 +27,7 @@ h1, h2, h3 {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .nav-links a {
@@ -74,11 +75,7 @@ h1, h2, h3 {
   font-weight: bold;
 }
 
-.btn:hover {
-  opacity: 0.9;
-}
-
-/* RIGHT SIDE IMAGE */
+/* RIGHT IMAGE */
 .hero-image {
   display: flex;
   justify-content: flex-end;
@@ -90,49 +87,58 @@ h1, h2, h3 {
   border-radius: 12px;
 }
 
-/* ===== CARDS ===== */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 40px;
-  flex-wrap: wrap;
-}
-
-.card {
-  flex: 1 1 250px;
-  max-width: 300px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: white;
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
+/* ===== SUBNAV FIX (HIDE IT) ===== */
+.subnav {
+  display: none;
 }
 
 /* ===== FOOTER ===== */
 .footer {
   background-color: #f2f2f2;
-  padding: 40px;
+  padding: 40px 60px;
 }
 
-.footer-content {
-  max-width: 600px;
+/* Layout */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* LEFT TEXT */
+.footer-text {
+  max-width: 450px;
 }
 
 .footer h2 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.footer h3 {
+  margin: 10px 0;
 }
 
 .footer p {
   color: #333;
 }
 
-.footer hr {
-  margin-top: 20px;
+/* RIGHT LOGOS */
+.footer-images {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* FIX LOGO SIZE */
+.footer-images img {
+  height: 80px;
+  width: auto;
+}
+
+/* Divider line */
+.footer-line {
+  margin-top: 30px;
   border: none;
   border-top: 1px solid #999;
 }
@@ -161,5 +167,14 @@ h1, h2, h3 {
 
   .nav-links {
     margin-top: 10px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-images {
+    margin-top: 20px;
   }
 }

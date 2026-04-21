@@ -1,57 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drug Dictionary - iC42 Toxicology</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<!-- NAVBAR -->
-<header>
-  <nav class="navbar">
-    <h2 class="logo">iC42 Toxicology</h2>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="drug_dictionary.html">Drug Dictionary</a>
-    </div>
-  </nav>
-</header>
-
-<main>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Drug Dictionary</h1>
-    <p>Search substances detected in toxicology testing</p>
-  </div>
-</section>
-
-<!-- SEARCH -->
-<section class="intro">
-  <input type="text" id="searchInput" placeholder="Search drugs...">
-</section>
-
-<!-- DICTIONARY CONTENT -->
-<div id="dictionary"></div>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-content">
-    <h2>iC42 Toxicology Laboratory</h2>
-    <p>Aurora, CO</p>
-  </div>
-</footer>
-
-<!-- LOAD DATA -->
-<script src="drugs.js"></script>
-
-<!-- RENDER + SEARCH LOGIC -->
 <script>
 const container = document.getElementById("dictionary");
 const searchInput = document.getElementById("searchInput");
@@ -59,22 +5,24 @@ const searchInput = document.getElementById("searchInput");
 function render(filter = "") {
   container.innerHTML = "";
 
+  let foundAny = false;
+
   drugs.forEach(category => {
-    // Create section
     let section = document.createElement("section");
     section.className = "dictionary-section";
 
-    // Category title
     let title = document.createElement("h2");
     title.textContent = category.category;
-    section.appendChild(title);
 
     let hasResults = false;
 
     category.items.forEach(drug => {
-      if (!drug.name.toLowerCase().includes(filter.toLowerCase())) return;
+      let text = (drug.name + " " + drug.description).toLowerCase();
+
+      if (filter && !text.includes(filter.toLowerCase())) return;
 
       hasResults = true;
+      foundAny = true;
 
       let details = document.createElement("details");
       details.className = "drug";
@@ -90,21 +38,23 @@ function render(filter = "") {
       section.appendChild(details);
     });
 
-    // Only show category if it has matching results
     if (hasResults) {
+      section.prepend(title);
       container.appendChild(section);
     }
   });
+
+  // 🔥 Show message if nothing found
+  if (!foundAny) {
+    container.innerHTML = "<p style='text-align:center;'>No results found</p>";
+  }
 }
 
-// Search event
+// Live search
 searchInput.addEventListener("keyup", () => {
-  render(searchInput.value);
+  render(searchInput.value.trim());
 });
 
-// Initial render
+// Initial load
 render();
 </script>
-
-</body>
-</html>

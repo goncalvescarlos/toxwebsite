@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Dictionary - iC42 Toxicology</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <h2 class="logo">iC42 Toxicology</h2>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="reports.html">Reports</a>
+      <a href="about.html">About</a>
+      <a href="drug_dictionary.html">Drug Dictionary</a>
+      <a href="publications.html">Publications</a>
+      <a href="contacts.html">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Drug Dictionary</h1>
+    <p>Lay-language explanations of substances detected in toxicology testing.</p>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="intro">
+  <input type="text" id="searchInput" placeholder="Search for a drug..." />
+</section>
+
+<!-- CATEGORY -->
+<section class="cards">
+
+  <!-- Example entry -->
+  <div class="card drug">
+    <h3>Acetaminophen</h3>
+    <p><strong>Class:</strong> Analgesic</p>
+    <p>
+      Common pain reliever and fever reducer. High doses (over ~10g total)
+      can cause serious liver damage.
+    </p>
+  </div>
+
+  <div class="card drug">
+    <h3>Fentanyl</h3>
+    <p><strong>Class:</strong> Opioid</p>
+    <p>
+      Extremely potent opioid (80–100× stronger than morphine).
+      Overdose can rapidly cause breathing failure.
+    </p>
+  </div>
+
+  <div class="card drug">
+    <h3>Alprazolam</h3>
+    <p><strong>Class:</strong> Benzodiazepine</p>
+    <p>
+      Used for anxiety and panic disorders. High doses can cause sedation,
+      coma, and withdrawal seizures.
+    </p>
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <h2>iC42 Toxicology Laboratory</h2>
+    <h3>CU Anschutz</h3>
+    <p>
+      iC42 Toxicology Lab<br>
+      12705 East Montview Boulevard<br>
+      Bioscience II, Suite 200<br>
+      Aurora, CO 80045
+    </p>
+    <hr>
+  </div>
+</footer>
+
+<!-- SIMPLE SEARCH SCRIPT -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+  let filter = this.value.toLowerCase();
+  let drugs = document.querySelectorAll(".drug");
+
+  drugs.forEach(d => {
+    let text = d.innerText.toLowerCase();
+    d.style.display = text.includes(filter) ? "" : "none";
+  });
+});
+</script>
+
+</body>
+</html>

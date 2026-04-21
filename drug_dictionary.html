@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drug Dictionary</title>
+  <title>Drug Dictionary - iC42 Toxicology</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <header>
   <nav class="navbar">
     <h2 class="logo">iC42 Toxicology</h2>
@@ -21,6 +22,7 @@
 
 <main>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-text">
     <h1>Drug Dictionary</h1>
@@ -28,21 +30,81 @@
   </div>
 </section>
 
+<!-- SEARCH -->
 <section class="intro">
   <input type="text" id="searchInput" placeholder="Search drugs...">
 </section>
 
+<!-- DICTIONARY CONTENT -->
 <div id="dictionary"></div>
 
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-content">
     <h2>iC42 Toxicology Laboratory</h2>
+    <p>Aurora, CO</p>
   </div>
 </footer>
 
+<!-- LOAD DATA -->
 <script src="drugs.js"></script>
+
+<!-- RENDER + SEARCH LOGIC -->
+<script>
+const container = document.getElementById("dictionary");
+const searchInput = document.getElementById("searchInput");
+
+function render(filter = "") {
+  container.innerHTML = "";
+
+  drugs.forEach(category => {
+    // Create section
+    let section = document.createElement("section");
+    section.className = "dictionary-section";
+
+    // Category title
+    let title = document.createElement("h2");
+    title.textContent = category.category;
+    section.appendChild(title);
+
+    let hasResults = false;
+
+    category.items.forEach(drug => {
+      if (!drug.name.toLowerCase().includes(filter.toLowerCase())) return;
+
+      hasResults = true;
+
+      let details = document.createElement("details");
+      details.className = "drug";
+
+      let summary = document.createElement("summary");
+      summary.textContent = drug.name;
+
+      let desc = document.createElement("p");
+      desc.textContent = drug.description;
+
+      details.appendChild(summary);
+      details.appendChild(desc);
+      section.appendChild(details);
+    });
+
+    // Only show category if it has matching results
+    if (hasResults) {
+      container.appendChild(section);
+    }
+  });
+}
+
+// Search event
+searchInput.addEventListener("keyup", () => {
+  render(searchInput.value);
+});
+
+// Initial render
+render();
+</script>
 
 </body>
 </html>

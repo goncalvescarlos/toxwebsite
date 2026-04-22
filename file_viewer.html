@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>File Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Viewer - iC42 Toxicology</title>
 <link rel="stylesheet" href="style.css">
 
 <style>
@@ -10,6 +11,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background: white;
 }
 
 th, td {
@@ -22,10 +24,19 @@ th {
   text-align: left;
 }
 
+tr:hover {
+  background: #f9f9f9;
+}
+
 .delete-btn {
   cursor: pointer;
   color: red;
   font-weight: bold;
+  font-size: 18px;
+}
+
+.delete-btn:hover {
+  opacity: 0.7;
 }
 </style>
 
@@ -66,15 +77,27 @@ th {
 const urlParams = new URLSearchParams(window.location.search);
 const recordId = urlParams.get("id");
 
+// ===== LOAD FILE =====
 async function loadFile() {
-  const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
-  const text = await res.text();
+  try {
+    const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
+    const text = await res.text();
 
-  parseCSV(text);
+    parseCSV(text);
+
+  } catch (err) {
+    console.error("Error loading file:", err);
+  }
 }
 
+// ===== PARSE CSV =====
 function parseCSV(csv) {
-  const rows = csv.split("\n");
+  const rows = csv.trim().split("\n");
+
+  if (rows.length < 2) {
+    console.error("CSV format invalid");
+    return;
+  }
 
   const header = rows[0].split("\t");
   const values = rows[1].split("\t");
@@ -82,14 +105,14 @@ function parseCSV(csv) {
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  // Start at index 2 (skip Sample Name + Time)
+  // Start at index 2 (skip Sample Name + Acquisition Time)
   for (let i = 2; i < header.length; i += 2) {
 
-    const drug = header[i];
-    const value = values[i];
+    const drug = header[i]?.trim();
+    const value = values[i]?.trim();
 
-    // Skip empty values
-    if (!value || value === "N/A") continue;
+    // Skip empty or irrelevant values
+    if (!drug || !value || value === "N/A" || value === "Fail") continue;
 
     const tr = document.createElement("tr");
 
@@ -103,12 +126,13 @@ function parseCSV(csv) {
   }
 }
 
-// Delete row function
+// ===== DELETE ROW (LOCAL ONLY) =====
 function deleteRow(el) {
-  const row = el.closest("tr");
-  row.remove();
+  if (!confirm("Remove this row?")) return;
+  el.closest("tr").remove();
 }
 
+// INIT
 loadFile();
 </script>
 

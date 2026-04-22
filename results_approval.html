@@ -164,7 +164,7 @@ function renderTable(data) {
       <td>${id}</td>
       <td>${file}</td>
       <td>
-        <button class="action-btn view-btn" onclick="loadFile('${id}')">
+        <button class="action-btn view-btn" onclick="window.open('file_viewer.html?id=${id}', '_blank')">
           View
         </button>
       </td>

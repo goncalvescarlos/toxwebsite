@@ -7,73 +7,72 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-  .table-container {
-    max-width: 1100px;
-    margin: 40px auto;
-  }
+.table-container {
+  max-width: 1100px;
+  margin: 40px auto;
+}
 
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
-  }
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
 
-  .table-header input {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.table-header input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
 
-  th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
 
-  th {
-    background: #f5f5f5;
-    text-align: left;
-  }
+th {
+  background: #f5f5f5;
+  text-align: left;
+}
 
-  tr:hover {
-    background: #f9f9f9;
-  }
+tr:hover {
+  background: #f9f9f9;
+}
 
-  .action-btn {
-    padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.action-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-  .view-btn {
-    background: #0b3c6f;
-    color: #fff;
-  }
+.view-btn {
+  background: #0b3c6f;
+  color: #fff;
+}
 
-  .view-btn:hover {
-    opacity: 0.9;
-  }
+.view-btn:hover {
+  opacity: 0.9;
+}
 
-  #fileViewer {
-    margin-top: 25px;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-    white-space: pre-wrap;
-    font-family: monospace;
-    max-height: 400px;
-    overflow: auto;
-  }
+#fileViewer {
+  margin-top: 25px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  white-space: pre-wrap;
+  font-family: monospace;
+  max-height: 400px;
+  overflow: auto;
+}
 </style>
-
 </head>
 
 <body>
@@ -106,7 +105,8 @@
   <!-- FILTER -->
   <div class="table-header">
     <div>
-      Filter: <input type="text" id="filterInput" placeholder="Search by ID..." onkeyup="filterTable()">
+      Filter:
+      <input type="text" id="filterInput" placeholder="Search by ID..." onkeyup="filterTable()">
     </div>
     <button class="btn">Delete</button>
   </div>
@@ -121,7 +121,6 @@
         <th>Actions</th>
       </tr>
     </thead>
-
     <tbody id="tableBody"></tbody>
   </table>
 
@@ -135,13 +134,13 @@
 <script>
 let records = [];
 
-// ===== LOAD RECORDS FROM FLASK =====
+// LOAD RECORDS
 async function loadRecords() {
   try {
     const res = await fetch("http://127.0.0.1:5000/api/records");
     const data = await res.json();
 
-    records = data;
+    records = data || [];
     renderTable(records);
 
   } catch (err) {
@@ -149,39 +148,44 @@ async function loadRecords() {
   }
 }
 
-// ===== RENDER TABLE =====
+// RENDER TABLE (safer version)
 function renderTable(data) {
   const body = document.getElementById("tableBody");
   body.innerHTML = "";
 
   data.forEach(row => {
-    body.innerHTML += `
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>${row.id}</td>
-        <td>${row.file}</td>
-        <td>
-          <button class="action-btn view-btn" onclick="loadFile('${row.id}')">
-            View
-          </button>
-        </td>
-      </tr>
+    const tr = document.createElement("tr");
+
+    const id = row.id || "";
+    const file = row.file || "";
+
+    tr.innerHTML = `
+      <td><input type="checkbox"></td>
+      <td>${id}</td>
+      <td>${file}</td>
+      <td>
+        <button class="action-btn view-btn" onclick="loadFile('${id}')">
+          View
+        </button>
+      </td>
     `;
+
+    body.appendChild(tr);
   });
 }
 
-// ===== FILTER TABLE =====
+// FILTER TABLE
 function filterTable() {
-  const value = document.getElementById("filterInput").value.toLowerCase();
+  const value = document.getElementById("filterInput").value.toLowerCase().trim();
 
   const filtered = records.filter(r =>
-    r.id.toLowerCase().includes(value)
+    (r.id || "").toLowerCase().includes(value)
   );
 
   renderTable(filtered);
 }
 
-// ===== LOAD CSV FILE =====
+// LOAD FILE
 async function loadFile(recordId) {
   try {
     const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
@@ -194,7 +198,7 @@ async function loadFile(recordId) {
   }
 }
 
-// ===== INIT =====
+// INIT
 window.onload = loadRecords;
 </script>
 

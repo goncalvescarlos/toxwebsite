@@ -262,30 +262,25 @@ input {
     margin-top: 20px;
   }
 }
-/* ===== DASHBOARD (HOME) ===== */
 
-/* Center tiles */
-.cards-centered {
-  justify-content: center;
-  max-width: 1000px;
+/* ===== HOME BAR ===== */
+.home-bar {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+}
+
+.home-bar .container {
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-/* Make tiles clickable */
-.card-link {
+.home-bar a {
   text-decoration: none;
-  color: inherit;
-  display: block;
-  cursor: pointer;
+  color: #0b3c6f;
+  font-weight: 500;
 }
 
-/* Tile hover effect */
-.card-link:hover {
-  transform: translateY(-5px);
-  text-decoration: none;
-}
-
-/* Center content inside tile */
-.card-center {
-  text-align: center;
+.home-bar a:hover {
+  text-decoration: underline;
 }

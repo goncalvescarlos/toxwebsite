@@ -92,34 +92,41 @@ async function loadFile() {
 
 // ===== PARSE CSV =====
 function parseCSV(csv) {
-  const rows = csv.trim().split("\n");
+  const rows = csv.replace(/\r/g, "").split("\n");
 
-  if (rows.length < 2) {
-    console.error("CSV format invalid");
-    return;
-  }
+  if (rows.length < 2) return;
 
-  const header = rows[0].split("\t");
-  const values = rows[1].split("\t");
+  const delimiter = rows[0].includes("\t") ? "\t" : ",";
+
+  const header = rows[0].split(delimiter);
+  const values = rows[1].split(delimiter);
 
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  // Start at index 2 (skip Sample Name + Acquisition Time)
-  for (let i = 2; i < header.length; i += 2) {
+  for (let i = 2; i < header.length; i++) {
 
     const drug = header[i]?.trim();
     const value = values[i]?.trim();
 
-    // Skip empty or irrelevant values
-    if (!drug || !value || value === "N/A" || value === "Fail") continue;
+    // 👉 ADD IT HERE
+    console.log("Drug:", drug, "| Value:", value);
+
+    // Skip non-drug columns
+    if (!drug || drug.toLowerCase().includes("within bound")) continue;
+
+    // Skip useless values
+    if (!value || value === "N/A") continue;
+
+    // 🔥 Ignore Pass/Fail column (next column)
+    if (value.toLowerCase() === "pass" || value.toLowerCase() === "fail") continue;
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${drug}</td>
       <td>${value}</td>
-      <td><span class="delete-btn" onclick="deleteRow(this)">🗑</span></td>
+      <td><span onclick="deleteRow(this)">🗑</span></td>
     `;
 
     table.appendChild(tr);

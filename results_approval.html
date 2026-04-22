@@ -48,9 +48,8 @@ tr:hover {
 
 .action-btn {
   padding: 6px 10px;
-  border: none;
   border-radius: 4px;
-  cursor: pointer;
+  text-decoration: none;
 }
 
 .view-btn {
@@ -60,17 +59,6 @@ tr:hover {
 
 .view-btn:hover {
   opacity: 0.9;
-}
-
-#fileViewer {
-  margin-top: 25px;
-  padding: 15px;
-  background: #fff;
-  border: 1px solid #ddd;
-  white-space: pre-wrap;
-  font-family: monospace;
-  max-height: 400px;
-  overflow: auto;
 }
 </style>
 </head>
@@ -100,7 +88,6 @@ tr:hover {
 <div class="table-container">
 
   <h2>Approve Results</h2>
- 
 
   <!-- FILTER -->
   <div class="table-header">
@@ -124,9 +111,6 @@ tr:hover {
     <tbody id="tableBody"></tbody>
   </table>
 
-  <!-- FILE VIEWER -->
-  
-
 </div>
 
 </main>
@@ -134,7 +118,7 @@ tr:hover {
 <script>
 let records = [];
 
-// LOAD RECORDS
+// LOAD RECORDS FROM FLASK
 async function loadRecords() {
   try {
     const res = await fetch("http://127.0.0.1:5000/api/records");
@@ -148,25 +132,27 @@ async function loadRecords() {
   }
 }
 
-// RENDER TABLE (safer version)
+// RENDER TABLE
 function renderTable(data) {
   const body = document.getElementById("tableBody");
   body.innerHTML = "";
 
   data.forEach(row => {
-    const tr = document.createElement("tr");
-
     const id = row.id || "";
     const file = row.file || "";
+
+    const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td><input type="checkbox"></td>
       <td>${id}</td>
       <td>${file}</td>
       <td>
-        <button class="action-btn view-btn" onclick="window.open('file_viewer.html?id=${id}', '_blank')">
+        <a href="file_viewer.html?id=${encodeURIComponent(id)}"
+           target="_blank"
+           class="action-btn view-btn">
           View
-        </button>
+        </a>
       </td>
     `;
 
@@ -183,19 +169,6 @@ function filterTable() {
   );
 
   renderTable(filtered);
-}
-
-// LOAD FILE
-async function loadFile(recordId) {
-  try {
-    const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
-    const text = await res.text();
-
-    document.getElementById("fileViewer").innerText = text;
-
-  } catch (err) {
-    console.error("Error loading file:", err);
-  }
 }
 
 // INIT

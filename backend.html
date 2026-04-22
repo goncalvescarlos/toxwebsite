@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Report Lookup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <h2 class="logo">iC42 Toxicology</h2>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Retrieve Report</h1>
+    <p>Enter a record ID to retrieve results</p>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container">
+
+    <div class="card" style="max-width:500px; margin:auto; text-align:center;">
+
+      <input type="text" id="recordId" placeholder="Enter Record ID"><br><br>
+
+      <button class="btn" onclick="search()">Search</button>
+
+      <div id="result" style="margin-top:20px;"></div>
+
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<script>
+async function search() {
+  const id = document.getElementById("recordId").value;
+
+  const res = await fetch(`https://your-backend-url.com/api/get-record?id=${id}`);
+  const data = await res.json();
+
+  document.getElementById("result").innerHTML =
+    "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+}
+</script>
+
+</body>
+</html>

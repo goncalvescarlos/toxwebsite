@@ -262,3 +262,30 @@ input {
     margin-top: 20px;
   }
 }
+/* ===== DASHBOARD (HOME) ===== */
+
+/* Center tiles */
+.cards-centered {
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Make tiles clickable */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+/* Tile hover effect */
+.card-link:hover {
+  transform: translateY(-5px);
+  text-decoration: none;
+}
+
+/* Center content inside tile */
+.card-center {
+  text-align: center;
+}

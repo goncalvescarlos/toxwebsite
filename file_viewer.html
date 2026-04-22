@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>File Viewer</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #f5f5f5;
+  text-align: left;
+}
+
+.delete-btn {
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <h2 class="logo">iC42 Toxicology</h2>
+  </nav>
+</header>
+
+<section class="home-bar">
+  <div class="container">
+    <a href="results-approval.html">← Back to Results</a>
+  </div>
+</section>
+
+<main class="container">
+
+<h2>Drug Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Drug</th>
+      <th>Value</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+</main>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const recordId = urlParams.get("id");
+
+async function loadFile() {
+  const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
+  const text = await res.text();
+
+  parseCSV(text);
+}
+
+function parseCSV(csv) {
+  const rows = csv.split("\n");
+
+  const header = rows[0].split("\t");
+  const values = rows[1].split("\t");
+
+  const table = document.getElementById("tableBody");
+  table.innerHTML = "";
+
+  // Start at index 2 (skip Sample Name + Time)
+  for (let i = 2; i < header.length; i += 2) {
+
+    const drug = header[i];
+    const value = values[i];
+
+    // Skip empty values
+    if (!value || value === "N/A") continue;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${drug}</td>
+      <td>${value}</td>
+      <td><span class="delete-btn" onclick="deleteRow(this)">🗑</span></td>
+    `;
+
+    table.appendChild(tr);
+  }
+}
+
+// Delete row function
+function deleteRow(el) {
+  const row = el.closest("tr");
+  row.remove();
+}
+
+loadFile();
+</script>
+
+</body>
+</html>

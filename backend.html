@@ -15,7 +15,7 @@
     <h2 class="logo">iC42 Toxicology</h2>
 
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="backend.html">Home</a>
       <a href="reports.html">Reports</a>
       <a href="about.html">About</a>
       <a href="drug_dictionary.html">Drug Dictionary</a>
@@ -26,38 +26,50 @@
   </nav>
 </header>
 
-<main>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Results Dashboard</h1>
-    <p>Access laboratory reporting tools</p>
-  </div>
-
-  <div class="hero-image">
-    <img src="lab.png" alt="Lab">
+<!-- HOME BAR (ALWAYS VISIBLE) -->
+<section class="home-bar">
+  <div class="container">
+    <a href="backend.html">← Back to Dashboard</a>
   </div>
 </section>
+
+<main>
+
 
 <!-- CONTENT -->
 <section class="content">
   <div class="container">
 
-    <div class="cards" style="justify-content:center;">
+    <div class="cards cards-centered">
 
       <!-- TILE 1 -->
-      <div class="card" style="text-align:center;">
+      <div class="card card-center">
         <h3>Results Approval</h3>
-        <p>Review and approve laboratory results</p>
-        <a href="#" class="btn">Open</a>
+        <a href="results-approval.html" class="btn">Open</a>
       </div>
 
       <!-- TILE 2 -->
-      <div class="card" style="text-align:center;">
+      <div class="card card-center">
         <h3>Results Report</h3>
-        <p>Download and view finalized reports</p>
-        <a href="#" class="btn">Open</a>
+        <a href="results-report.html" class="btn">Open</a>
+      </div>
+
+      <!-- TILE 3 -->
+      <div class="card card-center">
+        <h3>Sample Check-In</h3>
+        <a href="sample-checkin.html" class="btn">Open</a>
+      </div>
+
+      <!-- TILE 4 -->
+      <div class="card card-center">
+        <h3>Targeted LC/MS Upload</h3>
+        <a href="targeted-upload.html" class="btn">Upload</a>
+      </div>
+
+      <!-- TILE 5 -->
+      <div class="card card-center">
+        <h3>Untargeted LC/MS Upload</h3>
+        <a href="untargeted-upload.html" class="btn">Upload</a>
       </div>
 
     </div>
@@ -67,32 +79,7 @@
 
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-container">
 
-    <div class="footer-text">
-      <h2>iC42 Toxicology Laboratory</h2>
-
-      <h3>CU Anschutz</h3>
-
-      <p>
-        iC42 Toxicology Lab<br>
-        12705 East Montview Boulevard<br>
-        Bioscience II, Suite 200<br>
-        Aurora, CO 80045
-      </p>
-    </div>
-
-    <div class="footer-images">
-      <img src="cap-accredited-logo-700x302.png" alt="CAP Accredited">
-      <img src="clia-certified-700x302.png" alt="CLIA Certified">
-    </div>
-
-  </div>
-
-  <hr class="footer-line">
-</footer>
 
 </body>
 </html>

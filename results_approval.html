@@ -138,26 +138,26 @@ function renderTable(data) {
   body.innerHTML = "";
 
   data.forEach(row => {
-    const id = row.id || "";
-    const file = row.file || "";
+  const recordId = row.record_id;   // correct backend key
+  const req = row.req || "";        // display
+  const file = row.file || "";
 
-    const tr = document.createElement("tr");
+  const tr = document.createElement("tr");
 
-    tr.innerHTML = `
-      <td><input type="checkbox"></td>
-      <td>${id}</td>
-      <td>${file}</td>
-      <td>
-        <a href="file_viewer.html?id=${encodeURIComponent(id)}"
-           target="_blank"
-           class="action-btn view-btn">
-          View
-        </a>
-      </td>
-    `;
+  tr.innerHTML = `
+    <td><input type="checkbox"></td>
+    <td>${req}</td>
+    <td>${file}</td>
+    <td>
+      <a href="file_viewer.html?id=${encodeURIComponent(recordId)}"
+         class="action-btn view-btn">
+        View
+      </a>
+    </td>
+  `;
 
-    body.appendChild(tr);
-  });
+  body.appendChild(tr);
+});
 }
 
 // FILTER TABLE

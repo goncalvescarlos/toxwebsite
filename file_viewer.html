@@ -110,33 +110,42 @@ function parseCSV(csv) {
 
   if (rows.length < 2) return;
 
-  const delimiter = rows[0].includes("\t") ? "\t" : ",";
-
+  const delimiter = ",";
   const header = rows[0].split(delimiter);
   const values = rows[1].split(delimiter);
 
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  for (let i = 0; i < header.length; i++) {
+  // Start AFTER metadata columns (first 2 columns)
+  for (let i = 2; i < header.length; i += 2) {
 
     const drug = header[i]?.trim();
-    const value = values[i]?.trim();
+    const concentration = values[i]?.trim();
+    const result = values[i + 1]?.trim();
 
-    if (!drug || !value || value === "N/A") continue;
+    // Skip invalid
+    if (!drug || !concentration || !result) continue;
+
+    // 🔥 ONLY PASS
+    if (result.toLowerCase() !== "pass") continue;
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${drug}</td>
-      <td>${value}</td>
+      <td>${concentration}</td>
       <td><span class="delete-btn" onclick="deleteRow(this)">🗑</span></td>
     `;
 
     table.appendChild(tr);
   }
-}
 
+  // Optional: show message if nothing passed
+  if (table.innerHTML === "") {
+    table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
+  }
+}
 function deleteRow(el) {
   if (!confirm("Remove this row?")) return;
   el.closest("tr").remove();

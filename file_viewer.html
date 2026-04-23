@@ -78,7 +78,6 @@ tr:hover {
 <script>
 console.log("JS LOADED");
 
-// GET RECORD ID FROM URL
 const urlParams = new URLSearchParams(window.location.search);
 const recordId = urlParams.get("id");
 
@@ -90,8 +89,6 @@ async function loadFile() {
   }
 
   try {
-    console.log("Loading file for ID:", recordId);
-
     const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
 
     if (!res.ok) {
@@ -99,8 +96,6 @@ async function loadFile() {
     }
 
     const text = await res.text();
-    console.log("CSV TEXT:", text);
-
     parseCSV(text);
 
   } catch (err) {
@@ -109,16 +104,12 @@ async function loadFile() {
   }
 }
 
-// PARSE CSV (ROBUST VERSION)
+// PARSE CSV
 function parseCSV(csv) {
   const rows = csv.replace(/\r/g, "").split("\n");
 
-  if (rows.length < 2) {
-    console.warn("CSV too short");
-    return;
-  }
+  if (rows.length < 2) return;
 
-  // Detect delimiter automatically
   const delimiter = rows[0].includes("\t") ? "\t" : ",";
 
   const header = rows[0].split(delimiter);
@@ -127,15 +118,12 @@ function parseCSV(csv) {
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  // Loop through columns
   for (let i = 0; i < header.length; i++) {
 
     const drug = header[i]?.trim();
     const value = values[i]?.trim();
 
-    // Skip empty or useless values
-    if (!drug || !value) continue;
-    if (value === "N/A" || value === "") continue;
+    if (!drug || !value || value === "N/A") continue;
 
     const tr = document.createElement("tr");
 
@@ -149,7 +137,6 @@ function parseCSV(csv) {
   }
 }
 
-// DELETE ROW (FRONTEND ONLY)
 function deleteRow(el) {
   if (!confirm("Remove this row?")) return;
   el.closest("tr").remove();

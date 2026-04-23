@@ -87,13 +87,13 @@ tr:hover {
 
 <div class="table-container">
 
-  <h2>pprove esults</h2>
+  <h2>Approve Results</h2>
 
   <!-- FILTER -->
   <div class="table-header">
     <div>
       Filter:
-      <input type="text" id="filterInput" placeholder="Search by ID..." onkeyup="filterTable()">
+      <input type="text" id="filterInput" placeholder="Search by Req #" onkeyup="filterTable()">
     </div>
     <button class="btn">Delete</button>
   </div>
@@ -103,7 +103,7 @@ tr:hover {
     <thead>
       <tr>
         <th><input type="checkbox"></th>
-        <th>ID</th>
+        <th>Req #</th>
         <th>File</th>
         <th>Actions</th>
       </tr>
@@ -118,7 +118,9 @@ tr:hover {
 <script>
 let records = [];
 
-// LOAD RECORDS FROM FLASK
+// ========================
+// LOAD RECORDS
+// ========================
 async function loadRecords() {
   try {
     const res = await fetch("http://127.0.0.1:5000/api/records");
@@ -132,46 +134,52 @@ async function loadRecords() {
   }
 }
 
+// ========================
 // RENDER TABLE
+// ========================
 function renderTable(data) {
   const body = document.getElementById("tableBody");
   body.innerHTML = "";
 
   data.forEach(row => {
-  const recordId = row.record_id;   // correct backend key
-  const req = row.req || "";        // display
-  const file = row.file || "";
+    const recordId = row.record_id;   // used for API
+    const req = row.req || "";        // displayed (requisition number)
+    const file = row.file || "";
 
-  const tr = document.createElement("tr");
+    const tr = document.createElement("tr");
 
-  tr.innerHTML = `
-    <td><input type="checkbox"></td>
-    <td>${req}</td>
-    <td>${file}</td>
-    <td>
-      <a href="file_viewer.html?id=${encodeURIComponent(recordId)}"
-         class="action-btn view-btn">
-        View
-      </a>
-    </td>
-  `;
+    tr.innerHTML = `
+      <td><input type="checkbox"></td>
+      <td>${req}</td>
+      <td>${file}</td>
+      <td>
+        <a href="file_viewer.html?id=${encodeURIComponent(recordId)}"
+           class="action-btn view-btn">
+          View
+        </a>
+      </td>
+    `;
 
-  body.appendChild(tr);
-});
+    body.appendChild(tr);
+  });
 }
 
-// FILTER TABLE
+// ========================
+// FILTER TABLE (FIXED)
+// ========================
 function filterTable() {
   const value = document.getElementById("filterInput").value.toLowerCase().trim();
 
   const filtered = records.filter(r =>
-    (r.id || "").toLowerCase().includes(value)
+    (r.req || "").toLowerCase().includes(value)
   );
 
   renderTable(filtered);
 }
 
+// ========================
 // INIT
+// ========================
 window.onload = loadRecords;
 </script>
 

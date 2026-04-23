@@ -6,6 +6,9 @@
 <title>File Viewer - iC42 Toxicology</title>
 <link rel="stylesheet" href="style.css">
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 table {
   width: 100%;
@@ -38,6 +41,15 @@ tr:hover {
 .delete-btn:hover {
   opacity: 0.7;
 }
+
+.submit-btn {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 </style>
 
 </head>
@@ -60,7 +72,7 @@ tr:hover {
 
 <main class="container">
 
-<h2>Drug Result</h2>
+<h2>Drug Results</h2>
 
 <table>
   <thead>
@@ -73,15 +85,23 @@ tr:hover {
   <tbody id="tableBody"></tbody>
 </table>
 
+<div style="text-align:center; margin-top: 20px;">
+  <button class="submit-btn" onclick="submitReport()">
+    Submit Report
+  </button>
+</div>
+
 </main>
 
 <script>
-console.log("JS LOADED");
-
 const urlParams = new URLSearchParams(window.location.search);
 const recordId = urlParams.get("id");
 
+let currentRows = []; // store rows for PDF
+
+// =========================
 // LOAD FILE FROM BACKEND
+// =========================
 async function loadFile() {
   if (!recordId) {
     alert("Missing record ID");
@@ -99,36 +119,38 @@ async function loadFile() {
     parseCSV(text);
 
   } catch (err) {
-    console.error("Error loading file:", err);
+    console.error(err);
     alert("Error loading file");
   }
 }
 
+// =========================
 // PARSE CSV
+// =========================
 function parseCSV(csv) {
   const rows = csv.replace(/\r/g, "").split("\n");
 
   if (rows.length < 2) return;
 
-  const delimiter = ",";
-  const header = rows[0].split(delimiter);
-  const values = rows[1].split(delimiter);
+  const header = rows[0].split(",");
+  const values = rows[1].split(",");
 
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
+  currentRows = [];
 
-  // Start AFTER metadata columns (first 2 columns)
   for (let i = 2; i < header.length; i += 2) {
 
     const drug = header[i]?.trim();
     const concentration = values[i]?.trim();
     const result = values[i + 1]?.trim();
 
-    // Skip invalid
     if (!drug || !concentration || !result) continue;
 
-    // 🔥 ONLY PASS
+    // ONLY PASS
     if (result.toLowerCase() !== "pass") continue;
+
+    currentRows.push({ drug, concentration });
 
     const tr = document.createElement("tr");
 
@@ -141,14 +163,41 @@ function parseCSV(csv) {
     table.appendChild(tr);
   }
 
-  // Optional: show message if nothing passed
   if (table.innerHTML === "") {
     table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
   }
 }
+
+// =========================
+// DELETE ROW
+// =========================
 function deleteRow(el) {
   if (!confirm("Remove this row?")) return;
   el.closest("tr").remove();
+}
+
+// =========================
+// GENERATE PDF + SUBMIT
+// =========================
+function submitReport() {
+  if (!confirm("Submit this report?")) return;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  doc.text(`Requisition ID: ${recordId}`, 10, y);
+  y += 10;
+
+  currentRows.forEach(row => {
+    doc.text(`${row.drug}: ${row.concentration}`, 10, y);
+    y += 8;
+  });
+
+  doc.save(`report_${recordId}.pdf`);
+
+  alert("PDF generated (upload step comes next)");
 }
 
 // INIT

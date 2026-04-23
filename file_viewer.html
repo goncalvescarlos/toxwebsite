@@ -58,7 +58,7 @@ tr:hover {
 
 <main class="container">
 
-<h2>Drug Resul</h2>
+<h2>Drug Results</h2>
 
 <table>
   <thead>
@@ -74,14 +74,20 @@ tr:hover {
 </main>
 
 <script>
+console.log("JS LOADED");
+
 const urlParams = new URLSearchParams(window.location.search);
 const recordId = urlParams.get("id");
 
-// ===== LOAD FILE =====
+// LOAD FILE
 async function loadFile() {
   try {
+    console.log("Loading file for ID:", recordId);
+
     const res = await fetch(`http://127.0.0.1:5000/api/get-file?id=${recordId}`);
     const text = await res.text();
+
+    console.log("CSV TEXT:", text);
 
     parseCSV(text);
 
@@ -90,7 +96,7 @@ async function loadFile() {
   }
 }
 
-// ===== PARSE CSV =====
+// PARSE CSV (FIXED)
 function parseCSV(csv) {
   const rows = csv.replace(/\r/g, "").split("\n");
 
@@ -104,36 +110,31 @@ function parseCSV(csv) {
   const table = document.getElementById("tableBody");
   table.innerHTML = "";
 
-  for (let i = 2; i < header.length; i++) {
+  // 🔥 IMPORTANT: step by 2
+  for (let i = 2; i < header.length; i += 2) {
 
     const drug = header[i]?.trim();
     const value = values[i]?.trim();
 
-    // 👉 ADD IT HERE
-    console.log("Drug:", drug, "| Value:", value);
+    console.log("PAIR:", drug, value);
 
-    // Skip non-drug columns
-    if (!drug || drug.toLowerCase().includes("within bound")) continue;
-
-    // Skip useless values
-    if (!value || value === "N/A") continue;
-
-    // 🔥 Ignore Pass/Fail column (next column)
-    if (value.toLowerCase() === "pass" || value.toLowerCase() === "fail") continue;
+    // Skip invalid values
+    if (!drug || !value) continue;
+    if (value === "N/A") continue;
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${drug}</td>
       <td>${value}</td>
-      <td><span onclick="deleteRow(this)">🗑</span></td>
+      <td><span class="delete-btn" onclick="deleteRow(this)">🗑</span></td>
     `;
 
     table.appendChild(tr);
   }
 }
 
-// ===== DELETE ROW (LOCAL ONLY) =====
+// DELETE ROW (LOCAL ONLY)
 function deleteRow(el) {
   if (!confirm("Remove this row?")) return;
   el.closest("tr").remove();

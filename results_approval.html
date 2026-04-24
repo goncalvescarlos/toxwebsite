@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -35,6 +36,7 @@ table {
 th, td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  vertical-align: top;
 }
 
 th {
@@ -46,26 +48,32 @@ tr:hover {
   background: #f9f9f9;
 }
 
+.file-item {
+  margin-bottom: 6px;
+}
+
 .action-btn {
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-radius: 4px;
   text-decoration: none;
+  font-size: 12px;
 }
 
 .view-btn {
   background: #0b3c6f;
   color: #fff;
+  margin-left: 8px;
 }
 
 .view-btn:hover {
   opacity: 0.9;
 }
 </style>
+
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <header>
   <nav class="navbar">
     <h2 class="logo">iC42 Toxicology</h2>
@@ -76,7 +84,6 @@ tr:hover {
   </nav>
 </header>
 
-<!-- HOME BAR -->
 <section class="home-bar">
   <div class="container">
     <a href="backend.html">← Back to Dashboard</a>
@@ -84,12 +91,10 @@ tr:hover {
 </section>
 
 <main>
-
 <div class="table-container">
 
-  <h2>Approve Result</h2>
+  <h2>pprove Result</h2>
 
-  <!-- FILTER -->
   <div class="table-header">
     <div>
       Filter:
@@ -98,29 +103,25 @@ tr:hover {
     <button class="btn">Delete</button>
   </div>
 
-  <!-- TABLE -->
   <table id="resultsTable">
     <thead>
       <tr>
         <th><input type="checkbox"></th>
         <th>Req #</th>
         <th>File</th>
-        <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
 
 </div>
-
 </main>
 
 <script>
 let records = [];
 
-// ========================
 // LOAD RECORDS
-// ========================
 async function loadRecords() {
   try {
     const res = await fetch("http://127.0.0.1:5000/api/records");
@@ -134,39 +135,51 @@ async function loadRecords() {
   }
 }
 
-// ========================
-// RENDER TABLE
-// ========================
+// RENDER TABLE (GROUPED BY REQ)
 function renderTable(data) {
   const body = document.getElementById("tableBody");
   body.innerHTML = "";
 
-  data.forEach(row => {
-    const recordId = row.record_id;   // used for API
-    const req = row.req || "";        // displayed (requisition number)
-    const file = row.file || "";
+  const grouped = {};
+
+  data.forEach(r => {
+    const reqs = (r.req || "").split(",").map(x => x.trim());
+
+    reqs.forEach(req => {
+      if (!grouped[req]) {
+        grouped[req] = [];
+      }
+      grouped[req].push(r);
+    });
+  });
+
+  Object.keys(grouped).forEach(req => {
+    const rows = grouped[req];
 
     const tr = document.createElement("tr");
+
+    const fileList = rows.map(r => `
+      <div class="file-item">
+        ${r.file}
+        <a href="file_viewer.html?id=${encodeURIComponent(r.record_id)}&source=${encodeURIComponent(r.source)}"
+           class="action-btn view-btn">
+           View
+        </a>
+      </div>
+    `).join("");
 
     tr.innerHTML = `
       <td><input type="checkbox"></td>
       <td>${req}</td>
-      <td>${file}</td>
-      <td>
-        <a href="file_viewer.html?id=${encodeURIComponent(recordId)}"
-           class="action-btn view-btn">
-          View
-        </a>
-      </td>
+      <td>${fileList}</td>
+      <td></td>
     `;
 
     body.appendChild(tr);
   });
 }
 
-// ========================
-// FILTER TABLE (FIXED)
-// ========================
+// FILTER TABLE
 function filterTable() {
   const value = document.getElementById("filterInput").value.toLowerCase().trim();
 
@@ -177,9 +190,7 @@ function filterTable() {
   renderTable(filtered);
 }
 
-// ========================
 // INIT
-// ========================
 window.onload = loadRecords;
 </script>
 

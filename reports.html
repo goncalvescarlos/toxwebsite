@@ -1,34 +1,60 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reports - iC42 Toxicology</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    #reportContainer {
+      margin-top: 30px;
+    }
+
+    .loading {
+      color: #555;
+      margin-top: 15px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 15px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      margin-top: 15px;
+    }
+  </style>
+
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <header>
   <nav class="navbar">
     <h2 class="logo">iC42 Toxicology</h2>
 
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="reports.html">Reports</a>
-      <a href="about.html">About</a>
-      <a href="drug_dictionary.html">Drug Dictionary</a>
-      <a href="publications.html">Publications</a>
-      <a href="contacts.html">Contact</a>
-      <a href="login.html">Login</a>
-    </div>
+```
+<div class="nav-links">
+  <a href="index.html">Home</a>
+  <a href="reports.html">Reports</a>
+  <a href="about.html">About</a>
+  <a href="drug_dictionary.html">Drug Dictionary</a>
+  <a href="publications.html">Publications</a>
+  <a href="contacts.html">Contact</a>
+  <a href="login.html">Login</a>
+</div>
+```
+
   </nav>
 </header>
 
 <main>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-text">
     <h1>Access Reports</h1>
@@ -40,7 +66,6 @@
   </div>
 </section>
 
-<!-- SEARCH SECTION -->
 <section class="intro">
 
   <h2>Search for Your Report</h2>
@@ -49,57 +74,92 @@
     <input 
       type="text" 
       id="sampleID" 
-      placeholder="Enter Sample ID (e.g., IC42-12345)" 
+      placeholder="Enter Sample ID (e.g., 1011789)" 
       required
     >
     <br><br>
 
-    <button type="submit" class="btn">Search</button>
+```
+<button type="submit" class="btn">Search</button>
+```
+
   </form>
+
+  <!-- REPORT DISPLAY -->
+
+  <div id="reportContainer"></div>
 
 </section>
 
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-container">
 
-    <div class="footer-text">
-      <h2>iC42 Toxicology Laboratory</h2>
+```
+<div class="footer-text">
+  <h2>iC42 Toxicology Laboratory</h2>
 
-      <h3>CU Anschutz</h3>
+  <h3>CU Anschutz</h3>
 
-      <p>
-        iC42 Toxicology Lab<br>
-        12705 East Montview Boulevard<br>
-        Bioscience II, Suite 200<br>
-        Aurora, CO 80045
-      </p>
-    </div>
+  <p>
+    iC42 Toxicology Lab<br>
+    12705 East Montview Boulevard<br>
+    Bioscience II, Suite 200<br>
+    Aurora, CO 80045
+  </p>
+</div>
 
-    <div class="footer-images">
-      <img src="cap-accredited-logo-700x302.png" alt="CAP Accredited">
-      <img src="clia-certified-700x302.png" alt="CLIA Certified">
-    </div>
+<div class="footer-images">
+  <img src="cap-accredited-logo-700x302.png" alt="CAP Accredited">
+  <img src="clia-certified-700x302.png" alt="CLIA Certified">
+</div>
+```
 
   </div>
 
   <hr>
 </footer>
 
-<!-- JAVASCRIPT -->
 <script>
-document.getElementById("searchForm").addEventListener("submit", function(e) {
+document.getElementById("searchForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const sampleID = document.getElementById("sampleID").value.trim();
+  const container = document.getElementById("reportContainer");
 
-  const baseURL = "https://redcap.ucdenver.edu/surveys/?s=47N33RNMT8HWAXH7";
+  // Loading message
+  container.innerHTML = "<p class='loading'>Loading report...</p>";
 
-  const fullURL = baseURL + "&sample_id=" + encodeURIComponent(sampleID);
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:5000/api/get-report-by-req?req=${encodeURIComponent(sampleID)}`
+    );
 
-  window.location.href = fullURL;
+    if (!res.ok) {
+      container.innerHTML = "<p class='error'>Report not found.</p>";
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+
+    container.innerHTML = `
+      <h3>Report for ${sampleID}</h3>
+
+      <iframe src="${url}"></iframe>
+
+      <br><br>
+
+      <a href="${url}" download="report_${sampleID}.pdf">
+        <button class="btn">Download Report</button>
+      </a>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p class='error'>Error retrieving report.</p>";
+  }
 });
 </script>
 

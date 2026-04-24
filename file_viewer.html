@@ -1,106 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Viewer - iC42 Toxicology</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .navbar {
+      background: #003366;
+      color: white;
+      padding: 14px 24px;
+    }
+
+    .home-bar {
+      background: #e9ecef;
+      padding: 8px 24px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h2 { color: #003366; margin-top: 30px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th { background: #f0f4f8; }
+
+    .delete-btn {
+      cursor: pointer;
+      color: red;
+      border: none;
+      background: none;
+    }
+
+    .submit-btn {
+      background: #28a745;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header class="navbar">
+  <h2>iC42 Toxicology</h2>
+</header>
+
+<div class="home-bar">
+  <a href="results_approval.html">← Back to Results</a>
+</div>
+
+<main class="container">
+
+<h2>Results for Req: <span id="reqLabel"></span></h2>
+
+<h2>argeted</h2>
+<table>
+  <thead>
+    <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
+  </thead>
+  <tbody id="targetedBody"></tbody>
+</table>
+
+<h2>Untargeted</h2>
+<table>
+  <thead>
+    <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
+  </thead>
+  <tbody id="untargetedBody"></tbody>
+</table>
+
+<button class="submit-btn" onclick="submitReport()">Submit Report</button>
+
+</main>
+
 <script>
 const req = new URLSearchParams(window.location.search).get("req");
+document.getElementById("reqLabel").textContent = req;
 
 const rows = {
   targeted: [],
   untargeted: []
 };
 
-window.addEventListener("DOMContentLoaded", async () => {
+// =========================
+// LOAD FILES BY REQ
+// =========================
+async function loadFiles() {
   if (!req) {
-    showError("targeted", "Missing req in URL");
-    showError("untargeted", "Missing req in URL");
+    alert("Missing req");
     return;
   }
 
-  try {
-    // STEP 1: get all files for this req
-    const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
-    const files = await res.json();
+  const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
+  const files = await res.json();
 
-    if (!files.length) {
-      showError("targeted", "No files found");
-      showError("untargeted", "No files found");
-      return;
-    }
+  console.log("FILES:", files);
 
-    // STEP 2: fetch each file using record_id
-    for (const f of files) {
-      const fileRes = await fetch(
-        `http://127.0.0.1:5000/api/get-file?id=${f.record_id}&source=${f.source}`
-      );
+  for (const f of files) {
+    const fileRes = await fetch(
+      `http://127.0.0.1:5000/api/get-file?id=${f.record_id}&source=${f.source}`
+    );
 
-      const csv = await fileRes.text();
-      parseCSV(csv, f.source);
-    }
-
-  } catch (err) {
-    console.error(err);
-    showError("targeted", "Error loading data");
-    showError("untargeted", "Error loading data");
+    const csv = await fileRes.text();
+    parseCSV(csv, f.source);
   }
-});
-
+}
 
 // =========================
 // PARSE CSV
 // =========================
 function parseCSV(csv, source) {
-  const tableBody = document.getElementById(`${source}Body`);
-  tableBody.innerHTML = "";
+  const table = document.getElementById(source + "Body");
+  table.innerHTML = "";
   rows[source] = [];
 
-  const allRows = csv.replace(/\r/g, "").split("\n").filter(Boolean);
+  const lines = csv.replace(/\r/g, "").split("\n");
 
-  if (allRows.length < 2) {
-    setTableMessage(source, "No data");
-    return;
-  }
+  if (lines.length < 2) return;
 
-  const headers = allRows[0].split(",");
-  const values  = allRows[1].split(",");
+  const headers = lines[0].split(",");
+  const values = lines[1].split(",");
 
-  let added = 0;
-
-  for (let i = 2; i + 1 < headers.length; i += 2) {
+  for (let i = 2; i < headers.length; i += 2) {
     const drug = headers[i]?.trim();
-    const concentration = values[i]?.trim();
+    const conc = values[i]?.trim();
     const result = values[i + 1]?.trim();
 
-    if (!drug || !concentration || !result) continue;
+    if (!drug || !conc || !result) continue;
     if (result.toLowerCase() !== "pass") continue;
 
-    rows[source].push({ drug, concentration });
+    rows[source].push({ drug, conc });
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${drug}</td>
-      <td>${concentration}</td>
+      <td>${conc}</td>
       <td><button class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</button></td>
     `;
-
-    tableBody.appendChild(tr);
-    added++;
+    table.appendChild(tr);
   }
 
-  if (added === 0) {
-    setTableMessage(source, "No passing results");
+  if (table.innerHTML === "") {
+    table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
   }
 }
 
-
 // =========================
-// DELETE
+// DELETE ROW
 // =========================
 function deleteRow(btn, drug, source) {
-  if (!confirm(`Remove ${drug}?`)) return;
   btn.closest("tr").remove();
   rows[source] = rows[source].filter(r => r.drug !== drug);
 }
 
-
 // =========================
-// PDF
+// GENERATE PDF
 // =========================
 function submitReport() {
   const { jsPDF } = window.jspdf;
@@ -117,7 +201,7 @@ function submitReport() {
     y += 8;
 
     rows[source].forEach(r => {
-      doc.text(`${r.drug}: ${r.concentration}`, 10, y);
+      doc.text(`${r.drug}: ${r.conc}`, 10, y);
       y += 6;
     });
 
@@ -127,18 +211,9 @@ function submitReport() {
   doc.save(`report_${req}.pdf`);
 }
 
-
-// =========================
-// HELPERS
-// =========================
-function showError(source, msg) {
-  const el = document.getElementById(`${source}Error`);
-  el.textContent = msg;
-  el.style.display = "block";
-}
-
-function setTableMessage(source, msg) {
-  const tbody = document.getElementById(`${source}Body`);
-  tbody.innerHTML = `<tr><td colspan="3">${msg}</td></tr>`;
-}
+// INIT
+loadFiles();
 </script>
+
+</body>
+</html>

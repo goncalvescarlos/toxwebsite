@@ -93,7 +93,7 @@ tr:hover {
 <main>
 <div class="table-container">
 
-  <h2>pprove Result</h2>
+  <h2>Approve Result</h2>
 
   <div class="table-header">
     <div>
@@ -158,21 +158,26 @@ function renderTable(data) {
 
     const tr = document.createElement("tr");
 
+    // 🔹 FILE LIST (NO BUTTON HERE)
     const fileList = rows.map(r => `
       <div class="file-item">
         ${r.file}
-        <a href="file_viewer.html?id=${encodeURIComponent(r.record_id)}&source=${encodeURIComponent(r.source)}"
-           class="action-btn view-btn">
-           View
-        </a>
       </div>
     `).join("");
+
+    // 🔹 SINGLE BUTTON (use first record as reference OR pass req)
+    const first = rows[0];
 
     tr.innerHTML = `
       <td><input type="checkbox"></td>
       <td>${req}</td>
       <td>${fileList}</td>
-      <td></td>
+      <td>
+        <a href="file_viewer.html?req=${encodeURIComponent(req)}"
+           class="action-btn view-btn">
+           View
+        </a>
+      </td>
     `;
 
     body.appendChild(tr);

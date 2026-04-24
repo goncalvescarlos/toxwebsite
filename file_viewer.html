@@ -88,6 +88,12 @@ tr:hover {
   </nav>
 </header>
 
+<section class="home-bar">
+  <div class="container">
+    <a href="results_approval.html">← Back to Results Approval</a>
+  </div>
+</section>
+
 <div class="container">
 
 <h2>Approve Result (Req: <span id="reqLabel"></span>)</h2>
@@ -261,7 +267,9 @@ function deleteRow(el, drug, source) {
 // =========================
 // PDF
 // =========================
-function submitReport() {
+async function submitReport() {
+  if (!confirm("Submit and upload report?")) return;
+
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
@@ -283,9 +291,29 @@ function submitReport() {
     y += 6;
   });
 
+  // ✅ Download locally
   doc.save(`report_${req}.pdf`);
-}
 
+  // ✅ Upload to backend
+  const blob = doc.output("blob");
+
+  const formData = new FormData();
+  formData.append("file", blob, `report_${req}.pdf`);
+  formData.append("req", req);
+
+  const res = await fetch("http://127.0.0.1:5000/api/upload-report", {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await res.json();
+
+  if (result.error) {
+    alert("Upload failed: " + result.error);
+  } else {
+    alert("Report uploaded to REDCap!");
+  }
+}
 
 // INIT
 loadFiles();

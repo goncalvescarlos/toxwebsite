@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>View Results - iC42 Toxicology</title>
+<link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -85,11 +86,22 @@ tr:hover {
 
 <body>
 
-<div class="navbar">
-  <div>iC42 Toxicology</div>
-  <div>Home | Logout</div>
-</div>
+<header>
+  <nav class="navbar">
+    <h2 class="logo">iC42 Toxicology</h2>
+    <div class="nav-links">
+      <a href="backend.html">Home</a>
+      <a href="login.html">Logout</a>
+    </div>
+  </nav>
+</header>
 
+<section class="home-bar">
+  <div class="container">
+    <a href="backend.html">← Back to Dashboard</a>
+  </div>
+</section>
+  
 <div class="container">
 
 <h2>Approve Result (Req: <span id="reqLabel"></span>)</h2>

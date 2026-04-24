@@ -2,129 +2,146 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>File Viewer - iC42 Toxicology</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Results - iC42 Toxicology</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-    }
+.navbar {
+  background: #000;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+}
 
-    .navbar {
-      background: #003366;
-      color: white;
-      padding: 14px 24px;
-    }
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+}
 
-    .home-bar {
-      background: #e9ecef;
-      padding: 8px 24px;
-    }
+h2 {
+  margin-bottom: 20px;
+}
 
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
 
-    h2 { color: #003366; margin-top: 30px; }
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      margin-top: 10px;
-    }
+th {
+  background: #eee;
+  text-align: left;
+}
 
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
+tr:hover {
+  background: #f9f9f9;
+}
 
-    th { background: #f0f4f8; }
+.section {
+  margin-bottom: 40px;
+}
 
-    .delete-btn {
-      cursor: pointer;
-      color: red;
-      border: none;
-      background: none;
-    }
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-    .submit-btn {
-      background: #28a745;
-      color: white;
-      padding: 10px 24px;
-      border: none;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-  </style>
+.delete-btn {
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
+
+.submit-btn {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+</style>
 
 </head>
 
 <body>
 
-<header class="navbar">
-  <h2>iC42 Toxicology</h2>
-</header>
-
-<div class="home-bar">
-  <a href="results_approval.html">← Back to Results</a>
+<div class="navbar">
+  <div>iC42 Toxicology</div>
+  <div>Home | Logout</div>
 </div>
 
-<main class="container">
+<div class="container">
 
-<h2>Results for Req: <span id="reqLabel"></span></h2>
+<h2>Approve Result (Req: <span id="reqLabel"></span>)</h2>
 
-<h2>argeted</h2>
-<table>
-  <thead>
-    <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
-  </thead>
-  <tbody id="targetedBody"></tbody>
-</table>
+<!-- TARGETED -->
 
-<h2>Untargeted</h2>
-<table>
-  <thead>
-    <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
-  </thead>
-  <tbody id="untargetedBody"></tbody>
-</table>
+<div class="section">
+  <div class="section-title">Targeted</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Drug</th>
+        <th>Value</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="targetedBody"></tbody>
+  </table>
+</div>
 
-<button class="submit-btn" onclick="submitReport()">Submit Report</button>
+<!-- UNTARGETED -->
 
-</main>
+<div class="section">
+  <div class="section-title">Untargeted</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Drug</th>
+        <th>Value</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="untargetedBody"></tbody>
+  </table>
+</div>
+
+<div style="text-align:center;">
+  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+</div>
+
+</div>
 
 <script>
 const req = new URLSearchParams(window.location.search).get("req");
 document.getElementById("reqLabel").textContent = req;
 
-const rows = {
-  targeted: [],
-  untargeted: []
-};
+const rows = { targeted: [], untargeted: [] };
 
-// =========================
-// LOAD FILES BY REQ
-// =========================
+// LOAD FILES
 async function loadFiles() {
-  if (!req) {
-    alert("Missing req");
-    return;
-  }
-
   const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
   const files = await res.json();
-
-  console.log("FILES:", files);
 
   for (const f of files) {
     const fileRes = await fetch(
@@ -136,16 +153,11 @@ async function loadFiles() {
   }
 }
 
-// =========================
 // PARSE CSV
-// =========================
 function parseCSV(csv, source) {
   const table = document.getElementById(source + "Body");
-  table.innerHTML = "";
-  rows[source] = [];
 
   const lines = csv.replace(/\r/g, "").split("\n");
-
   if (lines.length < 2) return;
 
   const headers = lines[0].split(",");
@@ -153,20 +165,21 @@ function parseCSV(csv, source) {
 
   for (let i = 2; i < headers.length; i += 2) {
     const drug = headers[i]?.trim();
-    const conc = values[i]?.trim();
+    const val = values[i]?.trim();
     const result = values[i + 1]?.trim();
 
-    if (!drug || !conc || !result) continue;
+    if (!drug || !val || !result) continue;
     if (result.toLowerCase() !== "pass") continue;
 
-    rows[source].push({ drug, conc });
+    rows[source].push({ drug, val });
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${drug}</td>
-      <td>${conc}</td>
-      <td><button class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</button></td>
+      <td>${val}</td>
+      <td><span class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</span></td>
     `;
+
     table.appendChild(tr);
   }
 
@@ -175,17 +188,13 @@ function parseCSV(csv, source) {
   }
 }
 
-// =========================
-// DELETE ROW
-// =========================
-function deleteRow(btn, drug, source) {
-  btn.closest("tr").remove();
+// DELETE
+function deleteRow(el, drug, source) {
+  el.closest("tr").remove();
   rows[source] = rows[source].filter(r => r.drug !== drug);
 }
 
-// =========================
-// GENERATE PDF
-// =========================
+// PDF
 function submitReport() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -201,7 +210,7 @@ function submitReport() {
     y += 8;
 
     rows[source].forEach(r => {
-      doc.text(`${r.drug}: ${r.conc}`, 10, y);
+      doc.text(`${r.drug}: ${r.val}`, 10, y);
       y += 6;
     });
 
@@ -211,7 +220,6 @@ function submitReport() {
   doc.save(`report_${req}.pdf`);
 }
 
-// INIT
 loadFiles();
 </script>
 

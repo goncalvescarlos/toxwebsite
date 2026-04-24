@@ -153,40 +153,98 @@ async function loadFiles() {
   }
 }
 
-// PARSE CSV
+// =========================
+// MAIN DISPATCH FUNCTION
+// =========================
 function parseCSV(csv, source) {
-  const table = document.getElementById(source + "Body");
-
-  const lines = csv.replace(/\r/g, "").split("\n");
-  if (lines.length < 2) return;
-
-  const headers = lines[0].split(",");
-  const values = lines[1].split(",");
-
-  for (let i = 2; i < headers.length; i += 2) {
-    const drug = headers[i]?.trim();
-    const val = values[i]?.trim();
-    const result = values[i + 1]?.trim();
-
-    if (!drug || !val || !result) continue;
-    if (result.toLowerCase() !== "pass") continue;
-
-    rows[source].push({ drug, val });
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${drug}</td>
-      <td>${val}</td>
-      <td><span class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</span></td>
-    `;
-
-    table.appendChild(tr);
-  }
-
-  if (table.innerHTML === "") {
-    table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
-  }
+if (source === "targeted") {
+parseTargeted(csv);
+} else {
+parseUntargeted(csv);
 }
+}
+
+// =========================
+// TARGETED PARSER
+// (your original logic, cleaned)
+// =========================
+function parseTargeted(csv) {
+const table = document.getElementById("targetedBody");
+table.innerHTML = "";
+rows["targeted"] = [];
+
+const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
+if (lines.length < 2) return;
+
+const headers = lines[0].split(",");
+const values = lines[1].split(",");
+
+for (let i = 2; i < headers.length; i += 2) {
+const drug = headers[i]?.trim();
+const val = values[i]?.trim();
+const result = values[i + 1]?.trim();
+
+```
+if (!drug || !val || !result) continue;
+if (result.toLowerCase() !== "pass") continue;
+
+addRow("targeted", drug, val);
+```
+
+}
+
+if (table.innerHTML === "") {
+table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
+}
+}
+
+// =========================
+// UNTARGETED PARSER
+// (column D = drug, last column = value)
+// =========================
+function parseUntargeted(csv) {
+const table = document.getElementById("untargetedBody");
+table.innerHTML = "";
+rows["untargeted"] = [];
+
+const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
+if (lines.length < 2) return;
+
+for (let r = 1; r < lines.length; r++) {
+const cols = lines[r].split(",");
+
+```
+const drug = cols[3]?.trim();                 // Column D
+const val = cols[cols.length - 1]?.trim();    // Last column
+
+if (!drug || !val) continue;
+if (val === "0" || val === "" || val.toLowerCase() === "nan") continue;
+
+addRow("untargeted", drug, val);
+```
+
+}
+
+if (table.innerHTML === "") {
+table.innerHTML = "<tr><td colspan='3'>No results</td></tr>";
+}
+}
+
+// =========================
+// SHARED ROW BUILDER
+// =========================
+function addRow(source, drug, val) {
+const table = document.getElementById(source + "Body");
+
+rows[source].push({ drug, val });
+
+const tr = document.createElement("tr");
+tr.innerHTML = `     <td>${drug}</td>     <td>${val}</td>     <td><span class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</span></td>
+  `;
+
+table.appendChild(tr);
+}
+
 
 // DELETE
 function deleteRow(el, drug, source) {

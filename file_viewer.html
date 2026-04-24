@@ -1,302 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>File Viewer - iC42 Toxicology</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const req = new URLSearchParams(window.location.search).get("req");
 
-  <style>
-    * { box-sizing: border-box; }
+const rows = {
+  targeted: [],
+  untargeted: []
+};
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
+window.addEventListener("DOMContentLoaded", async () => {
+  if (!req) {
+    showError("targeted", "Missing req in URL");
+    showError("untargeted", "Missing req in URL");
+    return;
+  }
+
+  try {
+    // STEP 1: get all files for this req
+    const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
+    const files = await res.json();
+
+    if (!files.length) {
+      showError("targeted", "No files found");
+      showError("untargeted", "No files found");
+      return;
     }
 
-    .navbar {
-      background: #003366;
-      color: white;
-      padding: 14px 24px;
+    // STEP 2: fetch each file using record_id
+    for (const f of files) {
+      const fileRes = await fetch(
+        `http://127.0.0.1:5000/api/get-file?id=${f.record_id}&source=${f.source}`
+      );
+
+      const csv = await fileRes.text();
+      parseCSV(csv, f.source);
     }
 
-    .navbar h2 { margin: 0; }
+  } catch (err) {
+    console.error(err);
+    showError("targeted", "Error loading data");
+    showError("untargeted", "Error loading data");
+  }
+});
 
-    .home-bar {
-      background: #e9ecef;
-      padding: 8px 24px;
-      font-size: 14px;
-    }
 
-    .home-bar a { color: #003366; text-decoration: none; }
-    .home-bar a:hover { text-decoration: underline; }
+// =========================
+// PARSE CSV
+// =========================
+function parseCSV(csv, source) {
+  const tableBody = document.getElementById(`${source}Body`);
+  tableBody.innerHTML = "";
+  rows[source] = [];
 
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+  const allRows = csv.replace(/\r/g, "").split("\n").filter(Boolean);
 
-    h2 { color: #003366; margin-top: 30px; }
+  if (allRows.length < 2) {
+    setTableMessage(source, "No data");
+    return;
+  }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      margin-top: 10px;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
+  const headers = allRows[0].split(",");
+  const values  = allRows[1].split(",");
 
-    th, td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-    }
+  let added = 0;
 
-    th { background: #f0f4f8; font-weight: bold; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #f9f9f9; }
+  for (let i = 2; i + 1 < headers.length; i += 2) {
+    const drug = headers[i]?.trim();
+    const concentration = values[i]?.trim();
+    const result = values[i + 1]?.trim();
 
-    .delete-btn {
-      cursor: pointer;
-      color: #c0392b;
-      font-size: 18px;
-      background: none;
-      border: none;
-      padding: 0;
-    }
-    .delete-btn:hover { opacity: 0.7; }
+    if (!drug || !concentration || !result) continue;
+    if (result.toLowerCase() !== "pass") continue;
 
-    .status-msg {
-      color: #888;
-      font-style: italic;
-      padding: 10px 14px;
-    }
+    rows[source].push({ drug, concentration });
 
-    .submit-btn {
-      background: #28a745;
-      color: white;
-      padding: 10px 24px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-      margin-top: 30px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .submit-btn:hover { background: #218838; }
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${drug}</td>
+      <td>${concentration}</td>
+      <td><button class="delete-btn" onclick="deleteRow(this, '${drug}', '${source}')">🗑</button></td>
+    `;
 
-    .error-banner {
-      background: #fdecea;
-      color: #c0392b;
-      border: 1px solid #f5c6cb;
-      border-radius: 6px;
-      padding: 10px 14px;
-      margin-top: 10px;
-      display: none;
-    }
-  </style>
-</head>
+    tableBody.appendChild(tr);
+    added++;
+  }
 
-<body>
+  if (added === 0) {
+    setTableMessage(source, "No passing results");
+  }
+}
 
-  <header>
-    <nav class="navbar">
-      <h2>iC42 Toxicology</h2>
-    </nav>
-  </header>
 
-  <div class="home-bar">
-    <a href="results_approval.html">← Back to Results</a>
-  </div>
+// =========================
+// DELETE
+// =========================
+function deleteRow(btn, drug, source) {
+  if (!confirm(`Remove ${drug}?`)) return;
+  btn.closest("tr").remove();
+  rows[source] = rows[source].filter(r => r.drug !== drug);
+}
 
-  <main class="container">
 
-    <h2>Targeted Results</h2>
-    <div id="targetedError" class="error-banner"></div>
-    <table>
-      <thead>
-        <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
-      </thead>
-      <tbody id="targetedBody">
-        <tr><td colspan="3" class="status-msg">Loading…</td></tr>
-      </tbody>
-    </table>
+// =========================
+// PDF
+// =========================
+function submitReport() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-    <h2>Untargeted Results</h2>
-    <div id="untargetedError" class="error-banner"></div>
-    <table>
-      <thead>
-        <tr><th>Drug</th><th>Concentration</th><th>Delete</th></tr>
-      </thead>
-      <tbody id="untargetedBody">
-        <tr><td colspan="3" class="status-msg">Loading…</td></tr>
-      </tbody>
-    </table>
+  let y = 10;
+  doc.text(`Requisition: ${req}`, 10, y);
+  y += 10;
 
-    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+  ["targeted", "untargeted"].forEach(source => {
+    if (!rows[source].length) return;
 
-  </main>
+    doc.text(source.toUpperCase(), 10, y);
+    y += 8;
 
-  <script>
-    // ─── Read record_id from URL (?id=...) ───────────────────────────────────
-    const recordId = new URLSearchParams(window.location.search).get("id");
-
-    // ─── Separate row stores so deletes don't bleed between tables ──────────
-    const rows = {
-      targeted:   [],
-      untargeted: []
-    };
-
-    // ─── On page load, fetch both projects ──────────────────────────────────
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!recordId) {
-        showError("targeted",   "No record ID found in URL (?id=...).");
-        showError("untargeted", "No record ID found in URL (?id=...).");
-        return;
-      }
-      fetchProject("targeted");
-      fetchProject("untargeted");
+    rows[source].forEach(r => {
+      doc.text(`${r.drug}: ${r.concentration}`, 10, y);
+      y += 6;
     });
 
-    // ─── Fetch CSV from Flask backend ────────────────────────────────────────
-    async function fetchProject(source) {
-      try {
-        const res = await fetch(
-          `http://127.0.0.1:5000/api/get-file?id=${encodeURIComponent(recordId)}&source=${source}`
-        );
+    y += 6;
+  });
 
-        if (!res.ok) {
-          throw new Error(`Server returned ${res.status}`);
-        }
+  doc.save(`report_${req}.pdf`);
+}
 
-        const csv = await res.text();
-        parseCSV(csv, source);
 
-      } catch (err) {
-        console.error(`[${source}]`, err);
-        showError(source, `Could not load ${source} data: ${err.message}`);
-        setTableMessage(source, "Failed to load.");
-      }
-    }
+// =========================
+// HELPERS
+// =========================
+function showError(source, msg) {
+  const el = document.getElementById(`${source}Error`);
+  el.textContent = msg;
+  el.style.display = "block";
+}
 
-    // ─── Parse CSV and populate table ────────────────────────────────────────
-    // Expected CSV format (row 0 = headers, row 1 = values):
-    //   col 0: record_id value
-    //   col 1: (skip / metadata)
-    //   col 2+: Drug name, Result, Drug name, Result, …
-    function parseCSV(csv, source) {
-      const tableBody = document.getElementById(`${source}Body`);
-      tableBody.innerHTML = "";
-      rows[source] = [];
-
-      const allRows = csv.replace(/\r/g, "").split("\n").filter(Boolean);
-
-      if (allRows.length < 2) {
-        setTableMessage(source, "No data rows found in file.");
-        return;
-      }
-
-      const headers = allRows[0].split(",");
-      const values  = allRows[1].split(",");
-      let   added   = 0;
-
-      for (let i = 2; i + 1 < headers.length; i += 2) {
-        const drug          = headers[i]?.trim();
-        const concentration = values[i]?.trim();
-        const result        = values[i + 1]?.trim();
-
-        if (!drug || !concentration || !result) continue;
-        if (result.toLowerCase() !== "pass")    continue;
-
-        rows[source].push({ drug, concentration });
-
-        const tr     = document.createElement("tr");
-        const tdDrug = document.createElement("td");
-        const tdConc = document.createElement("td");
-        const tdDel  = document.createElement("td");
-        const btn    = document.createElement("button");
-
-        tdDrug.textContent = drug;
-        tdConc.textContent = concentration;
-        btn.textContent    = "🗑";
-        btn.className      = "delete-btn";
-        btn.title          = "Remove row";
-        btn.onclick        = () => deleteRow(btn, drug, source);
-
-        tdDel.appendChild(btn);
-        tr.appendChild(tdDrug);
-        tr.appendChild(tdConc);
-        tr.appendChild(tdDel);
-        tableBody.appendChild(tr);
-        added++;
-      }
-
-      if (added === 0) {
-        setTableMessage(source, "No passing results.");
-      }
-    }
-
-    // ─── Delete a row from DOM and from rows[] ───────────────────────────────
-    function deleteRow(btn, drug, source) {
-      if (!confirm(`Remove "${drug}" from ${source} results?`)) return;
-      btn.closest("tr").remove();
-      rows[source] = rows[source].filter(r => r.drug !== drug);
-    }
-
-    // ─── Generate PDF from both tables ───────────────────────────────────────
-    function submitReport() {
-      if (!confirm("Submit this report and generate PDF?")) return;
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      let y = 14;
-
-      doc.setFontSize(14);
-      doc.text(`Requisition ID: ${recordId}`, 10, y);
-      y += 10;
-
-      for (const source of ["targeted", "untargeted"]) {
-        if (rows[source].length === 0) continue;
-
-        doc.setFontSize(12);
-        doc.text(`${capitalize(source)} Results`, 10, y);
-        y += 7;
-        doc.setFontSize(10);
-
-        for (const row of rows[source]) {
-          doc.text(`  ${row.drug}: ${row.concentration}`, 10, y);
-          y += 6;
-          if (y > 270) { doc.addPage(); y = 14; }
-        }
-
-        y += 6;
-      }
-
-      doc.save(`report_${recordId}.pdf`);
-    }
-
-    // ─── Helpers ─────────────────────────────────────────────────────────────
-    function showError(source, msg) {
-      const el = document.getElementById(`${source}Error`);
-      el.textContent = msg;
-      el.style.display = "block";
-    }
-
-    function setTableMessage(source, msg) {
-      const tbody = document.getElementById(`${source}Body`);
-      tbody.innerHTML = `<tr><td colspan="3" class="status-msg">${msg}</td></tr>`;
-    }
-
-    function capitalize(s) {
-      return s.charAt(0).toUpperCase() + s.slice(1);
-    }
-  </script>
-
-</body>
-</html>
+function setTableMessage(source, msg) {
+  const tbody = document.getElementById(`${source}Body`);
+  tbody.innerHTML = `<tr><td colspan="3">${msg}</td></tr>`;
+}
+</script>

@@ -13,7 +13,62 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 20px;<script>
+const params = new URLSearchParams(window.location.search);
+const req = params.get("req");
+
+let currentRows = [];
+
+async function loadFiles() {
+  const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
+  const files = await res.json();
+
+  for (const f of files) {
+    const fileRes = await fetch(
+      `http://127.0.0.1:5000/api/get-file?id=${f.record_id}&source=${f.source}`
+    );
+
+    const text = await fileRes.text();
+
+    if (f.source === "targeted") {
+      parseCSV(text, "targetedBody");
+    } else {
+      parseCSV(text, "untargetedBody");
+    }
+  }
+}
+
+function parseCSV(csv, tableId) {
+  const rows = csv.replace(/\r/g, "").split("\n");
+
+  const header = rows[0].split(",");
+  const values = rows[1].split(",");
+
+  const table = document.getElementById(tableId);
+
+  for (let i = 2; i < header.length; i += 2) {
+    const drug = header[i]?.trim();
+    const concentration = values[i]?.trim();
+    const result = values[i + 1]?.trim();
+
+    if (!drug || !concentration || !result) continue;
+    if (result.toLowerCase() !== "pass") continue;
+
+    currentRows.push({ drug, concentration });
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${drug}</td>
+      <td>${concentration}</td>
+    `;
+
+    table.appendChild(tr);
+  }
+}
+
+loadFiles();
+</script>
+
   background: white;
 }
 

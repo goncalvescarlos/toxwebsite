@@ -2,8 +2,8 @@
 const drugs = [
 
 { category: "Alcohol", items: [
-{ name: "Ethyl Glucuronide", description: "This is a substance made in the body when someone drinks alcohol. If EtG is found in urine, it means that alcohol was consumed in the last 3 to 4 days, or about 80 hours after alcohol has left the body. Because of this, EtG is a better way to show recent alcohol use than checking for alcohol itself." },
-{ name: "Ethyl Sulfate", description: "This is a substance created when the body breaks down alcohol. It's found in smaller amounts and its levels can show heavy drinking. High levels of EtS, starting at 1,000 ng/mL and above, suggest a lot of alcohol was consumed." }
+{ name: "Ethyl Glucuronide", description: "This is a substance made in the body when someone drinks alcohol. If Ethyl Glucuronide is found in urine, it means that alcohol was consumed in the last 3 to 4 days, or about 80 hours after alcohol has left the body. Because of this, Ethyl Glucuronide is a better way to show recent alcohol use than checking for alcohol itself." },
+{ name: "Ethyl Sulfate", description: "This is a substance created when the body breaks down alcohol. It's found in smaller amounts and its levels can show heavy drinking. High levels of Ethyl Sulfate, starting at 1,000 ng/mL and above, suggest a lot of alcohol was consumed." }
 ]},
 
 { category: "Analgesic", items: [

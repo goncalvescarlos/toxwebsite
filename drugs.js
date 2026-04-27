@@ -2,8 +2,8 @@
 const drugs = [
 
 { category: "Alcohol", items: [
-{ name: "Ethyl Glucuronide (EtG)", description: "Formed after alcohol consumption; detectable up to ~80 hours." },
-{ name: "Ethyl Sulfate (EtS)", description: "Alcohol metabolite; high levels suggest heavy drinking." }
+{ name: "Ethyl Glucuronide", description: "Formed after alcohol consumption; detectable up to ~80 hours." },
+{ name: "Ethyl Sulfate", description: "Alcohol metabolite; high levels suggest heavy drinking." }
 ]},
 
 { category: "Analgesic", items: [

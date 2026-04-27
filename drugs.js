@@ -197,4 +197,79 @@ const drugs = [
 { name: "Naloxone", description: "Reverses overdose." }
 ]}
 
+,
+
+{ category: "Phenothiazines", items: [
+{ name: "Chlorpromazine", description: "Antipsychotic phenothiazine." },
+{ name: "Promazine", description: "First-generation antipsychotic." }
+]},
+
+{ category: "Alpha-2 Agonists", items: [
+{ name: "Xylazine", description: "Veterinary sedative found in illicit drugs." },
+{ name: "Medetomidine", description: "Veterinary sedative." },
+{ name: "Guanfacine", description: "Used for hypertension and ADHD." }
+]},
+
+{ category: "Antihistamines", items: [
+{ name: "Diphenhydramine", description: "Used for allergies and sleep." },
+{ name: "Hydroxyzine", description: "Used for anxiety and itching." }
+]},
+
+{ category: "Muscle Relaxants", items: [
+{ name: "Baclofen", description: "Reduces muscle spasms." },
+{ name: "Cyclobenzaprine", description: "Muscle relaxant." },
+{ name: "N-Desmethyl Cyclobenzaprine", description: "Cyclobenzaprine metabolite." },
+{ name: "Carisoprodol", description: "Sedating muscle relaxant." },
+{ name: "Meprobamate", description: "Anxiolytic and muscle relaxant." }
+]},
+
+{ category: "Amphetamines", items: [
+{ name: "Amphetamine", description: "CNS stimulant." },
+{ name: "Methamphetamine", description: "Highly addictive stimulant." },
+{ name: "MDMA (Methylenedioxymethamphetamine)", description: "Empathogen stimulant." },
+{ name: "Modafinil", description: "Wakefulness-promoting agent." }
+]},
+
+{ category: "Sedative-Hypnotics", items: [
+{ name: "Zaleplon", description: "Sleep aid." },
+{ name: "Zolpidem", description: "Sleep aid." },
+{ name: "Zopiclone", description: "Sleep aid." }
+]},
+
+{ category: "Nitazenes", items: [
+{ name: "N-Pyrrolidino Etonitazene", description: "Ultra-potent synthetic opioid." },
+{ name: "Etodesnitazene", description: "Synthetic opioid." },
+{ name: "Isotonitazene", description: "Highly potent opioid." },
+{ name: "N-Piperidinyl Etonitazene", description: "Synthetic opioid." },
+{ name: "Butonitazene", description: "Synthetic opioid." },
+{ name: "Metonitazene", description: "Synthetic opioid." },
+{ name: "Protonitazene", description: "Synthetic opioid." },
+{ name: "N-Pyrrolidino Protonitazene", description: "Analog." },
+{ name: "N-Pyrrolidino Isotonitazene", description: "Analog." },
+{ name: "N-Pyrrolidino Metonitazene", description: "Analog." },
+{ name: "N-Desethyl Isotonitazene", description: "Analog." }
+]},
+
+{ category: "Brorphine Analogs", items: [
+{ name: "Brorphine", description: "Potent synthetic opioid." },
+{ name: "Spirochlorphine", description: "Analog." },
+{ name: "Chlorphine", description: "Analog." },
+{ name: "Fluorphine", description: "Analog." },
+{ name: "Iodorphine", description: "Analog." },
+{ name: "Orphine", description: "Analog." }
+]},
+
+{ category: "Markers", items: [
+{ name: "Cotinine", description: "Nicotine metabolite." }
+]},
+
+{ category: "Other Additions", items: [
+{ name: "Milnacipran", description: "Used for fibromyalgia." },
+{ name: "Norephedrine", description: "Former decongestant/weight-loss drug." },
+{ name: "Mitragynine", description: "Active compound in kratom." }
+]}
+
+
+]}
+
 ];

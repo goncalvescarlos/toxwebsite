@@ -220,9 +220,9 @@ const drugs = [
 ]},
 
 { category: "Sedative-Hypnotics", items: [
-{ name: "Zaleplon", description: "Zaleplon is a medicine that helps people sleep. It is used to treat insomnia, which means having trouble sleeping. This medicine works by calming the central nervous system. If someone takes other sedatives at the same time, it can make you even more sleepy. The usual dose is between 5 to 20 mg." },
-{ name: "Zolpidem", description: "Zolpidem is another sleep medicine used to treat insomnia. Like Zaleplon, it calms the central nervous system. Taking this with other sedatives can increase the sleepy effects. The typical dose is between 5 to 12.5 mg." },
-{ name: "Zopiclone", description: "Zopiclone is also a sleep medicine used to help with insomnia. Its effects are similar to Zaleplon and Zolpidem. It can cause sleepiness, but serious problems are rare if someone takes it alone. The usual dose is between 5 to 7.5 mg." }
+{ name: "Zaleplon (Sonata)", description: "Zaleplon is a medicine that helps people sleep. It is used to treat insomnia, which means having trouble sleeping. This medicine works by calming the central nervous system. If someone takes other sedatives at the same time, it can make you even more sleepy. The usual dose is between 5 to 20 mg." },
+{ name: "Zolpidem (Zannies)", description: "Zolpidem is another sleep medicine used to treat insomnia. Like Zaleplon, it calms the central nervous system. Taking this with other sedatives can increase the sleepy effects. The typical dose is between 5 to 12.5 mg." },
+{ name: "Zopiclone (Imovane)", description: "Zopiclone is also a sleep medicine used to help with insomnia. Its effects are similar to Zaleplon and Zolpidem. It can cause sleepiness, but serious problems are rare if someone takes it alone. The usual dose is between 5 to 7.5 mg." }
 ]},
 
 { category: "Nitazenes", items: [
@@ -254,14 +254,14 @@ const drugs = [
 
 
 { category: "Other", items: [
-{ name: "Ketamine", description: "This medicine is mainly used to help patients during surgery by making them sleepy and pain-free. It can also be used to help people with migraines, depression, and chronic pain. Some people use it for fun, which is risky. At high doses, it can make someone very sleepy or even put them in a coma." },
+{ name: "Ketamine (Kat)", description: "This medicine is mainly used to help patients during surgery by making them sleepy and pain-free. It can also be used to help people with migraines, depression, and chronic pain. Some people use it for fun, which is risky. At high doses, it can make someone very sleepy or even put them in a coma." },
 { name: "Norketamine", description: "This is the main breakdown product of ketamine when it is processed by the body." },
 { name: "Phencyclidine (PCP)", description: "This is a drug that can cause hallucinations and change how someone perceives reality. It acts as a depressant on the body, which can lead to agitation, confusion, and other issues." },
-{ name: "Dextromethorphan", description: "This is a common cough medicine. At high doses, it can affect the brain and breathing, causing drowsiness. It can also change how the brain handles certain chemicals, which might lead to movement problems. The common dose is 20 mg every 4 hours or 30 mg every 6 to 8 hours, with a maximum of 120 mg per day." },
-{ name: "Psilocin", description: "This is the active form of the drug psilocybin, which is found in certain mushrooms." },
+{ name: "Dextromethorphan (Robo)", description: "This is a common cough medicine. At high doses, it can affect the brain and breathing, causing drowsiness. It can also change how the brain handles certain chemicals, which might lead to movement problems. The common dose is 20 mg every 4 hours or 30 mg every 6 to 8 hours, with a maximum of 120 mg per day." },
+{ name: "Psilocin (Magic mushrooms)", description: "This is the active form of the drug psilocybin, which is found in certain mushrooms." },
 { name: "LSD", description: "This is a very strong drug that can lead to hallucinations and has a high chance of being misused. It is being studied for helping with some mental health issues." },
 { name: "2-oxo-3-OH-LSD", description: "This is a chemical that is produced when LSD is broken down in the body. It helps confirm if someone has taken LSD." },
-{ name: "Milnacipran", description: "This is a medicine used for fibromyalgia, a condition that causes pain and fatigue. It has some effects on brain chemicals. The usual dose is 50 mg taken twice a day, but it can be increased based on how the patient feels, up to 200 mg a day." },
+{ name: "Milnacipran (Savella)", description: "This is a medicine used for fibromyalgia, a condition that causes pain and fatigue. It has some effects on brain chemicals. The usual dose is 50 mg taken twice a day, but it can be increased based on how the patient feels, up to 200 mg a day." },
 { name: "Norephedrine", description: "This is a medication that used to help with stuffy noses and weight loss. However, it was taken off the shelves in the U.S. and Canada because it is linked to serious health risks." },
 { name: "Mitragynine (Kratom)", description: "Kratom is a natural product that can have both energizing and sedative effects. When used, kratom can make you feel more awake, increase your heart rate, and give you extra energy. At the same time, it can also help you relax, make you feel confused, and relieve pain, similar to how some opioids and sedatives work." }
 ]}

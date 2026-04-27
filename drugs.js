@@ -7,7 +7,7 @@ const drugs = [
 ]},
 
 { category: "Analgesic (Painkillers)", items: [
-{ name: "Acetaminophen (e.g. Tylenol)", description: "This is a common pain reliever and fever reducer available at stores. Taking too much, either 200 mg per kg of body weight or 10 grams total, can be harmful." }
+{ name: "Acetaminophen (e.g. Tylenol)", description: "This is a common pain reliever and fever reducer available at stores. Taking too much, either 200 mg per kg of body weight or 10 grams total, can be harmful." },
 { name: "Ibuprofen", description: "This is a pain reliever also used to reduce inflammation and fever. It can cause stomach issues and increase bleeding. Adults should not take more than 800 mg at once and no more than 3200 mg in one day." },
 { name: "Naproxen", description: "Like ibuprofen, naproxen helps reduce pain and inflammation but can also irritate the stomach and harm kidneys. The usual dose is 250 to 500 mg taken twice a day." }
 ]},

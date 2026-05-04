@@ -105,7 +105,7 @@ document.getElementById("searchForm").addEventListener("submit", async function(
 
   try {
     const res = await fetch(
-      `http://127.0.0.1:5000/api/get-report-by-req?req=${encodeURIComponent(sampleID)}`
+      `https://tox-backend-prg1.onrender.com/api/get-report-by-req?req=${encodeURIComponent(sampleID)}`
     );
 
     if (!res.ok) {

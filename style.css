@@ -284,3 +284,14 @@ input {
 .home-bar a:hover {
   text-decoration: underline;
 }
+
+.hero-image {
+  width: 100%;
+  max-width: 800px; /* adjust this */
+}
+
+.hero-image video {
+  width: 100%;
+  height: auto;
+  display: block;
+}

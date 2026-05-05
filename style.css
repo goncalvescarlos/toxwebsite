@@ -295,3 +295,14 @@ input {
   height: auto;
   display: block;
 }
+
+.secondary-link a {
+  color: #ffffff;
+  font-weight: 500;
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+.secondary-link a:hover {
+  color: #ff6b6b; /* matches your button tone */
+}

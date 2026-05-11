@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -10,70 +9,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f5f5f5;
-}
-
-.navbar {
-  background: #000;
-  color: #fff;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.container {
-  max-width: 1100px;
-  margin: 40px auto;
-}
-
-h2 { margin-bottom: 20px; }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-}
-
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background: #eee;
-  text-align: left;
-}
-
-tr:hover {
-  background: #f9f9f9;
-}
-
-.section { margin-bottom: 40px; }
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.delete-btn {
-  cursor: pointer;
-  color: red;
-  font-weight: bold;
-}
-
-.submit-btn {
-  background: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+body { font-family: Arial; margin:0; background:#f5f5f5; }
+.navbar { background:#000; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; }
+.container { max-width:1100px; margin:40px auto; }
+table { width:100%; border-collapse:collapse; background:#fff; }
+th,td { padding:10px; border-bottom:1px solid #ddd; }
+th { background:#eee; text-align:left; }
+.section { margin-bottom:40px; }
+.delete-btn { cursor:pointer; color:red; }
+.submit-btn { background:#28a745; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer; }
 </style>
-
 </head>
 
 <body>
@@ -83,49 +28,27 @@ tr:hover {
     <h2>iC42 Toxicology</h2>
     <div>
       <a href="backend.html" style="color:white;">Home</a>
-      <a href="login.html" style="color:white; margin-left:10px;">Logout</a>
+      <a href="login.html" style="color:white;margin-left:10px;">Logout</a>
     </div>
   </nav>
 </header>
-
-<section class="home-bar">
-  <div class="container">
-    <a href="results_approval.html">← Back to Results Approval</a>
-  </div>
-</section>
 
 <div class="container">
 
 <h2>Approve Result (Req: <span id="reqLabel"></span>)</h2>
 
-<!-- TARGETED -->
-
 <div class="section">
-  <div class="section-title">Targeted</div>
+  <h3>Targeted</h3>
   <table>
-    <thead>
-      <tr>
-        <th>Drug</th>
-        <th>Value</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Drug</th><th>Value</th><th>Delete</th></tr></thead>
     <tbody id="targetedBody"></tbody>
   </table>
 </div>
 
-<!-- UNTARGETED -->
-
 <div class="section">
-  <div class="section-title">Untargeted</div>
+  <h3>Untargeted</h3>
   <table>
-    <thead>
-      <tr>
-        <th>Drug</th>
-        <th>Value</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Drug</th><th>Value</th><th>Delete</th></tr></thead>
     <tbody id="untargetedBody"></tbody>
   </table>
 </div>
@@ -137,26 +60,27 @@ tr:hover {
 </div>
 
 <script>
+const API = "https://tox-backend-prg1.onrender.com";
+
 const req = new URLSearchParams(window.location.search).get("req");
 document.getElementById("reqLabel").textContent = req;
 
 const rows = { targeted: [], untargeted: [] };
 
-
-// =========================
 // LOAD FILES
-// =========================
 async function loadFiles() {
   try {
-    const res = await fetch(`http://127.0.0.1:5000/api/files-by-req?req=${req}`);
-    const files = await res.json();
+    const res = await fetch(`${API}/api/files-by-req?req=${encodeURIComponent(req)}`);
+    if (!res.ok) throw new Error("Failed to fetch file list");
 
-    console.log("FILES:", files);
+    const files = await res.json();
 
     for (const f of files) {
       const fileRes = await fetch(
-        `http://127.0.0.1:5000/api/get-file?id=${f.record_id}&source=${f.source}`
+        `${API}/api/get-file?id=${f.record_id}&source=${f.source}`
       );
+
+      if (!fileRes.ok) continue;
 
       const csv = await fileRes.text();
       parseCSV(csv, f.source);
@@ -167,25 +91,14 @@ async function loadFiles() {
   }
 }
 
-
-// =========================
 // ROUTER
-// =========================
 function parseCSV(csv, source) {
-  if (source === "targeted") {
-    parseTargeted(csv);
-  } else {
-    parseUntargeted(csv);
-  }
+  if (source === "targeted") parseTargeted(csv);
+  else parseUntargeted(csv);
 }
 
-
-// =========================
 // TARGETED
-// =========================
 function parseTargeted(csv) {
-  const table = document.getElementById("targetedBody");
-
   const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
   if (lines.length < 2) return;
 
@@ -197,24 +110,14 @@ function parseTargeted(csv) {
     const val = values[i]?.trim();
     const result = values[i + 1]?.trim();
 
-    if (!drug || !val || !result) continue;
-    if (result.toLowerCase() !== "pass") continue;
+    if (!drug || !val || result?.toLowerCase() !== "pass") continue;
 
-    addTableRow("targeted", drug, val);
-  }
-
-  if (table.innerHTML === "") {
-    table.innerHTML = "<tr><td colspan='3'>No passing results</td></tr>";
+    addRow("targeted", drug, val);
   }
 }
 
-
-// =========================
-// UNTARGETED (Column D + last column)
-// =========================
+// UNTARGETED
 function parseUntargeted(csv) {
-  const table = document.getElementById("untargetedBody");
-
   const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
   if (lines.length < 2) return;
 
@@ -224,22 +127,14 @@ function parseUntargeted(csv) {
     const drug = cols[3]?.trim();
     const val = cols[cols.length - 1]?.trim();
 
-    if (!drug || !val) continue;
-    if (val === "0" || val === "" || val.toLowerCase() === "nan") continue;
+    if (!drug || !val || val === "0" || val.toLowerCase() === "nan") continue;
 
-    addTableRow("untargeted", drug, val);
-  }
-
-  if (table.innerHTML === "") {
-    table.innerHTML = "<tr><td colspan='3'>No results</td></tr>";
+    addRow("untargeted", drug, val);
   }
 }
 
-
-// =========================
-// SAFE ROW BUILDER (RENAMED → avoids your bug)
-// =========================
-function addTableRow(source, drug, val) {
+// ADD ROW
+function addRow(source, drug, val) {
   const table = document.getElementById(source + "Body");
 
   rows[source].push({ drug, val });
@@ -254,19 +149,13 @@ function addTableRow(source, drug, val) {
   table.appendChild(tr);
 }
 
-
-// =========================
-// DELETE
-// =========================
+// DELETE ROW
 function deleteRow(el, drug, source) {
   el.closest("tr").remove();
   rows[source] = rows[source].filter(r => r.drug !== drug);
 }
 
-
-// =========================
-// PDF
-// =========================
+// SUBMIT PDF
 async function submitReport() {
   if (!confirm("Submit and upload report?")) return;
 
@@ -291,28 +180,23 @@ async function submitReport() {
     y += 6;
   });
 
-  // ✅ Download locally
   doc.save(`report_${req}.pdf`);
 
-  // ✅ Upload to backend
   const blob = doc.output("blob");
 
   const formData = new FormData();
   formData.append("file", blob, `report_${req}.pdf`);
   formData.append("req", req);
 
-  const res = await fetch("http://127.0.0.1:5000/api/upload-report", {
+  const res = await fetch(`${API}/api/upload-report`, {
     method: "POST",
     body: formData
   });
 
   const result = await res.json();
 
-  if (result.error) {
-    alert("Upload failed: " + result.error);
-  } else {
-    alert("Report uploaded to REDCap!");
-  }
+  if (result.error) alert("Upload failed: " + result.error);
+  else alert("Report uploaded!");
 }
 
 // INIT

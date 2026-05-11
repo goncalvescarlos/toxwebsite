@@ -190,15 +190,16 @@ function deleteRow(el, drug, source) {
 
 // SUBMIT PDF
 function submitReport() {
-  if (!confirm("Generate report?")) return;
-
   if (!req) {
     alert("Missing requisition number");
     return;
   }
 
-  // 🔥 Open your report page
-  window.open(`report_generator.html?req=${encodeURIComponent(req)}`, "_blank");
+  // 🔥 Call Flask endpoint directly
+  window.open(
+    `https://tox-backend-prg1.onrender.com/api/generate-report?req=${encodeURIComponent(req)}`,
+    "_blank"
+  );
 }
 
 // INIT

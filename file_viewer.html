@@ -189,7 +189,7 @@ function deleteRow(el, drug, source) {
 }
 
 // SUBMIT PDF
-where is it going to save the pdf function submitReport() {
+function submitReport() {
   if (!confirm("Generate report?")) return;
 
   if (!req) {
@@ -197,8 +197,8 @@ where is it going to save the pdf function submitReport() {
     return;
   }
 
-  // 🔥 Open your new report page
-  window.open(report_generator.html?req=${encodeURIComponent(req)}, "_blank");
+  // 🔥 Open your report page
+  window.open(`report_generator.html?req=${encodeURIComponent(req)}`, "_blank");
 }
 
 // INIT

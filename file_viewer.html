@@ -142,12 +142,24 @@ function parseUntargeted(csv) {
   const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
   if (lines.length < 2) return;
 
+  const headers = lines[0].split(",");
+
+  // 🔍 Find column indexes dynamically
+  const nameIndex = headers.findIndex(h => h.trim().toLowerCase() === "name");
+  const valueIndex = headers.length - 1; // last column
+
+  if (nameIndex === -1) {
+    console.error("Name column not found");
+    return;
+  }
+
   for (let r = 1; r < lines.length; r++) {
     const cols = lines[r].split(",");
 
-    const drug = cols[3]?.trim();
-    const val = cols[cols.length - 1]?.trim();
+    const drug = cols[nameIndex]?.trim();
+    const val = cols[valueIndex]?.trim();
 
+    // skip empty or invalid values
     if (!drug || !val || val === "0" || val.toLowerCase() === "nan") continue;
 
     addRow("untargeted", drug, val);

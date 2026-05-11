@@ -100,7 +100,7 @@ tr:hover {
       Filter:
       <input type="text" id="filterInput" placeholder="Search by Req #" onkeyup="filterTable()">
     </div>
-    <button class="btn">Delete</button>
+    <button class="btn" onclick="deleteSelected()">Delete</button>
   </div>
 
   <table id="resultsTable">
@@ -169,7 +169,7 @@ function renderTable(data) {
     const first = rows[0];
 
     tr.innerHTML = `
-      <td><input type="checkbox"></td>
+      <td><input type="checkbox" data-req="${req}"></td>
       <td>${req}</td>
       <td>${fileList}</td>
       <td>
@@ -193,6 +193,21 @@ function filterTable() {
   );
 
   renderTable(filtered);
+}
+
+function deleteSelected() {
+  const checkboxes = document.querySelectorAll("#tableBody input[type='checkbox']:checked");
+
+  const reqsToDelete = Array.from(checkboxes).map(cb => cb.dataset.req);
+
+  records = records.filter(r => {
+    const reqs = (r.req || "").split(",").map(x => x.trim());
+
+    // remove if ANY req matches selected ones
+    return !reqs.some(req => reqsToDelete.includes(req));
+  });
+
+  renderTable(records);
 }
 
 // INIT

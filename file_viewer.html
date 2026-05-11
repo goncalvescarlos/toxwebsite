@@ -68,6 +68,8 @@ th { background:#eee; text-align:left; }
   style="width:100%; height:600px; border:1px solid #ccc; background:white;">
 </iframe>
 
+<button class="submit-btn" onclick="submitToDatabase()">Submit Report</button>
+
 </div> <!-- container closes HERE -->
 
 <script>
@@ -228,6 +230,44 @@ async function submitReport() {
   } catch (e) {
     console.error("ERROR:", e);
     alert("Error generating report");
+  }
+}
+
+async function submitToDatabase() {
+  if (!req) {
+    alert("Missing requisition number");
+    return;
+  }
+
+  // 🔥 check if report is already generated
+  const viewer = document.getElementById("reportViewer");
+
+  if (!viewer.src) {
+    alert("Please view the report first");
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append("req", req);
+
+    const res = await fetch(`${API}/api/submit-report`, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Upload failed");
+      return;
+    }
+
+    alert("✅ Report uploaded to REDCap");
+
+  } catch (e) {
+    console.error(e);
+    alert("Error submitting report");
   }
 }
 

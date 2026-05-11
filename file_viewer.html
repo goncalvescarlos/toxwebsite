@@ -189,47 +189,16 @@ function deleteRow(el, drug, source) {
 }
 
 // SUBMIT PDF
-async function submitReport() {
-  if (!confirm("Submit and upload report?")) return;
+where is it going to save the pdf function submitReport() {
+  if (!confirm("Generate report?")) return;
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  if (!req) {
+    alert("Missing requisition number");
+    return;
+  }
 
-  let y = 10;
-  doc.text(`Requisition: ${req}`, 10, y);
-  y += 10;
-
-  ["targeted", "untargeted"].forEach(source => {
-    if (!rows[source].length) return;
-
-    doc.text(source.toUpperCase(), 10, y);
-    y += 8;
-
-    rows[source].forEach(r => {
-      doc.text(`${r.drug}: ${r.val}`, 10, y);
-      y += 6;
-    });
-
-    y += 6;
-  });
-
-  doc.save(`report_${req}.pdf`);
-
-  const blob = doc.output("blob");
-
-  const formData = new FormData();
-  formData.append("file", blob, `report_${req}.pdf`);
-  formData.append("req", req);
-
-  const res = await fetch(`${API}/api/upload-report`, {
-    method: "POST",
-    body: formData
-  });
-
-  const result = await res.json();
-
-  if (result.error) alert("Upload failed: " + result.error);
-  else alert("Report uploaded!");
+  // 🔥 Open your new report page
+  window.open(report_generator.html?req=${encodeURIComponent(req)}, "_blank");
 }
 
 // INIT

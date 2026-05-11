@@ -34,6 +34,8 @@ th { background:#eee; text-align:left; }
   </nav>
 </header>
 
+
+
 <div class="container">
 
 <h2>Approve Result (Req: <span id="reqLabel"></span>)</h2>
@@ -58,7 +60,17 @@ th { background:#eee; text-align:left; }
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
+<div style="text-align:center;">
+  <button class="submit-btn" onclick="submitReport()">View Report</button>
 </div>
+
+<h3 style="margin-top:40px;">Generated Report</h3>
+<iframe 
+  id="reportViewer" 
+  style="width:100%; height:600px; border:1px solid #ccc; background:white;">
+</iframe>
+
+</div> <!-- container closes HERE -->
 
 <script>
 const API = "https://tox-backend-prg1.onrender.com";
@@ -189,21 +201,38 @@ function deleteRow(el, drug, source) {
 }
 
 // SUBMIT PDF
-function submitReport() {
+async function submitReport() {
   if (!req) {
     alert("Missing requisition number");
     return;
   }
 
-  // 🔥 PRINT TO BROWSER CONSOLE
-  console.log("Submitting report for req:", req);
+  console.log("Viewing report for req:", req);
 
-  // 🔥 Call Flask endpoint directly
-  window.open(
-    `https://tox-backend-prg1.onrender.com/api/generate-report?req=${encodeURIComponent(req)}`,
-    "_blank"
-  );
+  try {
+    const res = await fetch(
+      `${API}/api/generate-report?req=${encodeURIComponent(req)}`
+    );
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.error || "Failed to generate report");
+      return;
+    }
+
+    const blob = await res.blob();
+
+    // 🔥 Convert to URL and display
+    const url = URL.createObjectURL(blob);
+
+    document.getElementById("reportViewer").src = url;
+
+  } catch (e) {
+    console.error("ERROR:", e);
+    alert("Error generating report");
+  }
 }
+
 
 // INIT
 loadFiles();

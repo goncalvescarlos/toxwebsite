@@ -195,6 +195,9 @@ function submitReport() {
     return;
   }
 
+  // 🔥 PRINT TO BROWSER CONSOLE
+  console.log("Submitting report for req:", req);
+
   // 🔥 Call Flask endpoint directly
   window.open(
     `https://tox-backend-prg1.onrender.com/api/generate-report?req=${encodeURIComponent(req)}`,

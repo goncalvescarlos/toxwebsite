@@ -4,53 +4,99 @@
 <style>
 body {
   font-family: "Times New Roman";
-  background: #fff;
-  padding: 40px;
+  background: white;
+  padding: 30px;
 }
 
+/* OUTER BORDER */
 .report {
-  border: 3px solid #0D1F3C;
+  border: 4px solid #0D1F3C;
+  padding: 6px;
+}
+
+/* INNER BORDER */
+.inner {
+  border: 2px solid #B8972A;
   padding: 20px;
 }
 
+/* HEADER */
 .header {
   background: #0D1F3C;
   color: white;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
+  position: relative;
 }
 
+.header img {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  height: 40px;
+}
+
+/* GOLD TEXT */
 .subheader {
-  color: #B8972A;
+  color: #D4AF5A;
   font-size: 12px;
 }
 
-.info-box {
-  background: #F5EDD0;
-  padding: 10px;
-  margin-top: 15px;
+/* GOLD DIVIDER */
+.divider {
+  border-top: 2px solid #B8972A;
+  margin: 15px 0;
 }
 
+/* SAMPLE BOX */
+.info-box {
+  background: #F5EDD0;
+  border: 1px solid #B8972A;
+  padding: 10px;
+}
+
+/* SECTION */
 .section-title {
-  color: #0D1F3C;
   font-weight: bold;
+  color: #0D1F3C;
   margin-top: 20px;
 }
 
+/* TABLE */
 .table {
   width: 100%;
   border-collapse: collapse;
 }
 
+.table th {
+  background: #0D1F3C;
+  color: #D4AF5A;
+  text-align: left;
+  padding: 6px;
+}
+
 .table td {
-  padding: 5px;
+  padding: 6px;
   border-bottom: 1px solid #ccc;
 }
 
+.table tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+/* SIGNATURE */
+.signature {
+  margin-top: 20px;
+  border: 1px solid #B8972A;
+  padding: 10px;
+  width: 300px;
+  float: right;
+}
+
+/* FOOTER */
 .footer {
-  margin-top: 40px;
+  margin-top: 50px;
   font-size: 10px;
-  text-align: center;
 }
 </style>
 </head>
@@ -58,59 +104,103 @@ body {
 <body>
 
 <div class="report">
+<div class="inner">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h2>DRUG PRODUCT TESTING REPORT</h2>
-    <div class="subheader">
-      HRMS Qualitative Testing · iC42 Toxicology
-    </div>
-  </div>
+<!-- HEADER -->
+<div class="header">
+  <img src="IC42 tox.png">
+  <h2>DRUG PRODUCT TESTING REPORT</h2>
+  <div class="subheader">HRMS Qualitative Testing · iC42 Toxicology</div>
+</div>
 
-  <!-- INFO -->
-  <div class="info-box">
-    <div>Requisition: <span id="req"></span></div>
-    <div>Location: <span id="clinic"></span></div>
-    <div>Reported: <span id="date"></span></div>
-  </div>
+<div class="divider"></div>
 
-  <!-- TABLE -->
-  <div class="section-title">HRMS RESULTS</div>
+<!-- SAMPLE INFO -->
+<div class="info-box">
+  <strong>SAMPLE INFORMATION</strong><br><br>
+  Requisition #: <span id="req"></span><br>
+  Location: <span id="clinic"></span><br>
+  Collected: <span id="collected"></span><br>
+  Reported: <span id="date"></span><br>
+  Dilution: N/A
+</div>
 
-  <table class="table" id="resultsTable"></table>
+<div class="divider"></div>
 
-  <!-- FOOTER -->
-  <div class="footer">
-    Sample tested by iC42 Toxicology · University of Colorado
-  </div>
+<!-- HRMS TABLE -->
+<div class="section-title">
+  HRMS TEST <span style="float:right;">Total Analytes detected: 1</span>
+</div>
 
+<table class="table">
+  <thead>
+    <tr>
+      <th>Analyte</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody id="resultsTable"></tbody>
+</table>
+
+<div class="divider"></div>
+
+<!-- CHROMATOGRAM -->
+<div>
+  <em>
+  Chromatogram – Graphical representation of detected substances, where each peak corresponds to a compound and reflects its relative abundance.
+  </em><br><br>
+
+  <img id="chromImg" style="width:100%; border:1px solid #B8972A;">
+</div>
+
+<div class="divider"></div>
+
+<!-- DRUG INFO -->
+<div class="section-title">DRUG INFORMATION</div>
+
+<div id="drugInfo"></div>
+
+<!-- SIGNATURE -->
+<div class="signature">
+  Approved by: ___________________<br><br>
+  Date: ___________________
+</div>
+
+<div style="clear:both;"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+Sample tested by iC42 Toxicology at Bioscience 2, Aurora Colorado<br>
+Manager: WZ | ic42producttesting@cuanschutz.edu<br>
+University of Colorado · CAP/CLIA certified
+</div>
+
+</div>
 </div>
 
 <script>
-// Example data (replace with real)
-const data = [
-  { name: "Clonazepam", value: 287852123.2 },
-  { name: "Diazepam", value: 12345678 }
-];
+const params = new URLSearchParams(window.location.search);
+const req = params.get("req");
 
-// Fill fields
-document.getElementById("req").innerText = "1011864";
-document.getElementById("clinic").innerText = "Aurora";
+document.getElementById("req").innerText = req;
 document.getElementById("date").innerText = new Date().toLocaleDateString();
 
-// Fill table
+// EXAMPLE DATA (replace with real backend data)
+const data = [
+  { name: "Methamphetamine", category: "Major" }
+];
+
+// TABLE
 const table = document.getElementById("resultsTable");
-
-data.forEach(row => {
+data.forEach(r => {
   const tr = document.createElement("tr");
-
-  tr.innerHTML = `
-    <td>${row.name}</td>
-    <td style="text-align:right">${row.value}</td>
-  `;
-
+  tr.innerHTML = `<td>${r.name}</td><td>${r.category}</td>`;
   table.appendChild(tr);
 });
+
+// DRUG INFO
+document.getElementById("drugInfo").innerText =
+  "Methamphetamine: This is often abused because it can make people feel energetic...";
 </script>
 
 </body>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: "Times New Roman";
+  background: #fff;
+  padding: 40px;
+}
+
+.report {
+  border: 3px solid #0D1F3C;
+  padding: 20px;
+}
+
+.header {
+  background: #0D1F3C;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.subheader {
+  color: #B8972A;
+  font-size: 12px;
+}
+
+.info-box {
+  background: #F5EDD0;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.section-title {
+  color: #0D1F3C;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td {
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.footer {
+  margin-top: 40px;
+  font-size: 10px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="report">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>DRUG PRODUCT TESTING REPORT</h2>
+    <div class="subheader">
+      HRMS Qualitative Testing · iC42 Toxicology
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-box">
+    <div>Requisition: <span id="req"></span></div>
+    <div>Location: <span id="clinic"></span></div>
+    <div>Reported: <span id="date"></span></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section-title">HRMS RESULTS</div>
+
+  <table class="table" id="resultsTable"></table>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Sample tested by iC42 Toxicology · University of Colorado
+  </div>
+
+</div>
+
+<script>
+// Example data (replace with real)
+const data = [
+  { name: "Clonazepam", value: 287852123.2 },
+  { name: "Diazepam", value: 12345678 }
+];
+
+// Fill fields
+document.getElementById("req").innerText = "1011864";
+document.getElementById("clinic").innerText = "Aurora";
+document.getElementById("date").innerText = new Date().toLocaleDateString();
+
+// Fill table
+const table = document.getElementById("resultsTable");
+
+data.forEach(row => {
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${row.name}</td>
+    <td style="text-align:right">${row.value}</td>
+  `;
+
+  table.appendChild(tr);
+});
+</script>
+
+</body>
+</html>

@@ -202,17 +202,20 @@ function deleteRow(el, drug, source) {
 
 // SUBMIT PDF
 async function submitReport() {
-  if (!req) {
-    alert("Missing requisition number");
-    return;
-  }
+  if (!req) { alert("Missing requisition number"); return; }
 
-  console.log("Viewing report for req:", req);
+  // Build drug list from current table rows
+  const drug_list = [
+    ...rows.targeted.map(r => ({ drug: r.drug, val: r.val })),
+    ...rows.untargeted.map(r => ({ drug: r.drug, val: r.val }))
+  ];
 
   try {
-    const res = await fetch(
-      `${API}/api/generate-report?req=${encodeURIComponent(req)}`
-    );
+    const res = await fetch(`${API}/api/generate-report`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ req, drug_list })
+    });
 
     if (!res.ok) {
       const err = await res.json();
@@ -221,11 +224,7 @@ async function submitReport() {
     }
 
     const blob = await res.blob();
-
-    // 🔥 Convert to URL and display
-    const url = URL.createObjectURL(blob);
-
-    document.getElementById("reportViewer").src = url;
+    document.getElementById("reportViewer").src = URL.createObjectURL(blob);
 
   } catch (e) {
     console.error("ERROR:", e);
@@ -234,43 +233,32 @@ async function submitReport() {
 }
 
 async function submitToDatabase() {
-  if (!req) {
-    alert("Missing requisition number");
-    return;
-  }
+  if (!req) { alert("Missing requisition number"); return; }
 
-  // 🔥 check if report is already generated
   const viewer = document.getElementById("reportViewer");
+  if (!viewer.src) { alert("Please view the report first"); return; }
 
-  if (!viewer.src) {
-    alert("Please view the report first");
-    return;
-  }
+  const drug_list = [
+    ...rows.targeted.map(r => ({ drug: r.drug, val: r.val })),
+    ...rows.untargeted.map(r => ({ drug: r.drug, val: r.val }))
+  ];
 
   try {
-    const formData = new FormData();
-    formData.append("req", req);
-
     const res = await fetch(`${API}/api/submit-report`, {
       method: "POST",
-      body: formData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ req, drug_list })
     });
 
     const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.error || "Upload failed");
-      return;
-    }
+    if (!res.ok) { alert(data.error || "Upload failed"); return; }
 
     alert("✅ Report uploaded to REDCap");
 
   } catch (e) {
-    console.error(e);
-    alert("Error submitting report");
+    console.error(e); alert("Error submitting report");
   }
 }
-
 
 // INIT
 loadFiles();

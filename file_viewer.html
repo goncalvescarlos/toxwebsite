@@ -203,16 +203,21 @@ async function submitReport() {
   if (!req) { alert("Missing requisition number"); return; }
 
   // Build drug list from current table rows
-  const drug_list = [
-    ...rows.targeted.map(r => ({ drug: r.drug, val: r.val })),
-    ...rows.untargeted.map(r => ({ drug: r.drug, val: r.val }))
-  ];
+  const targeted = rows.targeted.map(r => ({
+  drug: r.drug,
+  val: r.val
+}));
+
+const untargeted = rows.untargeted.map(r => ({
+  drug: r.drug,
+  val: r.val
+}));
 
   try {
     const res = await fetch(`${API}/api/generate-report`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ req, drug_list })
+      body: JSON.stringify({ req, targeted, untargeted })
     });
 
     if (!res.ok) {
@@ -245,7 +250,7 @@ async function submitToDatabase() {
     const res = await fetch(`${API}/api/submit-report`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ req, drug_list })
+      body: JSON.stringify({ req, targeted, untargeted })
     });
 
     const data = await res.json();

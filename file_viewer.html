@@ -133,17 +133,15 @@ function parseCSV(csv, source) {
 // TARGETED
 function parseTargeted(csv) {
   const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
-  if (lines.length < 2) return;
 
-  const headers = lines[0].split(",");
-  const values = lines[1].split(",");
+  // skip header row
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(",");
 
-  for (let i = 2; i < headers.length; i += 2) {
-    const drug = headers[i]?.trim();
-    const val = values[i]?.trim();
-    const result = values[i + 1]?.trim();
+    const drug = cols[0]?.trim();
+    const val = cols[1]?.trim();
 
-    if (!drug || !val || result?.toLowerCase() !== "pass") continue;
+    if (!drug || !val) continue;
 
     addRow("targeted", drug, val);
   }

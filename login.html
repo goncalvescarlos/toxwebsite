@@ -40,18 +40,28 @@
 <section class="content">
   <div class="container">
 
-    <div class="card" style="max-width:400px; margin:auto;">
+    <form class="card"
+      style="max-width:400px; margin:auto;"
+      onsubmit="login(event)">
 
-      <h3 style="margin-bottom:20px;">User Login</h3>
+  <h3 style="margin-bottom:20px;">User Login</h3>
 
-      <input type="text" id="username" placeholder="Username"><br><br>
-      <input type="password" id="password" placeholder="Password"><br><br>
+  <input type="text"
+         id="username"
+         placeholder="Username"><br><br>
 
-      <button class="btn" onclick="login()">Login</button>
+  <input type="password"
+         id="password"
+         placeholder="Password"><br><br>
 
-      <p id="error" style="color:red; margin-top:10px;"></p>
+  <button type="submit" class="btn">
+    Login
+  </button>
 
-    </div>
+  <p id="error"
+     style="color:red; margin-top:10px;"></p>
+
+</form>
 
   </div>
 </section>
@@ -70,7 +80,9 @@
 
 const API = "https://tox-backend-prg1.onrender.com";
 
-async function login() {
+async function login(event) {
+
+  event.preventDefault();
 
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;

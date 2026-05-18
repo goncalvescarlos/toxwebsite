@@ -18,7 +18,7 @@ th,td { padding:10px; border-bottom:1px solid #ddd; }
 th { background:#eee; text-align:left; }
 .section { margin-bottom:40px; }
 .delete-btn { cursor:pointer; color:red; }
-.submit-btn { background:#28a745; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer; }
+.submit-btn { background:#28a745; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer; }parse
 </style>
 </head>
 
@@ -134,13 +134,13 @@ function parseCSV(csv, source) {
 function parseTargeted(csv) {
   const lines = csv.replace(/\r/g, "").split("\n").filter(Boolean);
 
-  // skip header row
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(",");
 
-    const drug = cols[0]?.trim();
-    const val = cols[1]?.trim();
+    const drug = cols[1]?.trim();
+    const val = cols[2]?.trim();
 
+    // skip invalid rows
     if (!drug || !val) continue;
 
     addRow("targeted", drug, val);

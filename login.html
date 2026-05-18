@@ -65,18 +65,58 @@
   </div>
 </footer>
 
+
 <script>
-function login() {
+
+const API = "https://tox-backend-prg1.onrender.com";
+
+async function login() {
+
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
 
-  // ⚠️ DEMO ONLY (not secure)
-  if (user === "admin" && pass === "password123") {
+  document.getElementById("error").innerText = "";
+
+  try {
+
+    const res = await fetch(`${API}/api/login`, {
+
+      method: "POST",
+
+      credentials: "include",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        username: user,
+        password: pass
+      })
+
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+
+      document.getElementById("error").innerText =
+        data.error || "Invalid login";
+
+      return;
+    }
+
     window.location.href = "backend.html";
-  } else {
-    document.getElementById("error").innerText = "Invalid login";
+
+  } catch (e) {
+
+    console.error(e);
+
+    document.getElementById("error").innerText =
+      "Server error";
   }
 }
+
 </script>
 
 </body>

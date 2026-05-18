@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Login - iC42 Toxicology</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,108 +16,146 @@
 
 <!-- NAVBAR -->
 <header>
+
   <nav class="navbar">
-    <h2 class="logo">iC42 Toxicology</h2>
+
+    <h2 class="logo">
+      iC42 Toxicology
+    </h2>
 
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="reports.html">Reports</a>
       <a href="about.html">About</a>
       <a href="drug_dictionary.html">Drug Dictionary</a>
-     
       <a href="contacts.html">Contact</a>
       <a href="login.html">Login</a>
     </div>
+
   </nav>
+
 </header>
 
 <main>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Login</h1>
-    <p>Access secure laboratory reports</p>
-  </div>
-</section>
+  <!-- HERO -->
+  <section class="hero">
 
-<!-- LOGIN FORM -->
-<section class="content">
-  <div class="container">
+    <div class="hero-text">
+      <h1>Login</h1>
+      <p>Access secure laboratory reports</p>
+    </div>
 
-    <form class="card"
-      style="max-width:400px; margin:auto;"
-      onsubmit="login(event)">
+  </section>
 
-  <h3 style="margin-bottom:20px;">User Login</h3>
+  <!-- LOGIN FORM -->
+  <section class="content">
 
-  <input type="text"
-         id="username"
-         placeholder="Username"><br><br>
+    <div class="container">
 
-  <input type="password"
-         id="password"
-         placeholder="Password"><br><br>
+      <form id="loginForm"
+            class="card"
+            style="max-width:400px; margin:auto;">
 
-  <button type="submit" class="btn">
-    Login
-  </button>
+        <h3 style="margin-bottom:20px;">
+          User Login
+        </h3>
 
-  <p id="error"
-     style="color:red; margin-top:10px;"></p>
+        <input type="text"
+               id="username"
+               name="username"
+               placeholder="Username"
+               autocomplete="username"
+               required>
 
-</form>
+        <br><br>
 
-  </div>
-</section>
+        <input type="password"
+               id="password"
+               name="password"
+               placeholder="Password"
+               autocomplete="current-password"
+               required>
+
+        <br><br>
+
+        <button type="submit"
+                class="btn">
+          Login
+        </button>
+
+        <p id="error"
+           style="color:red; margin-top:10px;">
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
 
 </main>
 
 <!-- FOOTER -->
 <footer class="footer">
+
   <div class="footer-content">
     <h2>iC42 Toxicology Laboratory</h2>
   </div>
-</footer>
 
+</footer>
 
 <script>
 
 const API = "https://tox-backend-prg1.onrender.com";
 
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", login);
+
 async function login(event) {
 
   event.preventDefault();
 
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
+  const user =
+    document.getElementById("username")
+      .value
+      .trim();
 
-  document.getElementById("error").innerText = "";
+  const pass =
+    document.getElementById("password")
+      .value;
+
+  const errorEl =
+    document.getElementById("error");
+
+  errorEl.innerText = "";
 
   try {
 
-    const res = await fetch(`${API}/api/login`, {
+    const res = await fetch(
+      `${API}/api/login`,
+      {
+        method: "POST",
 
-      method: "POST",
+        credentials: "include",
 
-      credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        username: user,
-        password: pass
-      })
-
-    });
+        body: JSON.stringify({
+          username: user,
+          password: pass
+        })
+      }
+    );
 
     const data = await res.json();
 
     if (!res.ok) {
 
-      document.getElementById("error").innerText =
+      errorEl.innerText =
         data.error || "Invalid login";
 
       return;
@@ -124,7 +167,7 @@ async function login(event) {
 
     console.error(e);
 
-    document.getElementById("error").innerText =
+    errorEl.innerText =
       "Server error";
   }
 }

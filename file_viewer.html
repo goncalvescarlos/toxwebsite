@@ -250,30 +250,57 @@ const untargeted = rows.untargeted.map(r => ({
 }
 
 async function submitToDatabase() {
-  if (!req) { alert("Missing requisition number"); return; }
+
+  if (!req) {
+    alert("Missing requisition number");
+    return;
+  }
 
   const viewer = document.getElementById("reportViewer");
-  if (!viewer.src) { alert("Please view the report first"); return; }
 
-  const drug_list = [
-    ...rows.targeted.map(r => ({ drug: r.drug, val: r.val })),
-    ...rows.untargeted.map(r => ({ drug: r.drug, val: r.val }))
-  ];
+  if (!viewer.src) {
+    alert("Please view the report first");
+    return;
+  }
+
+  const targeted = rows.targeted.map(r => ({
+    drug: r.drug,
+    val: r.val
+  }));
+
+  const untargeted = rows.untargeted.map(r => ({
+    drug: r.drug,
+    val: r.val
+  }));
 
   try {
+
     const res = await fetch(`${API}/api/submit-report`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ req, targeted, untargeted })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        req,
+        targeted,
+        untargeted
+      })
     });
 
     const data = await res.json();
-    if (!res.ok) { alert(data.error || "Upload failed"); return; }
+
+    if (!res.ok) {
+      alert(data.error || "Upload failed");
+      return;
+    }
 
     alert("✅ Report uploaded to REDCap");
 
   } catch (e) {
-    console.error(e); alert("Error submitting report");
+
+    console.error(e);
+
+    alert("Error submitting report");
   }
 }
 

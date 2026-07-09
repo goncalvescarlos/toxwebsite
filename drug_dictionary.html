@@ -118,19 +118,51 @@ const featured = document.getElementById("featured");
 ========================= */
 function getCategoryDescription(category) {
   const descriptions = {
-    "Alcohol": "Markers of recent alcohol use",
-    "Analgesic (Painkillers)": "Common pain-relief medications",
-    "Antidepressants (Prozac, Zoloft)": "Medications for mood disorders",
-    "Antihistamines (Allergy meds)": "Allergy and sedating medications",
-    "Antidotes (Narcan)": "Reverse or block drug effects",
-    "Antipsychotics (Quell)": "Used for psychosis and mood disorders",
-    "Barbiturates (Barbs)": "Sedative-hypnotics affecting the CNS",
-    "Benzodiazepines (Benzos)": "Anxiety and sedative medications",
-    "Cannabinoids (Weed)": "THC and related compounds",
-    "Muscle Relaxants (Relaxers)": "Reduce muscle spasms and pain",
-    "Opioids (Dope, smack)": "High-risk substances including fentanyl",
-    "Stimulants (Coke, Crack)": "Cocaine, amphetamines, and related drugs",
-    "Other": "Dissociatives and hallucinogens"
+     "Alcohol": "Markers of recent alcohol use",
+
+        "Analgesic (Painkillers)": "Pain relievers and anti-inflammatory medications.",
+
+        "Barbiturates (Downers)": "Sedative medications affecting the central nervous system.",
+
+        "Benzodiazepines (Sleeping pills)": "Medications for anxiety, seizures, and insomnia.",
+
+        "Anticonvulsants": "Treat seizures and certain nerve pain conditions.",
+
+        "Cannabinoids (Weed)": "Natural and synthetic cannabinoids.",
+
+        "Piperazines (Party pills)": "Designer stimulants related to Ecstasy.",
+
+        "Opioids": "Prescription opioids, fentanyl analogs, and heroin markers.",
+
+        "Stimulants": "Cocaine and synthetic stimulant drugs.",
+
+        "Antidepressants": "Medications used to treat depression and anxiety.",
+
+        "Adulterants": "Substances commonly mixed into illicit drugs.",
+
+        "Antidotes": "Medications that reverse toxic drug effects.",
+
+        "Phenothiazines": "First-generation antipsychotic medications.",
+
+        "Alpha-2 Agonists": "Veterinary sedatives and blood pressure medications.",
+
+        "Antihistamines": "Allergy medications that may cause sedation.",
+
+        "Muscle Relaxants": "Treat muscle spasms and pain.",
+
+        "Amphetamines (Meth)": "Amphetamine, methamphetamine, and MDMA.",
+
+        "Sedative-Hypnotics": "Prescription sleep medications.",
+
+        "Nitazenes": "Highly potent synthetic opioids.",
+
+        "Brorphine Analogs": "Emerging synthetic opioids.",
+
+        "Markers": "Drug metabolites and exposure markers.",
+
+        "Other": "Hallucinogens, dissociatives, and miscellaneous drugs.",
+
+        "Antipsychotic Medicines": "Medications used to treat schizophrenia and bipolar disorder."
   };
 
   return descriptions[category] || "Explore substances";

@@ -1,4 +1,5 @@
-// RAW 1:1 EXHAUSTIVE DATASET (all substances from source, no filtering)
+// drugs.js -- original entries preserved; new entries merged in
+// from IC42_drug_list_FINAL_Lay_Language_7-9-26.docx by merge_drugs_js.py
 const drugs = [
 
 { category: "Alcohol", items: [
@@ -73,8 +74,6 @@ const drugs = [
 { name: "ADB-CHMINACA (k2)", description: "A strong synthetic cannabinoid that can lead to hallucinations and serious health issues like heart problems." }
 ]},
 
-
-
 { category: "Piperazines (Party pills)", items: [
 { name: "mCPP", description: "This chemical can make people feel energetic and even happy, but it can also cause bad feelings like nausea, headaches, and anxiety." },
 { name: "TFMPP", description: "TFMPP is a type of designer drug that people sometimes use to feel like they are on ecstasy. When mixed with another drug called benzylpiperazine, it can cause weird feelings, nausea, and increased heart rate." },
@@ -138,7 +137,9 @@ const drugs = [
 { name: "Methylphenidate (Ritalin)", description: "This medication is used to help treat attention deficit disorders in children aged 6 and older. It helps with problems like being easily distracted and having trouble paying attention. It's a mild stimulant that mostly affects the brain with fewer effects on the heart compared to stronger stimulants. It blocks the reabsorption of dopamine and norepinephrine to help improve focus." },
 { name: "Phentermine (Phen)", description: "This medication stimulates the brain and nervous system, raising heart rate and blood pressure while reducing appetite. Taking too much or using it for a long time can cause serious health issues like rapid heartbeat, high blood pressure, and agitation. In extreme cases, it may lead to confusion or nervousness." },
 { name: "Pseudoephedrine", description: "This is often found in cold and cough medicines to relieve stuffiness. However, some people misuse it for its stimulating effects. Taking too much can cause serious side effects from over-stimulation of the nervous system, with risks increasing significantly after taking more than what is suggested." },
-{ name: "Ritalinic acid", description: "This is a byproduct of methylphenidate, a drug used to treat ADHD. It is created in the body when methylphenidate is broken down and does not have active effects. Doctors can measure it in the blood to check how someone is using methylphenidate." }
+{ name: "Ritalinic acid", description: "This is a byproduct of methylphenidate, a drug used to treat ADHD. It is created in the body when methylphenidate is broken down and does not have active effects. Doctors can measure it in the blood to check how someone is using methylphenidate." },
+{ name: "Alpha-PiHpP/alpha-PHpP", description: "This is a strong drug that blocks the reabsorption of dopamine and norepinephrine, which are important chemicals in the brain. It doesn’t cause a big release of these chemicals when taken at regular amounts. It can be very powerful and might lead to serious issues like extreme agitation, heart problems, overheating, and serious confusion if used too much." },
+{ name: "MDPHP/MDPiHP", description: "This drug is also a strong blocker of dopamine and norepinephrine reabsorption and doesn’t release them significantly. It acts quickly and can lead to hallucinations, agitation, self-harm, heart problems, overheating, and muscle damage if used excessively" }
 ]},
 
 { category: "Antidepressants", items: [
@@ -163,8 +164,6 @@ const drugs = [
 { name: "Bupropion (Zyban)", description: "Bupropion is a unicyclic antidepressant that is used to treat depression and seasonal affective disorder. It can also help people quit smoking and is sometimes used with another drug to help treat depression in adults." },
 { name: "N-Desmethyl Clomipramine", description: "Active metabolite of clomipramine." }
 ]},
-
-
 
 { category: "Adulterants", items: [
 { name: "Lidocaine", description: "This is a medicine called a local anesthetic, which is used to relieve pain. It can be applied directly to the skin or given through injections. Sometimes it can cause problems by affecting the nervous system and the heart. It can also lead to a condition called methemoglobinemia, where the blood can't carry oxygen properly, leading to symptoms like bluish skin and difficulty breathing." },
@@ -252,7 +251,6 @@ const drugs = [
 { name: "Cotinine", description: "This is a chemical made in the body when someone uses nicotine. It stays in the body longer than nicotine and is used to check if someone has been using tobacco. Cotinine can be found in urine for 3-4 days. People who smoke regularly usually have very high levels of cotinine, over 50 ng/mL in urine, and 15-20 ng/mL in blood and saliva." }
 ]},
 
-
 { category: "Other", items: [
 { name: "Ketamine (Kat)", description: "This medicine is mainly used to help patients during surgery by making them sleepy and pain-free. It can also be used to help people with migraines, depression, and chronic pain. Some people use it for fun, which is risky. At high doses, it can make someone very sleepy or even put them in a coma." },
 { name: "Norketamine", description: "This is the main breakdown product of ketamine when it is processed by the body." },
@@ -264,6 +262,12 @@ const drugs = [
 { name: "Milnacipran (Savella)", description: "This is a medicine used for fibromyalgia, a condition that causes pain and fatigue. It has some effects on brain chemicals. The usual dose is 50 mg taken twice a day, but it can be increased based on how the patient feels, up to 200 mg a day." },
 { name: "Norephedrine", description: "This is a medication that used to help with stuffy noses and weight loss. However, it was taken off the shelves in the U.S. and Canada because it is linked to serious health risks." },
 { name: "Mitragynine (Kratom)", description: "Kratom is a natural product that can have both energizing and sedative effects. When used, kratom can make you feel more awake, increase your heart rate, and give you extra energy. At the same time, it can also help you relax, make you feel confused, and relieve pain, similar to how some opioids and sedatives work." }
+]},
+
+{ category: "Antipsychotic Medicines", items: [
+{ name: "Aripiprazole", description: "Aripiprazole is a medicine used to help people with certain mental health conditions like schizophrenia and bipolar disorder. It helps calm people down and is also used for mood regulation. In children, it can help with aggression and disorders like Tourette syndrome. If someone takes too much, it can make them very sleepy, and they might also feel fast heartbeats, tremors, feel irritable, or have nausea." },
+{ name: "Quetiapine", description: "Quetiapine is used to treat schizophrenia and bipolar disorders too. Overdosing on this medicine can lead to sleepiness and other effects like a fast heart rate. Serious problems like dangerous heart rhythms, can occur but are very rare." },
+{ name: "Olanzapine", description: "Olanzapine is another medication for treating schizophrenia and can help calm people who are very agitated. It is also used for bipolar disorder. If someone takes too much, it can have effects similar to other antipsychotics and may lead to low blood pressure." }
 ]}
 
 ];
